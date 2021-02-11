@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static jjcompiler.scanner.util.*;
+
 public class CMinusScanner implements Scanner {
 
     private BufferedReader inFile;
@@ -16,8 +18,7 @@ public class CMinusScanner implements Scanner {
         INNUM,
         INID,
         INASSIGN,
-        DONE,
-        ERROR
+        DONE
     }
 
     public CMinusScanner (BufferedReader file) {
@@ -71,7 +72,7 @@ public class CMinusScanner implements Scanner {
         if ((value = inFile.read()) != -1) {
             return (char) value;
         } else {
-            return util.EOF;
+            return EOF;
         }
     }
 
@@ -93,8 +94,13 @@ public class CMinusScanner implements Scanner {
         return map;
     }
 
+    //
     private boolean isReservedWord(String word) {
         return reservedWords.containsKey(word);
+    }
+
+    private Token getReservedWordToken(String word) {
+        return reservedWords.get(word);
     }
 
     public Token.TokenType getToken() {
@@ -211,7 +217,7 @@ public class CMinusScanner implements Scanner {
             }
             if (state == FAState.DONE) {
                 tokenString[tokenStringIndex] = '\0';
-                if (currentToken == ID){
+                if (currentToken == Token.TokenType.ID){
                     currentToken = reserveLookup(tokenString);
                 }
             }
@@ -222,6 +228,5 @@ public class CMinusScanner implements Scanner {
         }
         return currentToken;
     }
-
 }
 
