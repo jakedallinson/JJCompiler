@@ -3,6 +3,7 @@ package jjcompiler.scanner;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.lang.Character;
 
 import static jjcompiler.scanner.util.*;
 
@@ -103,130 +104,144 @@ public class CMinusScanner implements Scanner {
         return reservedWords.get(word);
     }
 
-    public Token.TokenType getToken() {
+    private Token getToken(){
+        try {
 
-//        index for storing into tokenString
-        int tokenStringIndex = 0;
-//        holds current token to be returned
-        Token.TokenType currentToken;
-//        current state - always begins at start
-        FAState state = FAState.START;
-//        flag to indicate save to token string
-        boolean save;
+    //        index for storing into tokenString
+            int tokenStringIndex = 0;
+    //        holds current token to be returned
+            Token currentToken = new Token();
+    //        current state - always begins at start
+            FAState state = FAState.START;
+    //        flag to indicate save to token string
+            boolean save;
 
-        while (state != FAState.DONE) {
-            char c = getNextChar();
-            save = true;
-            switch(state) {
-                case START:
-                    if (isdigit(c))                                     {state = FAState.INNUM;}
+            while (state != FAState.DONE) {
+                char c = getNextChar();
+                save = true;
+                switch(state) {
+                    case START:
+                        if (Character.isDigit(c))
+                            {state = FAState.INNUM;}
 
-                    else if (isalpha(c))                                {state = FAState.INID;}
+                        else if (Character.isAlphabetic(c))
+                            {state = FAState.INID;}
 
-                    else if (c == ':')                                  {state = FAState.INASSIGN;}
+                        else if (c == ':')
+                            {state = FAState.INASSIGN;}
 
-                    else if ((c == ' ') || (c == '\t') || (c == '\n'))  {save = false;}
+                        else if ((c == ' ') || (c == '\t') || (c == '\n'))
+                            {save = false;}
 
-                    else if (c == '{')                                  {save = false; state = FAState.INCOMMENT;}
+                        else if (c == '{')
+                            {save = false; state = FAState.INCOMMENT;}
 
-                    else {
-                        state = FAState.DONE;
+                        else {
+                            state = FAState.DONE;
 
-                        switch (c) {
-                            case EOF:
-                                save = false;
-                                currentToken = Token.TokenType.ENDFILE;
-                                break;
-                            case '=':
-                                currentToken = Token.TokenType.EQ;
-                                break;
-                            case '<':
-                                currentToken = Token.TokenType.LT;
-                                break;
-                            case '+':
-                                currentToken = Token.TokenType.PLUS;
-                                break;
-                            case '-':
-                                currentToken = Token.TokenType.MINUS;
-                                break;
-                            case '*':
-                                currentToken = Token.TokenType.TIMES;
-                                break;
-                            case '/':
-                                currentToken = Token.TokenType.OVER;
-                                break;
-                            case '(':
-                                currentToken = Token.TokenType.LPAREN;
-                                break;
-                            case ')':
-                                currentToken = Token.TokenType.RPAREN;
-                                break;
-                            case ';':
-                                currentToken = Token.TokenType.SEMI;
-                                break;
-                            default:
-                                currentToken = Token.TokenType.ERROR;
-                                break;
+                            switch (c) {
+                                case EOF:
+                                    save = false;
+                                    currentToken = Token.TokenType.ENDFILE;
+                                    break;
+                                case '=':
+                                    currentToken = Token.TokenType.EQ;
+                                    break;
+                                case '<':
+                                    currentToken = Token.TokenType.LT;
+                                    break;
+                                case '+':
+                                    currentToken = Token.TokenType.PLUS;
+                                    break;
+                                case '-':
+                                    currentToken = Token.TokenType.MINUS;
+                                    break;
+                                case '*':
+                                    currentToken = Token.TokenType.TIMES;
+                                    break;
+                                case '/':
+                                    currentToken = Token.TokenType.OVER;
+                                    break;
+                                case '(':
+                                    currentToken = Token.TokenType.LPAREN;
+                                    break;
+                                case ')':
+                                    currentToken = Token.TokenType.RPAREN;
+                                    break;
+                                case ';':
+                                    currentToken = Token.TokenType.SEMI;
+                                    break;
+                                default:
+                                    currentToken = Token.TokenType.ERROR;
+                                    break;
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case INCOMMENT:
-                    save = false;
-                    if (c == '}') {state = FAState.START;}
-                    break;
-
-                case INASSIGN:
-                    state = FAState.DONE;
-                    if (c == '=') {
-                        currentToken = Token.TokenType.ASSIGN;
-                    } else {
-                        ungetNextChar();
+                    case INCOMMENT:
                         save = false;
+                        if (c == '}') {state = FAState.START;}
+                        break;
+
+                    case INASSIGN:
+                        state = FAState.DONE;
+                        if (c == '=') {
+                            currentToken = Token.TokenType.ASSIGN;
+                        } else {
+                            ungetNextChar();
+                            save = false;
+                            currentToken = Token.TokenType.ERROR;
+                        }
+                        break;
+
+                    case INNUM:
+                        if (!Character.isDigit(c)) {
+                            ungetNextChar();
+                            save = false;
+                            state = FAState.DONE;
+                            currentToken = Token.TokenType.NUM;
+                        }
+                        break;
+
+                    case INID:
+                        if (!Character.isAlphabetic(c)) {
+                            ungetNextChar();
+                            save = false;
+                            state = FAState.DONE;
+                            currentToken = Token.TokenType.ID;
+                        }
+                        break;
+
+                    case DONE:
+                    default: //should never happen
+                        System.out.println("Scanner Bug: state = " + state);
+                        state = FAState.DONE;
                         currentToken = Token.TokenType.ERROR;
-                    }
-                    break;
-
-                case INNUM:
-                    if (!isdigit(c)) {
-                        ungetNextChar();
-                        save = false;
-                        state = FAState.DONE;
-                        currentToken = Token.TokenType.NUM;
-                    }
-                    break;
-
-                case INID:
-                    if (!isalpha(c)) {
-                        ungetNextChar();
-                        save = false;
-                        state = FAState.DONE;
-                        currentToken = Token.TokenType.ID;
-                    }
-                    break;
-
-                case DONE:
-                default: //should never happen
-                    System.out.println("Scanner Bug: state = " + state);
-                    state = FAState.DONE;
-                    currentToken = Token.TokenType.ERROR;
-                    break;
-            }
-            if ((save) && (tokenStringIndex <= MAXTOKENLEN)) {
-                tokenString[tokenStringIndex++] = c;
-            }
-            if (state == FAState.DONE) {
-                tokenString[tokenStringIndex] = '\0';
-                if (currentToken == Token.TokenType.ID){
-                    currentToken = reserveLookup(tokenString);
+                        break;
                 }
+    //            if ((save) && (tokenStringIndex <= MAXTOKENLEN)) {
+    //                tokenString[tokenStringIndex++] = c;
+    //            }
+    //            if (state == FAState.DONE) {
+    //                tokenString[tokenStringIndex] = '\0';
+    //                if (currentToken == Token.TokenType.ID){
+    //                    currentToken = reserveLookup(tokenString);
+    //                }
+    //            }
             }
+    //            TRACE FLAG p503
+    //        if (TraceScan) {
+    //            System.out.println(lineno);
+    //            printToken(currentToken, tokenString);
+    //        }
+
+        } catch (IOException e) {
+
+
+
         }
-        if (TraceScan) {
-            System.out.println(lineno);
-            printToken(currentToken, tokenString);
-        }
-        return currentToken;
+        // return currentToken;
+        return new Token(Token.TokenType.ENDFILE);
     }
 }
 
