@@ -3,33 +3,24 @@ package jjcompiler.scanner;
 public class Token {
 
     public enum TokenType {
-        IF,
-        THEN,
-        ELSE,
-        END,
-        REPEAT,
-        UNTIL,
-        READ,
-        WRITE,
-        ASSIGN,
-        LT,
-        EQ,
-        LPAREN,
-        RPAREN,
-        SEMI,
-        PLUS,
-        MINUS,
-        TIMES,
-        OVER,
-        ENDFILE,
-        NUM,
-        ID,
-        ERROR
+        // book-keeping tokens
+        ENDFILE, ERROR,
+
+        // reserved words
+        IF, THEN, ELSE, END, REPEAT, UNTIL, READ, WRITE,
+
+        // multicharacter tokens
+        ID, NUM,
+
+        // special symbols
+        ASSIGN, LT, EQ, LPAREN, RPAREN, SEMI, PLUS,
+        MINUS, TIMES, OVER
     }
 
     private TokenType tokenType;
     private Object tokenData;
 
+    public Token () {this (null, null);}
     public Token (TokenType type) {
         this (type, null);
     }
