@@ -45,27 +45,6 @@ public class CMinusScanner implements Scanner {
         return nextToken;
     }
 
-    // PROJ 1: IMPLEMENT THIS FUNCT
-    private Token scanToken () {
-        try {
-            FAState state = FAState.START;
-            StringBuilder content = new StringBuilder();
-
-            System.out.println(getNextChar());
-            System.out.println(getNextChar());
-            System.out.println(getNextChar());
-            ungetNextChar();
-            System.out.println(getNextChar());
-            System.out.println(getNextChar());
-            System.out.println(getNextChar());
-
-        } catch (IOException e) {
-
-        }
-
-        return new Token(Token.TokenType.ENDFILE);
-    }
-
     // fetches the next non-blank char
     private char getNextChar() throws IOException {
         inFile.mark(0); // mark the file here before chomping, to be used in unget
@@ -104,14 +83,14 @@ public class CMinusScanner implements Scanner {
         return reservedWords.get(word);
     }
 
-    private Token getToken(){
+    private Token scanToken() {
         try {
 
     //        index for storing into tokenString
             int tokenStringIndex = 0;
     //        holds current token to be returned
             Token currentToken = new Token();
-    //        current state - always begins at start
+    //        current state - always begins at star);
             FAState state = FAState.START;
     //        flag to indicate save to token string
             boolean save;
@@ -142,37 +121,37 @@ public class CMinusScanner implements Scanner {
                             switch (c) {
                                 case EOF:
                                     save = false;
-                                    currentToken = Token.TokenType.ENDFILE;
+                                    currentToken.setTokenType(Token.TokenType.ENDFILE);
                                     break;
                                 case '=':
-                                    currentToken = Token.TokenType.EQ;
+                                    currentToken.setTokenType(Token.TokenType.EQ);
                                     break;
                                 case '<':
-                                    currentToken = Token.TokenType.LT;
+                                    currentToken.setTokenType(Token.TokenType.LT);
                                     break;
                                 case '+':
-                                    currentToken = Token.TokenType.PLUS;
+                                    currentToken.setTokenType(Token.TokenType.PLUS);
                                     break;
                                 case '-':
-                                    currentToken = Token.TokenType.MINUS;
+                                    currentToken.setTokenType(Token.TokenType.MINUS);
                                     break;
                                 case '*':
-                                    currentToken = Token.TokenType.TIMES;
+                                    currentToken.setTokenType(Token.TokenType.TIMES);
                                     break;
                                 case '/':
-                                    currentToken = Token.TokenType.OVER;
+                                    currentToken.setTokenType(Token.TokenType.OVER);
                                     break;
                                 case '(':
-                                    currentToken = Token.TokenType.LPAREN;
+                                    currentToken.setTokenType(Token.TokenType.LPAREN);
                                     break;
                                 case ')':
-                                    currentToken = Token.TokenType.RPAREN;
+                                    currentToken.setTokenType(Token.TokenType.RPAREN);
                                     break;
                                 case ';':
-                                    currentToken = Token.TokenType.SEMI;
+                                    currentToken.setTokenType(Token.TokenType.SEMI);
                                     break;
                                 default:
-                                    currentToken = Token.TokenType.ERROR;
+                                    currentToken.setTokenType(Token.TokenType.ERROR);
                                     break;
                             }
                         }
@@ -186,11 +165,11 @@ public class CMinusScanner implements Scanner {
                     case INASSIGN:
                         state = FAState.DONE;
                         if (c == '=') {
-                            currentToken = Token.TokenType.ASSIGN;
+                            currentToken.setTokenType(Token.TokenType.ASSIGN);
                         } else {
                             ungetNextChar();
                             save = false;
-                            currentToken = Token.TokenType.ERROR;
+                            currentToken.setTokenType(Token.TokenType.ERROR);
                         }
                         break;
 
@@ -199,7 +178,7 @@ public class CMinusScanner implements Scanner {
                             ungetNextChar();
                             save = false;
                             state = FAState.DONE;
-                            currentToken = Token.TokenType.NUM;
+                            currentToken.setTokenType(Token.TokenType.NUM);
                         }
                         break;
 
@@ -208,7 +187,7 @@ public class CMinusScanner implements Scanner {
                             ungetNextChar();
                             save = false;
                             state = FAState.DONE;
-                            currentToken = Token.TokenType.ID;
+                            currentToken.setTokenType(Token.TokenType.ID);
                         }
                         break;
 
@@ -216,7 +195,7 @@ public class CMinusScanner implements Scanner {
                     default: //should never happen
                         System.out.println("Scanner Bug: state = " + state);
                         state = FAState.DONE;
-                        currentToken = Token.TokenType.ERROR;
+                        currentToken.setTokenType(Token.TokenType.ERROR);
                         break;
                 }
     //            if ((save) && (tokenStringIndex <= MAXTOKENLEN)) {
@@ -225,7 +204,7 @@ public class CMinusScanner implements Scanner {
     //            if (state == FAState.DONE) {
     //                tokenString[tokenStringIndex] = '\0';
     //                if (currentToken == Token.TokenType.ID){
-    //                    currentToken = reserveLookup(tokenString);
+    //                    currentToken.setTokenType(reserveLookup(tokenString));
     //                }
     //            }
             }

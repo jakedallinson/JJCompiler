@@ -34,4 +34,10 @@ public class Token {
     public Object getData () {
         return tokenData;
     }
+    public void setTokenType (TokenType type) {
+        tokenType = type;
+    }
+    public void setTokenData (Object data) {
+        tokenData = data;
+    }
 }
