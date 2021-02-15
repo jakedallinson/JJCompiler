@@ -1,7 +1,6 @@
 package jjcompiler.scanner;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.Character;
 
@@ -63,21 +62,15 @@ public class CMinusScanner implements Scanner {
 
     private HashMap<String, Token> setReservedWords() {
         HashMap<String, Token> map = new HashMap<>();
-        map.put("if", new Token(Token.TokenType.IF));
-        map.put("then", new Token(Token.TokenType.THEN));
         map.put("else", new Token(Token.TokenType.ELSE));
-        map.put("end", new Token(Token.TokenType.END));
-        map.put("repeat", new Token(Token.TokenType.REPEAT));
-        map.put("until", new Token(Token.TokenType.UNTIL));
-        map.put("read", new Token(Token.TokenType.READ));
-        map.put("write", new Token(Token.TokenType.WRITE));
-        map.put("while", new Token(Token.TokenType.WHILE));
+        map.put("if", new Token(Token.TokenType.IF));
         map.put("int", new Token(Token.TokenType.INT));
-        map.put("void", new Token(Token.TokenType.VOID));
         map.put("return", new Token(Token.TokenType.RETURN));
+        map.put("void", new Token(Token.TokenType.VOID));
+        map.put("while", new Token(Token.TokenType.WHILE));
         return map;
     }
-    
+
     private boolean isReservedWord(String word) {
         return reservedWords.containsKey(word);
     }
@@ -135,7 +128,7 @@ public class CMinusScanner implements Scanner {
                                     currentToken.setTokenType(Token.TokenType.TIMES);
                                     break;
                                 case '/':
-                                    currentToken.setTokenType(Token.TokenType.OVER);
+                                    currentToken.setTokenType(Token.TokenType.DIVIDE);
                                     break;
                                 case '<':
                                     currentToken.setTokenType(Token.TokenType.LT);

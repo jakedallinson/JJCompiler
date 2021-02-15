@@ -5,15 +5,12 @@ public class Token {
     public enum TokenType {
         // book-keeping tokens
         ENDFILE, ERROR,
-
-        // keywords
-        IF, THEN, ELSE, END, REPEAT, UNTIL, READ, WRITE, WHILE, INT, VOID, RETURN,
-
-        // multicharacter tokens
-        ID, NUM,
-
+        // keywords (reserved words)
+        ELSE, IF, INT, RETURN, VOID, WHILE,
         // special symbols
-        PLUS, MINUS, TIMES, OVER, LT, LTEQ, GT, GTEQ, EQ, NOTEQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACK, RBRACK, LCURLY, RCURLY, LCOMM, RCOMM
+        PLUS, MINUS, TIMES, DIVIDE, LT, LTEQ, GT, GTEQ, EQ, NOTEQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACK, RBRACK, LCURLY, RCURLY, LCOMM, RCOMM,
+        // multicharacter tokens
+        ID, NUM
     }
 
     private TokenType tokenType;

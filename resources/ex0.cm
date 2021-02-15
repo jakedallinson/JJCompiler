@@ -1,4 +1,16 @@
-void main (void)
+/* a program to perform the god calculation */
+
+int god (int u, int v)
 {
-    write( 1 );
+    if (v == 0) return u ;
+    else return god(v,u-u/v*v);
+}
+
+void main(void)
+{
+    int x;
+    int y;
+    x = input();
+    y = input();
+    output( god(x,y) );
 }
