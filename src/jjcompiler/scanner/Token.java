@@ -6,15 +6,14 @@ public class Token {
         // book-keeping tokens
         ENDFILE, ERROR,
 
-        // reserved words
-        IF, THEN, ELSE, END, REPEAT, UNTIL, READ, WRITE,
+        // keywords
+        IF, THEN, ELSE, END, REPEAT, UNTIL, READ, WRITE, WHILE, INT, VOID, RETURN,
 
         // multicharacter tokens
         ID, NUM,
 
         // special symbols
-        ASSIGN, LT, EQ, LPAREN, RPAREN, SEMI, PLUS,
-        MINUS, TIMES, OVER
+        PLUS, MINUS, TIMES, OVER, LT, LTEQ, GT, GTEQ, EQ, NOTEQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACK, RBRACK, LCURLY, RCURLY, LCOMM, RCOMM
     }
 
     private TokenType tokenType;

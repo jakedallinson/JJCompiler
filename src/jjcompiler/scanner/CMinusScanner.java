@@ -29,7 +29,7 @@ public class CMinusScanner implements Scanner {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new FileReader("resources/example1.cm"));
+        BufferedReader reader = new BufferedReader(new FileReader("resources/ex1.cm"));
         CMinusScanner scanner = new CMinusScanner(reader);
 
         // scanner.getNextToken();
@@ -71,10 +71,13 @@ public class CMinusScanner implements Scanner {
         map.put("until", new Token(Token.TokenType.UNTIL));
         map.put("read", new Token(Token.TokenType.READ));
         map.put("write", new Token(Token.TokenType.WRITE));
+        map.put("while", new Token(Token.TokenType.WHILE));
+        map.put("int", new Token(Token.TokenType.INT));
+        map.put("void", new Token(Token.TokenType.VOID));
+        map.put("return", new Token(Token.TokenType.RETURN));
         return map;
     }
-
-    //
+    
     private boolean isReservedWord(String word) {
         return reservedWords.containsKey(word);
     }
@@ -117,17 +120,10 @@ public class CMinusScanner implements Scanner {
 
                         else {
                             state = FAState.DONE;
-
                             switch (c) {
-                                case EOF:
+                                case '\0':
                                     save = false;
                                     currentToken.setTokenType(Token.TokenType.ENDFILE);
-                                    break;
-                                case '=':
-                                    currentToken.setTokenType(Token.TokenType.EQ);
-                                    break;
-                                case '<':
-                                    currentToken.setTokenType(Token.TokenType.LT);
                                     break;
                                 case '+':
                                     currentToken.setTokenType(Token.TokenType.PLUS);
@@ -141,14 +137,35 @@ public class CMinusScanner implements Scanner {
                                 case '/':
                                     currentToken.setTokenType(Token.TokenType.OVER);
                                     break;
+                                case '<':
+                                    currentToken.setTokenType(Token.TokenType.LT);
+                                    break;
+                                case '>':
+                                    currentToken.setTokenType(Token.TokenType.GT);
+                                    break;
+                                case ',':
+                                    currentToken.setTokenType(Token.TokenType.COMMA);
+                                    break;
                                 case '(':
                                     currentToken.setTokenType(Token.TokenType.LPAREN);
                                     break;
                                 case ')':
                                     currentToken.setTokenType(Token.TokenType.RPAREN);
                                     break;
+                                case '[':
+                                    currentToken.setTokenType(Token.TokenType.LBRACK);
+                                    break;
+                                case ']':
+                                    currentToken.setTokenType(Token.TokenType.RBRACK);
+                                    break;
                                 case ';':
                                     currentToken.setTokenType(Token.TokenType.SEMI);
+                                    break;
+                                case '{':
+                                    currentToken.setTokenType(Token.TokenType.LCURLY);
+                                    break;
+                                case '}':
+                                    currentToken.setTokenType(Token.TokenType.RCURLY);
                                     break;
                                 default:
                                     currentToken.setTokenType(Token.TokenType.ERROR);
