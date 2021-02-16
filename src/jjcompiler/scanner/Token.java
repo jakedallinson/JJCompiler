@@ -14,26 +14,33 @@ public class Token {
     }
 
     private TokenType tokenType;
-    private Object tokenData;
+    private String tokenData;
 
     public Token () {this (null, null);}
     public Token (TokenType type) {
         this (type, null);
     }
-    public Token (TokenType type, Object data) {
+    public Token (TokenType type, String data) {
         tokenType = type;
         tokenData = data;
     }
+
+
     public TokenType getType () {
         return tokenType;
     }
     public Object getData () {
         return tokenData;
     }
+
     public void setTokenType (TokenType type) {
         tokenType = type;
     }
-    public void setTokenData (Object data) {
+    public void setTokenData (String data) {
         tokenData = data;
+    }
+
+    public void appendTokenData (char data) {
+        tokenData += Character.toString(data);
     }
 }

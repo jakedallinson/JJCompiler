@@ -146,10 +146,10 @@ public class CMinusScanner implements Scanner {
                                     currentToken.setTokenType(Token.TokenType.RPAREN);
                                     break;
                                 case '[':
-                                    currentToken.setTokenType(Token.TokenType.LBRACK);
+                                    currentToken.setTokenType(Token.TokenType.LBRACKET);
                                     break;
                                 case ']':
-                                    currentToken.setTokenType(Token.TokenType.RBRACK);
+                                    currentToken.setTokenType(Token.TokenType.RBRACKET);
                                     break;
                                 case ';':
                                     currentToken.setTokenType(Token.TokenType.SEMI);
@@ -208,15 +208,17 @@ public class CMinusScanner implements Scanner {
                         currentToken.setTokenType(Token.TokenType.ERROR);
                         break;
                 }
-    //            if ((save) && (tokenStringIndex <= MAXTOKENLEN)) {
-    //                tokenString[tokenStringIndex++] = c;
-    //            }
-    //            if (state == FAState.DONE) {
-    //                tokenString[tokenStringIndex] = '\0';
-    //                if (currentToken == Token.TokenType.ID){
-    //                    currentToken.setTokenType(reserveLookup(tokenString));
-    //                }
-    //            }
+
+                if ((save)) {
+                    currentToken.appendTokenData(c);
+                }
+
+                if (state == FAState.DONE) {
+                    currentToken.appendTokenData('\0')
+                    if (currentToken.getType() == Token.TokenType.ID){
+                        //currentToken.setTokenType(reserveLookup(currentToken.getData()));
+                    }
+                }
             }
     //            TRACE FLAG p503
     //        if (TraceScan) {
