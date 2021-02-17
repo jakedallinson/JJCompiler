@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.lang.Character;
 
-import static jjcompiler.scanner.util.*;
+import static jjcompiler.scanner.utils.*;
 
 public class CMinusScanner implements Scanner {
 
@@ -85,9 +85,7 @@ public class CMinusScanner implements Scanner {
         return reservedWords.get(word);
     }
 
-    private Token scanToken() {
-        try {
-
+    private Token scanToken() throws IOException {
     //        holds current token to be returned
             Token currentToken = new Token();
     //        current state - always begins at star);
@@ -291,20 +289,17 @@ public class CMinusScanner implements Scanner {
                 if (state == FAState.DONE) {
                     currentToken.appendTokenData('\0');
                     if (currentToken.getType() == Token.TokenType.ID){
-                        //currentToken.setTokenType(reserveLookup(currentToken.getData()));
+                        currentToken.setTokenType(getReservedWordToken(currentToken.getData()));
                     }
                 }
             }
-    //            TRACE FLAG p503
-    //        if (TraceScan) {
-    //            System.out.println(lineno);
-    //            printToken(currentToken);
-    //        }
+                //TRACE FLAG p503
+            if (TraceScan) {
+                // TODO: Print lineno
+                //System.out.println(lineno);
+                utils.printToken(currentToken);
+            }
 
-        } catch (IOException e) {
-
-            //catch
-        }
         // return currentToken;
         return new Token(Token.TokenType.ENDFILE);
     }

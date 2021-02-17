@@ -8,7 +8,7 @@ public class Token {
         // keywords (reserved words)
         ELSE, IF, INT, RETURN, VOID, WHILE,
         // special symbols
-        PLUS, MINUS, TIMES, DIVIDE, LT, GT, EQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LCURLY, RCURLY, LCOMMA, RCOMMA,
+        PLUS, MINUS, TIMES, DIVIDE, LT, GT, EQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LCURLY, RCURLY,
         // multicharacter tokens
         ID, NUM, LTEQ, NOTEQ, GTEQ,
     }
