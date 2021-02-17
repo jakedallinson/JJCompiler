@@ -1,3 +1,7 @@
+/**
+ * CMinusScanner implements the scanner interface for scanning C- (*.cm) files
+ */
+
 package jjcompiler.scanner;
 
 import java.io.*;
@@ -33,8 +37,8 @@ public class CMinusScanner implements Scanner {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
-        fileReader = new BufferedReader(new FileReader("resources/ex0.cm"));
-        fileWriter = new FileWriter("ex1OUT.txt");
+        fileReader = new BufferedReader(new FileReader("resources/ex2.cm"));
+        fileWriter = new FileWriter("ex2OUT.txt");
         printWriter = new PrintWriter(fileWriter);
 
         scanToken();
@@ -44,17 +48,34 @@ public class CMinusScanner implements Scanner {
         printWriter.close();
     }
 
+    /**
+     * function munches next token
+     *
+     * @return Token
+     * @throws IOException
+     */
     public Token getNextToken () throws IOException {
         Token returnToken = nextToken;
         if (nextToken.getType() != Token.TokenType.ENDFILE)
             nextToken = scanToken();
         return returnToken;
     }
+
+    /**
+     * function peeks at next token without munching
+     *
+     * @return Token
+     */
     public Token viewNextToken () {
         return nextToken;
     }
 
-    // fetches the next non-blank char
+    /**
+     * function gets the next non-blank char
+     *
+     * @return char
+     * @throws IOException
+     */
     private static char getNextChar() throws IOException {
         fileReader.mark(0); // mark the file here before chomping, to be used in unget
         int value;
@@ -65,11 +86,21 @@ public class CMinusScanner implements Scanner {
         }
     }
 
-    // backtracks one char
+    /**
+     * function backtracks one char in filereader
+     *
+     * @throws IOException
+     */
     private static void ungetNextChar() throws IOException {
         fileReader.reset();
     }
 
+    /**
+     * function sets reserved words attribute as hash map of tokens with
+     *  the key as their lexical name
+     *
+     * @return HashMap
+     */
     private static HashMap<String, Token> setReservedWords() {
         HashMap<String, Token> map = new HashMap<>();
         map.put("else", new Token(Token.TokenType.ELSE));
@@ -81,221 +112,231 @@ public class CMinusScanner implements Scanner {
         return map;
     }
 
+    /**
+     * function checks if word is a reserved word
+     *
+     * @param word
+     * @return boolean
+     */
     private static boolean isReservedWord(String word) {
         return reservedWords.containsKey(word);
     }
 
+    /**
+     * function returns token from the reserved words that matches a word
+     *
+     * @param word
+     * @return Token
+     */
     private static Token getReservedWordToken(String word) {
         return reservedWords.get(word);
     }
 
+    /**
+     * function uses filereader to scan the next token
+     *
+     * @return Token
+     */
     public static Token scanToken() throws IOException {
-    //        holds current token to be returned
-            Token currentToken = new Token();
-    //        current state - always begins at star);
-            FAState state = FAState.START;
-    //        flag to indicate save to token string
-            boolean save;
+        Token currentToken = new Token();
+        // current state in DFA, begins at START
+        FAState state = FAState.START;
+        // flag to indicate whether to save char to token string
+        boolean save;
 
-            while (state != FAState.DONE) {
+        while (state != FAState.DONE) {
+            char c = getNextChar();
+            save = true;
 
-                char c = getNextChar();
-                save = true;
-
-                switch(state) {
-                    case START:
-
-                        if (Character.isDigit(c))
-                            state = FAState.INNUM;
-
-                        else if (Character.isAlphabetic(c))
-                            state = FAState.INID;
-
-                        else if (c == '/')
-                            state = FAState.INDIVIDE;
-
-                        else if (c == '!')
-                            state = FAState.INNOTEQ;
-
-                        else if (c == '<')
-                            state = FAState.INLT;
-
-                        else if (c == '>')
-                            state = FAState.INGT;
-
-                        else if (c == '=')
-                            state = FAState.INASSIGN;
-
-                        else if ((c == '\n') || (c == '\t') || (c == ' '))
-                            save = false;
-
-                        else {
-
-                            state = FAState.DONE;
-
-                            switch (c) {
-                                case EOF:
-                                    save = false;
-                                    currentToken.setTokenType(Token.TokenType.ENDFILE);
-                                    break;
-                                case '+':
-                                    currentToken.setTokenType(Token.TokenType.PLUS);
-                                    break;
-                                case '-':
-                                    currentToken.setTokenType(Token.TokenType.MINUS);
-                                    break;
-                                case '*':
-                                    currentToken.setTokenType(Token.TokenType.TIMES);
-                                    break;
-                                case ';':
-                                    currentToken.setTokenType(Token.TokenType.SEMI);
-                                    break;
-                                case ',':
-                                    currentToken.setTokenType(Token.TokenType.COMMA);
-                                    break;
-                                case '[':
-                                    currentToken.setTokenType(Token.TokenType.LBRACKET);
-                                    break;
-                                case ']':
-                                    currentToken.setTokenType(Token.TokenType.RBRACKET);
-                                    break;
-                                case '(':
-                                    currentToken.setTokenType(Token.TokenType.LPAREN);
-                                    break;
-                                case ')':
-                                    currentToken.setTokenType(Token.TokenType.RPAREN);
-                                    break;
-                                case '{':
-                                    currentToken.setTokenType(Token.TokenType.LCURLY);
-                                    break;
-                                case '}':
-                                    currentToken.setTokenType(Token.TokenType.RCURLY);
-                                    break;
-                                default:
-                                    currentToken.setTokenType(Token.TokenType.ERROR);
-                                    break;
-                            }
-                        }
-                        break;
-
-                    case INASSIGN:
-                        state = FAState.DONE;
-                        if (c == '=') {
-                            currentToken.setTokenType(Token.TokenType.EQ);
-                        } else {
-                            // check for GT/ LT so unmunch.
-                            ungetNextChar();
-                            save = false;
-                            currentToken.setTokenType(Token.TokenType.ASSIGN);
-                        }
-                        break;
-
-                    case INCOMMENT:
+            // main switch statement
+            switch(state) {
+                // we are on a blank-character
+                case START:
+                    if (Character.isDigit(c))
+                        state = FAState.INNUM;
+                    else if (Character.isAlphabetic(c))
+                        state = FAState.INID;
+                    else if (c == '/')
+                        state = FAState.INDIVIDE;
+                    else if (c == '!')
+                        state = FAState.INNOTEQ;
+                    else if (c == '<')
+                        state = FAState.INLT;
+                    else if (c == '>')
+                        state = FAState.INGT;
+                    else if (c == '=')
+                        state = FAState.INASSIGN;
+                    else if ((c == '\n') || (c == '\t') || (c == ' '))
                         save = false;
+                    else {
+                        // these cases are all single char special symbols
+                        state = FAState.DONE;
+                        switch (c) {
+                            case EOF:
+                                save = false;
+                                currentToken.setTokenType(Token.TokenType.ENDFILE);
+                                break;
+                            case '+':
+                                currentToken.setTokenType(Token.TokenType.PLUS);
+                                break;
+                            case '-':
+                                currentToken.setTokenType(Token.TokenType.MINUS);
+                                break;
+                            case '*':
+                                currentToken.setTokenType(Token.TokenType.TIMES);
+                                break;
+                            case ';':
+                                currentToken.setTokenType(Token.TokenType.SEMI);
+                                break;
+                            case ',':
+                                currentToken.setTokenType(Token.TokenType.COMMA);
+                                break;
+                            case '[':
+                                currentToken.setTokenType(Token.TokenType.LBRACKET);
+                                break;
+                            case ']':
+                                currentToken.setTokenType(Token.TokenType.RBRACKET);
+                                break;
+                            case '(':
+                                currentToken.setTokenType(Token.TokenType.LPAREN);
+                                break;
+                            case ')':
+                                currentToken.setTokenType(Token.TokenType.RPAREN);
+                                break;
+                            case '{':
+                                currentToken.setTokenType(Token.TokenType.LCURLY);
+                                break;
+                            case '}':
+                                currentToken.setTokenType(Token.TokenType.RCURLY);
+                                break;
+                            default:
+                                currentToken.setTokenType(Token.TokenType.ERROR);
+                                break;
+                        }
+                    }
+                    break;
 
-                        if (c == '*')
-                            state = FAState.INCONTIUNECOMMENT;
-                        break;
-
-                    case INCONTIUNECOMMENT:
+                // we found an =, check for ==
+                case INASSIGN:
+                    state = FAState.DONE;
+                    if (c == '=') {
+                        currentToken.setTokenType(Token.TokenType.EQ);
+                    } else {
+                        // check for GT/ LT so unmunch.
+                        ungetNextChar();
                         save = false;
+                        currentToken.setTokenType(Token.TokenType.ASSIGN);
+                    }
+                    break;
 
-                        if (c == '/')
-                            state = FAState.START;
+                // we found an */, check for chars to stay in comment
+                case INCOMMENT:
+                    save = false;
+                    if (c == '*')
+                        state = FAState.INCONTIUNECOMMENT;
+                    break;
 
-                        else if (c == '*')
-                            state = FAState.INCONTIUNECOMMENT;
+                // we found an */.../, check what to do
+                case INCONTIUNECOMMENT:
+                    save = false;
+                    if (c == '/')
+                        state = FAState.START;
+                    else if (c == '*')
+                        state = FAState.INCONTIUNECOMMENT;
+                    else
+                        state = FAState.INCOMMENT;
+                    break;
 
-                        else
-                            state = FAState.INCOMMENT;
-                        break;
+                // we found a !, check for =
+                case INNOTEQ:
+                    state = FAState.DONE;
+                    if (c == '=')
+                        currentToken.setTokenType(Token.TokenType.NOTEQ);
+                    else {
+                        ungetNextChar();
+                        save = false;
+                        currentToken.setTokenType(Token.TokenType.ERROR);
+                    }
+                    break;
 
-                    case INNOTEQ:
+                // we found a <, check for =
+                case INLT:
+                    state = FAState.DONE;
+                    if (c == '=')
+                        currentToken.setTokenType(Token.TokenType.LTEQ);
+                    else {
+                        ungetNextChar();
+                        save = false;
+                        currentToken.setTokenType(Token.TokenType.LT);
+                    }
+                    break;
+
+                // we found a >, check for =
+                case INGT:
+                    state = FAState.DONE;
+                    if (c == '=')
+                        currentToken.setTokenType(Token.TokenType.GTEQ);
+                    else {
+                        ungetNextChar();
+                        save = false;
+                        currentToken.setTokenType(Token.TokenType.GT);
+                    }
+                    break;
+
+                // we found a /, check for *
+                case INDIVIDE:
+                    if (c == '*') {
+                        save = false;
+                        state = FAState.INCOMMENT;
+                        currentToken.munchTokenData();
+                    } else {
+                        ungetNextChar();
+                        save = false;
                         state = FAState.DONE;
+                        currentToken.setTokenType(Token.TokenType.DIVIDE);
+                    }
+                    break;
 
-                        if (c == '=')
-                            currentToken.setTokenType(Token.TokenType.NOTEQ);
-                        else {
-                            ungetNextChar();
-                            save = false;
-                            currentToken.setTokenType(Token.TokenType.ERROR);
-                        }
-                        break;
-
-                    case INLT:
-                        state = FAState.DONE;
-
-                        if (c == '=')
-                            currentToken.setTokenType(Token.TokenType.LTEQ);
-                        else {
-                            ungetNextChar();
-                            save = false;
-                            currentToken.setTokenType(Token.TokenType.LT);
-                        }
-                        break;
-
-                    case INGT:
-                        state = FAState.DONE;
-
-                        if (c == '=')
-                            currentToken.setTokenType(Token.TokenType.GTEQ);
-                        else {
-                            ungetNextChar();
-                            save = false;
-                            currentToken.setTokenType(Token.TokenType.GT);
-                        }
-                        break;
-
-                    case INDIVIDE:
-                        if (c == '*') {
-                            save = false;
-                            state = FAState.INCOMMENT;
-                            currentToken.munchTokenData();
-                        } else {
-                            ungetNextChar();
-                            save = false;
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.DIVIDE);
-                        }
-                        break;
-
-
-                    case INNUM:
-                        if (!Character.isDigit(c)) {
-                            ungetNextChar();
-                            save = false;
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.NUM);
-                        }
-                        break;
-
-                    case INID:
-                        if (!Character.isAlphabetic(c)) {
-                            ungetNextChar();
-                            save = false;
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.ID);
-                        }
-                        break;
-
-                    case DONE:
-                    default: //should never happen
-                        System.out.println("** ERROR Scanner: state = " + state + " **");
+                // we're working on a number, check for more digits
+                case INNUM:
+                    if (!Character.isDigit(c)) {
+                        ungetNextChar();
+                        save = false;
                         state = FAState.DONE;
                         currentToken.setTokenType(Token.TokenType.ERROR);
-                        break;
-                }
-
-                if ((save)) {
-                    currentToken.appendTokenData(c);
-                }
-
-                if (state == FAState.DONE) {
-                    if (currentToken.getType() == Token.TokenType.ID && isReservedWord((String) currentToken.getData())) {
-                        currentToken = getReservedWordToken((String) currentToken.getData());
                     }
+                    break;
+
+                // we're working on an identifier, check for more letters
+                case INID:
+                    if (!Character.isAlphabetic(c)) {
+                        ungetNextChar();
+                        save = false;
+                        state = FAState.DONE;
+                        currentToken.setTokenType(Token.TokenType.ID);
+                    }
+                    break;
+
+                case DONE:
+                default: //should never happen
+                    System.out.println("** ERROR Scanner: state = " + state + " **");
+                    state = FAState.DONE;
+                    currentToken.setTokenType(Token.TokenType.ERROR);
+                    break;
+            }
+
+            // if save flag is true, add the char to the token data
+            if ((save)) {
+                currentToken.appendTokenData(c);
+            }
+
+            // when done, check for reserved word then exit out of DFA
+            if (state == FAState.DONE) {
+                if (currentToken.getType() == Token.TokenType.ID && isReservedWord((String) currentToken.getData())) {
+                    currentToken = getReservedWordToken((String) currentToken.getData());
                 }
             }
+        }
 
         //TRACE FLAG p503
         if (TraceScan) {

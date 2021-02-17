@@ -1,0 +1,22 @@
+ID, name = i
+ID, name = n
+** ERROR Unknown Symbol 't' **
+ID, name = t
+ID, name = e
+ID, name = s
+** ERROR Unknown Symbol 't' **
+=
+** ERROR Unknown Symbol '1' **
+;
+ID, name = i
+ID, name = n
+** ERROR Unknown Symbol 't' **
+ID, name = t
+ID, name = e
+ID, name = s
+ID, name = t
+** ERROR Unknown Symbol '2' **
+=
+** ERROR Unknown Symbol '2' **
+;
+** EOF **

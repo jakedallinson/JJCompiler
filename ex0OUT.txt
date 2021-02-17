@@ -1,31 +1,37 @@
 reserved word: INT
-ID, name = fact
+ID, name = god
 (
 reserved word: INT
-ID, name = x
+ID, name = u
+,
+reserved word: INT
+ID, name = v
 )
 {
 reserved word: IF
 (
-ID, name = x
->
-NUM, value = 1
+ID, name = v
+==
+NUM, value = 0
 )
 reserved word: RETURN
-ID, name = x
-*
-ID, name = fact
-(
-ID, name = x
--
-NUM, value = 1
-)
+ID, name = u
 ;
 reserved word: ELSE
 reserved word: RETURN
-NUM, value = 1
+ID, name = god
+(
+ID, name = v
+,
+ID, name = u
+-
+ID, name = u
+/
+ID, name = v
+*
+ID, name = v
+)
 ;
-** ERROR Unknown Symbol '_' **
 }
 reserved word: VOID
 ID, name = main
@@ -36,23 +42,28 @@ reserved word: VOID
 reserved word: INT
 ID, name = x
 ;
+reserved word: INT
+ID, name = y
+;
 ID, name = x
 =
 ID, name = input
 (
 )
 ;
-reserved word: IF
+ID, name = y
+=
+ID, name = input
 (
-ID, name = x
->
-NUM, value = 0
 )
+;
 ID, name = output
 (
-ID, name = fact
+ID, name = god
 (
 ID, name = x
+,
+ID, name = y
 )
 )
 ;
