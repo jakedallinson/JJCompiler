@@ -1,17 +1,12 @@
 package jjcompiler.scanner;
-
-
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 
 public class utils {
-    public static char EOF;
+
+    public static final char EOF = '\0';
 
     public static void printToken(Token token) throws IOException {
-
-        FileWriter fileWriter = new FileWriter("c:/temp/samplefile3.txt");
-        PrintWriter printWriter = new PrintWriter(fileWriter);
 
         switch (token.getType()) {
             case IF:
@@ -20,79 +15,79 @@ public class utils {
             case RETURN:
             case VOID:
             case WHILE:
-                printWriter.printf("reserved word ", token.getType());
+                Main.printWriter.printf("reserved word ", token.getType());
                 break;
             case PLUS:
-                printWriter.printf("+");
+                Main.printWriter.printf("+");
                 break;
             case MINUS:
-                 printWriter.printf("-");
+                Main.printWriter.printf("-");
                 break;
             case TIMES:
-                 printWriter.printf("*");
+                Main.printWriter.printf("*");
                 break;
             case DIVIDE:
-                 printWriter.printf("/");
+                Main.printWriter.printf("/");
                 break;
             case LT:
-                 printWriter.printf("<");
+                Main.printWriter.printf("<");
                 break;
             case GT:
-                 printWriter.printf(">");
+                Main.printWriter.printf(">");
                 break;
             case ASSIGN:
-                 printWriter.printf("=");
+                Main.printWriter.printf("=");
                 break;
             case NOTEQ:
-                 printWriter.printf("!=");
+                Main.printWriter.printf("!=");
                 break;
             case SEMI:
-                 printWriter.printf(";");
+                Main.printWriter.printf(";");
                 break;
             case COMMA:
-                 printWriter.printf(",");
+                Main.printWriter.printf(",");
                 break;
             case LPAREN:
-                 printWriter.printf("(");
+                Main.printWriter.printf("(");
                 break;
             case RPAREN:
-                 printWriter.printf(")");
+                Main.printWriter.printf(")");
                 break;
             case LCURLY:
-                 printWriter.printf("{");
+                Main.printWriter.printf("{");
                 break;
             case RCURLY:
-                 printWriter.printf("}");
+                Main.printWriter.printf("}");
                 break;
             case LBRACKET:
-                 printWriter.printf("[");
+                Main.printWriter.printf("[");
                 break;
             case RBRACKET:
-                 printWriter.printf("]");
+                Main.printWriter.printf("]");
                 break;
             case LTEQ:
-                 printWriter.printf("<=");
+                Main.printWriter.printf("<=");
                 break;
             case GTEQ:
-                 printWriter.printf(">=");
+                Main.printWriter.printf(">=");
                 break;
             case EQ:
-                 printWriter.printf("==");
+                Main.printWriter.printf("==");
                 break;
             case NUM:
-                 printWriter.printf("NUM, value = ", token.getType());
+                Main.printWriter.printf("NUM, value = ", token.getType());
                 break;
             case ID:
-                 printWriter.printf("ID, name = ", token.getType());
+                Main.printWriter.printf("ID, name = ", token.getType());
                 break;
             case ENDFILE:
-                 printWriter.printf("** EOF **");
+                Main.printWriter.printf("** EOF **");
                 break;
             case ERROR:
-                 printWriter.printf("** ERROR **", token.getType());
+                Main.printWriter.printf("** ERROR **", token.getType());
                 break;
             default: // Should Never Happen
-                 printWriter.printf("**UNKNONW TOKEN**", token.getType(), token.getData());
+                Main.printWriter.printf("**UNKNONW TOKEN**", token.getType(), token.getData());
         }
     }
 }

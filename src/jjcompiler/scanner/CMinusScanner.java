@@ -4,13 +4,13 @@ import java.io.*;
 import java.util.HashMap;
 import java.lang.Character;
 
+import static jjcompiler.scanner.Main.fileReader;
 import static jjcompiler.scanner.utils.*;
 
 public class CMinusScanner implements Scanner {
 
-    private BufferedReader inFile;
     private Token nextToken;
-    private HashMap<String, Token> reservedWords;
+    private static final HashMap<String, Token> reservedWords = setReservedWords();
 
     private enum FAState {
         START,
@@ -23,24 +23,10 @@ public class CMinusScanner implements Scanner {
         INNOTEQ,
         INLT,
         INGT,
-        //INEQ,
         DONE
     }
 
-    public CMinusScanner (BufferedReader file) {
-        inFile = file;
-        nextToken = scanToken();
-        reservedWords = setReservedWords();
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new FileReader("resources/ex1.cm"));
-        CMinusScanner scanner = new CMinusScanner(reader);
-
-        // scanner.getNextToken();
-    }
-
-    public Token getNextToken () {
+    public Token getNextToken () throws IOException {
         Token returnToken = nextToken;
         if (nextToken.getType() != Token.TokenType.ENDFILE)
             nextToken = scanToken();
@@ -51,10 +37,10 @@ public class CMinusScanner implements Scanner {
     }
 
     // fetches the next non-blank char
-    private char getNextChar() throws IOException {
-        inFile.mark(0); // mark the file here before chomping, to be used in unget
+    private static char getNextChar() throws IOException {
+        fileReader.mark(0); // mark the file here before chomping, to be used in unget
         int value;
-        if ((value = inFile.read()) != -1) {
+        if ((value = fileReader.read()) != -1) {
             return (char) value;
         } else {
             return EOF;
@@ -62,11 +48,11 @@ public class CMinusScanner implements Scanner {
     }
 
     // backtracks one char
-    private void ungetNextChar() throws IOException {
-        inFile.reset();
+    private static void ungetNextChar() throws IOException {
+        fileReader.reset();
     }
 
-    private HashMap<String, Token> setReservedWords() {
+    private static HashMap<String, Token> setReservedWords() {
         HashMap<String, Token> map = new HashMap<>();
         map.put("else", new Token(Token.TokenType.ELSE));
         map.put("if", new Token(Token.TokenType.IF));
@@ -77,15 +63,15 @@ public class CMinusScanner implements Scanner {
         return map;
     }
 
-    private boolean isReservedWord(String word) {
+    private static boolean isReservedWord(String word) {
         return reservedWords.containsKey(word);
     }
 
-    private Token getReservedWordToken(String word) {
+    private static Token getReservedWordToken(String word) {
         return reservedWords.get(word);
     }
 
-    private Token scanToken() throws IOException {
+    public static Token scanToken() throws IOException {
     //        holds current token to be returned
             Token currentToken = new Token();
     //        current state - always begins at star);
@@ -293,15 +279,14 @@ public class CMinusScanner implements Scanner {
                     }
                 }
             }
-                //TRACE FLAG p503
-            if (TraceScan) {
+
+            //TRACE FLAG p503
+            if (Main.TraceScan) {
                 // TODO: Print lineno
                 //System.out.println(lineno);
                 utils.printToken(currentToken);
             }
 
-        // return currentToken;
         return new Token(Token.TokenType.ENDFILE);
     }
 }
-
