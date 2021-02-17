@@ -288,8 +288,8 @@ public class CMinusScanner implements Scanner {
 
                 if (state == FAState.DONE) {
                     currentToken.appendTokenData('\0');
-                    if (currentToken.getType() == Token.TokenType.ID){
-                        currentToken.setTokenType(getReservedWordToken(currentToken.getData()));
+                    if (currentToken.getType() == Token.TokenType.ID && isReservedWord((String) currentToken.getData())) {
+                        currentToken = getReservedWordToken((String) currentToken.getData());
                     }
                 }
             }
