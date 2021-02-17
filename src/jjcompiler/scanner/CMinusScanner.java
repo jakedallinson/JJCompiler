@@ -3,8 +3,6 @@ package jjcompiler.scanner;
 import java.io.*;
 import java.util.HashMap;
 import java.lang.Character;
-
-import static jjcompiler.scanner.Main.fileReader;
 import static jjcompiler.scanner.utils.*;
 
 public class CMinusScanner implements Scanner {
@@ -24,6 +22,29 @@ public class CMinusScanner implements Scanner {
         INLT,
         INGT,
         DONE
+    }
+
+    public static FileWriter fileWriter;
+    public static PrintWriter printWriter;
+    public static BufferedReader fileReader;
+
+    // Manuel Enable Trace till TODO: Menu is built
+    public static boolean TraceScan = true;
+
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+
+        fileReader = new BufferedReader(new FileReader("resources/ex1.cm"));
+        fileWriter = new FileWriter("ex1OUT.txt");
+        printWriter = new PrintWriter(fileWriter);
+
+
+        if (scanToken().getType() != Token.TokenType.ENDFILE) {
+            // Build and Output Lex
+            while (true) {
+                if (scanToken().getType() == Token.TokenType.ENDFILE) break;
+                // Build and Output Lex
+            }
+        }
     }
 
     public Token getNextToken () throws IOException {
@@ -281,12 +302,13 @@ public class CMinusScanner implements Scanner {
             }
 
             //TRACE FLAG p503
-            if (Main.TraceScan) {
+            if (TraceScan) {
                 // TODO: Print lineno
                 //System.out.println(lineno);
-                utils.printToken(currentToken);
+                printToken(currentToken);
             }
 
         return new Token(Token.TokenType.ENDFILE);
     }
+
 }
