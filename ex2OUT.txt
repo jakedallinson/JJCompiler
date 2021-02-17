@@ -1,22 +1,16 @@
-ID, name = i
-ID, name = n
-** ERROR Unknown Symbol 't' **
-ID, name = t
-ID, name = e
-ID, name = s
-** ERROR Unknown Symbol 't' **
+reserved word: INT
+ID, name = test
 =
-** ERROR Unknown Symbol '1' **
+NUM, value = 1
 ;
-ID, name = i
-ID, name = n
-** ERROR Unknown Symbol 't' **
-ID, name = t
-ID, name = e
-ID, name = s
-ID, name = t
-** ERROR Unknown Symbol '2' **
+reserved word: INT
+ID, name = test
 =
-** ERROR Unknown Symbol '2' **
+** ERROR Unknown Symbol '23a' **
+;
+reserved word: INT
+** ERROR Unknown Symbol 'test2' **
+=
+NUM, value = 2
 ;
 ** EOF **

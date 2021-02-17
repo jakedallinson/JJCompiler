@@ -42,8 +42,11 @@ public class CMinusScanner implements Scanner {
         printWriter = new PrintWriter(fileWriter);
 
         scanToken();
-        while (scanToken().getType() != Token.TokenType.ENDFILE) {
-
+        while (scanToken().getType() != Token.TokenType.ENDFILE ) {
+//            stop on error.
+//            if (scanToken().getType() != Token.TokenType.ERROR)
+//                scanToken();
+//                break;
         };
         printWriter.close();
     }
@@ -300,23 +303,33 @@ public class CMinusScanner implements Scanner {
                 // we're working on a number, check for more digits
                 case INNUM:
                     if (!Character.isDigit(c)) {
-                        ungetNextChar();
-                        save = false;
-                        state = FAState.DONE;
-                        currentToken.setTokenType(Token.TokenType.ERROR);
+                        if(c == ' ' || c == ';') {
+                            ungetNextChar();
+                            save = false;
+                            state = FAState.DONE;
+                            currentToken.setTokenType(Token.TokenType.NUM);
+                        } else {
+                            state = FAState.DONE;
+                            currentToken.setTokenType(Token.TokenType.ERROR);
+                        }
                     }
                     break;
 
                 // we're working on an identifier, check for more letters
                 case INID:
                     if (!Character.isAlphabetic(c)) {
-                        ungetNextChar();
-                        save = false;
-                        state = FAState.DONE;
-                        currentToken.setTokenType(Token.TokenType.ID);
+                        if(c == ' '|| c == ';') {
+                            ungetNextChar();
+                            save = false;
+                            state = FAState.DONE;
+                            currentToken.setTokenType(Token.TokenType.ID);
+                        } else {
+                            state = FAState.DONE;
+                            currentToken.setTokenType(Token.TokenType.ERROR);
+                        }
                     }
                     break;
-
+                    
                 case DONE:
                 default: //should never happen
                     System.out.println("** ERROR Scanner: state = " + state + " **");
