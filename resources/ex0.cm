@@ -2,7 +2,7 @@
 
 int god (int u, int v)
 {
-    if (v == 0) return u ;
+    if (v == 0) return u;
     else return god(v,u-u/v*v);
 }
 

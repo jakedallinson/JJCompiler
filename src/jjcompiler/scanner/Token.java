@@ -16,9 +16,9 @@ public class Token {
     private TokenType tokenType;
     private String tokenData;
 
-    public Token () {this (null, null);}
+    public Token () {this (null, "");}
     public Token (TokenType type) {
-        this (type, null);
+        this (type, "");
     }
     public Token (TokenType type, String data) {
         tokenType = type;

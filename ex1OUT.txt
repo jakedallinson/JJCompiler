@@ -1,0 +1,71 @@
+reserved word: INT
+ID, name = god
+(
+reserved word: INT
+ID, name = u
+,
+reserved word: INT
+ID, name = v
+)
+{
+reserved word: IF
+(
+ID, name = v
+==
+NUM, value = 0
+)
+reserved word: RETURN
+ID, name = u
+;
+reserved word: ELSE
+reserved word: RETURN
+ID, name = god
+(
+ID, name = v
+,
+ID, name = u
+-
+ID, name = u
+/
+ID, name = v
+*
+ID, name = v
+)
+;
+}
+reserved word: VOID
+ID, name = main
+(
+reserved word: VOID
+)
+{
+reserved word: INT
+ID, name = x
+;
+reserved word: INT
+ID, name = y
+;
+ID, name = x
+=
+ID, name = input
+(
+)
+;
+ID, name = y
+=
+ID, name = input
+(
+)
+;
+ID, name = output
+(
+ID, name = god
+(
+ID, name = x
+,
+ID, name = y
+)
+)
+;
+}
+** EOF **

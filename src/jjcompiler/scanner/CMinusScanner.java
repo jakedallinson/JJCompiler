@@ -33,18 +33,15 @@ public class CMinusScanner implements Scanner {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
-        fileReader = new BufferedReader(new FileReader("resources/ex1.cm"));
+        fileReader = new BufferedReader(new FileReader("resources/ex0.cm"));
         fileWriter = new FileWriter("ex1OUT.txt");
         printWriter = new PrintWriter(fileWriter);
 
+        scanToken();
+        while (scanToken().getType() != Token.TokenType.ENDFILE) {
 
-        if (scanToken().getType() != Token.TokenType.ENDFILE) {
-            // Build and Output Lex
-            while (true) {
-                if (scanToken().getType() == Token.TokenType.ENDFILE) break;
-                // Build and Output Lex
-            }
-        }
+        };
+        printWriter.close();
     }
 
     public Token getNextToken () throws IOException {
@@ -294,21 +291,21 @@ public class CMinusScanner implements Scanner {
                 }
 
                 if (state == FAState.DONE) {
-                    currentToken.appendTokenData('\0');
+                    //currentToken.appendTokenData('\0');
                     if (currentToken.getType() == Token.TokenType.ID && isReservedWord((String) currentToken.getData())) {
                         currentToken = getReservedWordToken((String) currentToken.getData());
                     }
                 }
             }
 
-            //TRACE FLAG p503
-            if (TraceScan) {
-                // TODO: Print lineno
-                //System.out.println(lineno);
-                printToken(currentToken);
-            }
+        //TRACE FLAG p503
+        if (TraceScan) {
+            // TODO: Print lineno
+            //System.out.println(lineno);
+            utils.printToken(currentToken);
+        }
 
-        return new Token(Token.TokenType.ENDFILE);
+        return currentToken;
     }
 
 }
