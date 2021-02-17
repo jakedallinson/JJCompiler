@@ -38,10 +38,6 @@ public class Token {
         tokenType = type;
     }
 
-    public void setTokenData (String data) {
-        tokenData = data;
-    }
-
     public void munchTokenData () {
         if ((tokenData != null) && (tokenData.length() > 0)) {
             tokenData = tokenData.substring(0, tokenData.length() - 1);

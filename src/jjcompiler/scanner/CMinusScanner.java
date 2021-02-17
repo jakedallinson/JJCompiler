@@ -280,7 +280,7 @@ public class CMinusScanner implements Scanner {
 
                     case DONE:
                     default: //should never happen
-                        System.out.println("Scanner Bug: state = " + state);
+                        System.out.println("** ERROR Scanner: state = " + state + " **");
                         state = FAState.DONE;
                         currentToken.setTokenType(Token.TokenType.ERROR);
                         break;
@@ -291,7 +291,6 @@ public class CMinusScanner implements Scanner {
                 }
 
                 if (state == FAState.DONE) {
-                    //currentToken.appendTokenData('\0');
                     if (currentToken.getType() == Token.TokenType.ID && isReservedWord((String) currentToken.getData())) {
                         currentToken = getReservedWordToken((String) currentToken.getData());
                     }
@@ -307,5 +306,4 @@ public class CMinusScanner implements Scanner {
 
         return currentToken;
     }
-
 }
