@@ -29,6 +29,7 @@ public class Token {
     public TokenType getType () {
         return tokenType;
     }
+
     public Object getData () {
         return tokenData;
     }
@@ -36,8 +37,15 @@ public class Token {
     public void setTokenType (TokenType type) {
         tokenType = type;
     }
+
     public void setTokenData (String data) {
         tokenData = data;
+    }
+
+    public void munchTokenData () {
+        if ((tokenData != null) && (tokenData.length() > 0)) {
+            tokenData = tokenData.substring(0, tokenData.length() - 1);
+        }
     }
 
     public void appendTokenData (char data) {

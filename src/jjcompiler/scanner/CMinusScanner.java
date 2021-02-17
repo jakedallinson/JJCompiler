@@ -181,7 +181,7 @@ public class CMinusScanner implements Scanner {
                         if (c == '=') {
                             currentToken.setTokenType(Token.TokenType.EQ);
                         } else {
-                            // check for GT/ LT so unchomp.
+                            // check for GT/ LT so unmunch.
                             ungetNextChar();
                             save = false;
                             currentToken.setTokenType(Token.TokenType.ASSIGN);
@@ -248,7 +248,7 @@ public class CMinusScanner implements Scanner {
                         if (c == '*') {
                             save = false;
                             state = FAState.INCOMMENT;
-                            //tokenIndex -=1;
+                            currentToken.munchTokenData();
                         } else {
                             ungetNextChar();
                             save = false;
