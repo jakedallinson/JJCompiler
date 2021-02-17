@@ -88,8 +88,6 @@ public class CMinusScanner implements Scanner {
     private Token scanToken() {
         try {
 
-    //        index for storing into tokenString
-            int tokenStringIndex = 0;
     //        holds current token to be returned
             Token currentToken = new Token();
     //        current state - always begins at star);
