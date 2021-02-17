@@ -15,9 +15,15 @@ public class CMinusScanner implements Scanner {
     private enum FAState {
         START,
         INCOMMENT,
+        INCONTIUNECOMMENT,
         INNUM,
         INID,
         INASSIGN,
+        INDIVIDE,
+        INNOTEQ,
+        INLT,
+        INGT,
+        //INEQ,
         DONE
     }
 
@@ -92,29 +98,43 @@ public class CMinusScanner implements Scanner {
             boolean save;
 
             while (state != FAState.DONE) {
+
                 char c = getNextChar();
                 save = true;
+
                 switch(state) {
                     case START:
+
                         if (Character.isDigit(c))
-                            {state = FAState.INNUM;}
+                            state = FAState.INNUM;
 
                         else if (Character.isAlphabetic(c))
-                            {state = FAState.INID;}
+                            state = FAState.INID;
 
-                        else if (c == ':')
-                            {state = FAState.INASSIGN;}
+                        else if (c == '/')
+                            state = FAState.INDIVIDE;
 
-                        else if ((c == ' ') || (c == '\t') || (c == '\n'))
-                            {save = false;}
+                        else if (c == '!')
+                            state = FAState.INNOTEQ;
 
-                        else if (c == '{')
-                            {save = false; state = FAState.INCOMMENT;}
+                        else if (c == '<')
+                            state = FAState.INLT;
+
+                        else if (c == '>')
+                            state = FAState.INGT;
+
+                        else if (c == '=')
+                            state = FAState.INASSIGN;
+
+                        else if ((c == '\n') || (c == '\t') || (c == ' '))
+                            save = false;
 
                         else {
+
                             state = FAState.DONE;
+
                             switch (c) {
-                                case '\0':
+                                case EOF:
                                     save = false;
                                     currentToken.setTokenType(Token.TokenType.ENDFILE);
                                     break;
@@ -127,23 +147,11 @@ public class CMinusScanner implements Scanner {
                                 case '*':
                                     currentToken.setTokenType(Token.TokenType.TIMES);
                                     break;
-                                case '/':
-                                    currentToken.setTokenType(Token.TokenType.DIVIDE);
-                                    break;
-                                case '<':
-                                    currentToken.setTokenType(Token.TokenType.LT);
-                                    break;
-                                case '>':
-                                    currentToken.setTokenType(Token.TokenType.GT);
+                                case ';':
+                                    currentToken.setTokenType(Token.TokenType.SEMI);
                                     break;
                                 case ',':
                                     currentToken.setTokenType(Token.TokenType.COMMA);
-                                    break;
-                                case '(':
-                                    currentToken.setTokenType(Token.TokenType.LPAREN);
-                                    break;
-                                case ')':
-                                    currentToken.setTokenType(Token.TokenType.RPAREN);
                                     break;
                                 case '[':
                                     currentToken.setTokenType(Token.TokenType.LBRACKET);
@@ -151,8 +159,11 @@ public class CMinusScanner implements Scanner {
                                 case ']':
                                     currentToken.setTokenType(Token.TokenType.RBRACKET);
                                     break;
-                                case ';':
-                                    currentToken.setTokenType(Token.TokenType.SEMI);
+                                case '(':
+                                    currentToken.setTokenType(Token.TokenType.LPAREN);
+                                    break;
+                                case ')':
+                                    currentToken.setTokenType(Token.TokenType.RPAREN);
                                     break;
                                 case '{':
                                     currentToken.setTokenType(Token.TokenType.LCURLY);
@@ -167,21 +178,87 @@ public class CMinusScanner implements Scanner {
                         }
                         break;
 
-                    case INCOMMENT:
-                        save = false;
-                        if (c == '}') {state = FAState.START;}
-                        break;
-
                     case INASSIGN:
                         state = FAState.DONE;
                         if (c == '=') {
-                            currentToken.setTokenType(Token.TokenType.ASSIGN);
+                            currentToken.setTokenType(Token.TokenType.EQ);
                         } else {
+                            // check for GT/ LT so unchomp.
+                            ungetNextChar();
+                            save = false;
+                            currentToken.setTokenType(Token.TokenType.ASSIGN);
+                        }
+                        break;
+
+                    case INCOMMENT:
+                        save = false;
+
+                        if (c == '*')
+                            state = FAState.INCONTIUNECOMMENT;
+                        break;
+
+                    case INCONTIUNECOMMENT:
+                        save = false;
+
+                        if (c == '/')
+                            state = FAState.START;
+
+                        else if (c == '*')
+                            state = FAState.INCONTIUNECOMMENT;
+
+                        else
+                            state = FAState.INCOMMENT;
+                        break;
+
+                    case INNOTEQ:
+                        state = FAState.DONE;
+
+                        if (c == '=')
+                            currentToken.setTokenType(Token.TokenType.NOTEQ);
+                        else {
                             ungetNextChar();
                             save = false;
                             currentToken.setTokenType(Token.TokenType.ERROR);
                         }
                         break;
+
+                    case INLT:
+                        state = FAState.DONE;
+
+                        if (c == '=')
+                            currentToken.setTokenType(Token.TokenType.LTEQ);
+                        else {
+                            ungetNextChar();
+                            save = false;
+                            currentToken.setTokenType(Token.TokenType.LT);
+                        }
+                        break;
+
+                    case INGT:
+                        state = FAState.DONE;
+
+                        if (c == '=')
+                            currentToken.setTokenType(Token.TokenType.GTEQ);
+                        else {
+                            ungetNextChar();
+                            save = false;
+                            currentToken.setTokenType(Token.TokenType.GT);
+                        }
+                        break;
+
+                    case INDIVIDE:
+                        if (c == '*') {
+                            save = false;
+                            state = FAState.INCOMMENT;
+                            //tokenIndex -=1;
+                        } else {
+                            ungetNextChar();
+                            save = false;
+                            state = FAState.DONE;
+                            currentToken.setTokenType(Token.TokenType.DIVIDE);
+                        }
+                        break;
+
 
                     case INNUM:
                         if (!Character.isDigit(c)) {
@@ -214,7 +291,7 @@ public class CMinusScanner implements Scanner {
                 }
 
                 if (state == FAState.DONE) {
-                    currentToken.appendTokenData('\0')
+                    currentToken.appendTokenData('\0');
                     if (currentToken.getType() == Token.TokenType.ID){
                         //currentToken.setTokenType(reserveLookup(currentToken.getData()));
                     }
@@ -223,13 +300,12 @@ public class CMinusScanner implements Scanner {
     //            TRACE FLAG p503
     //        if (TraceScan) {
     //            System.out.println(lineno);
-    //            printToken(currentToken, tokenString);
+    //            printToken(currentToken);
     //        }
 
         } catch (IOException e) {
 
-
-
+            //catch
         }
         // return currentToken;
         return new Token(Token.TokenType.ENDFILE);
