@@ -16,6 +16,8 @@ public class Token {
     private TokenType tokenType;
     private String tokenData;
 
+    // Constructors
+
     public Token () {this (null, "");}
     public Token (TokenType type) {
         this (type, "");
@@ -25,6 +27,7 @@ public class Token {
         tokenData = data;
     }
 
+    // Getters and Setters
 
     public TokenType getType () {
         return tokenType;
@@ -46,5 +49,32 @@ public class Token {
 
     public void appendTokenData (char data) {
         tokenData += Character.toString(data);
+    }
+
+    public String printToken() {
+        String output;
+        switch (tokenType) {
+            case ELSE, IF, INT, RETURN, VOID, WHILE:
+                output = "reserved word: " + tokenType;
+                break;
+            case PLUS, MINUS, TIMES, DIVIDE, LT, GT, EQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LCURLY, RCURLY:
+                output = tokenData;
+                break;
+            case NUM:
+                output = "NUM: " + tokenData;
+                break;
+            case ID:
+                output = "ID: " + tokenData;
+                break;
+            case ENDFILE:
+                output = "*** EOF ***";
+                break;
+            case ERROR:
+                output = "*** ERROR: Unknown Symbol '" + tokenData + "' ***";
+                break;
+            default: // Should Never Happen
+                output = "*** ERROR: Unknown Token ***";
+        }
+        return output;
     }
 }

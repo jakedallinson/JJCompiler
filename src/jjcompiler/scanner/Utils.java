@@ -1,11 +1,11 @@
 package jjcompiler.scanner;
-import java.io.IOException;
 
 
-public class utils {
+public class Utils {
 
     public static final char EOF = '\0';
 
+    /*
     public static void printToken(Token token) throws IOException {
 
         switch (token.getType()) {
@@ -115,4 +115,5 @@ public class utils {
                 CMinusScanner.printWriter.printf("\n");
         }
     }
+     */
 }
