@@ -30,7 +30,7 @@ public class CMinusScanner implements Scanner {
     }
 
     // Manuel Enable Trace till TODO: Menu is built
-    public static boolean TraceScan = true;
+    // public static boolean TraceScan = true;
 
     public static void main(String[] args) {
         String testCase = "ex2";
@@ -54,6 +54,7 @@ public class CMinusScanner implements Scanner {
         } catch (IOException e) {
             System.out.println("Error reading file.");
         }
+
     }
 
     /**

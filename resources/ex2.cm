@@ -1,3 +1,2 @@
-/* (ERROR) */
-
-int test2 = 1;
+/* test comment */
+int test = 1;
