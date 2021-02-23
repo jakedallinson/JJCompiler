@@ -7,12 +7,13 @@ package jjcompiler.scanner;
 import java.io.*;
 import java.util.HashMap;
 import java.lang.Character;
-import static jjcompiler.scanner.utils.*;
+import static jjcompiler.scanner.Utils.*;
 
 public class CMinusScanner implements Scanner {
 
     private Token nextToken;
-    private static final HashMap<String, Token> reservedWords = setReservedWords();
+    private BufferedReader inFile;
+    private HashMap<String, Token> reservedWords = setReservedWords();
 
     private enum FAState {
         START,
@@ -28,36 +29,45 @@ public class CMinusScanner implements Scanner {
         DONE
     }
 
-    public static FileWriter fileWriter;
-    public static PrintWriter printWriter;
-    public static BufferedReader fileReader;
-
     // Manuel Enable Trace till TODO: Menu is built
     public static boolean TraceScan = true;
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) {
+        String testCase = "ex2";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
+            PrintWriter pw = new PrintWriter(new FileWriter(new File("resources", testCase + "OUT.txt")));
+            CMinusScanner scanner = new CMinusScanner(br);
 
-        fileReader = new BufferedReader(new FileReader("resources/ex2.cm"));
-        fileWriter = new FileWriter("ex2OUT.txt");
-        printWriter = new PrintWriter(fileWriter);
+            while (scanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
+                // print the token
+                String output = scanner.viewNextToken().printToken();
+                System.out.println(output);
+                pw.printf(output + "\n");
 
-        scanToken();
-        while (scanToken().getType() != Token.TokenType.ENDFILE ) {
-//            stop on error.
-//            if (scanToken().getType() != Token.TokenType.ERROR)
-//                scanToken();
-//                break;
-        };
-        printWriter.close();
+                // break if error token was found, else get next token
+                if (scanner.viewNextToken().getType() == Token.TokenType.ERROR) { break; }
+                scanner.getNextToken();
+            }
+
+            pw.close();
+        } catch (IOException e) {
+            System.out.println("Error reading file.");
+        }
+    }
+
+    /**
+     * constructor
+     */
+    public CMinusScanner(BufferedReader file) throws IOException {
+        inFile = file;
+        nextToken = scanToken();
     }
 
     /**
      * function munches next token
-     *
-     * @return Token
-     * @throws IOException
      */
-    public Token getNextToken () throws IOException {
+    public Token getNextToken() throws IOException {
         Token returnToken = nextToken;
         if (nextToken.getType() != Token.TokenType.ENDFILE)
             nextToken = scanToken();
@@ -66,81 +76,15 @@ public class CMinusScanner implements Scanner {
 
     /**
      * function peeks at next token without munching
-     *
-     * @return Token
      */
-    public Token viewNextToken () {
+    public Token viewNextToken() {
         return nextToken;
     }
 
     /**
-     * function gets the next non-blank char
-     *
-     * @return char
-     * @throws IOException
-     */
-    private static char getNextChar() throws IOException {
-        fileReader.mark(0); // mark the file here before chomping, to be used in unget
-        int value;
-        if ((value = fileReader.read()) != -1) {
-            return (char) value;
-        } else {
-            return EOF;
-        }
-    }
-
-    /**
-     * function backtracks one char in filereader
-     *
-     * @throws IOException
-     */
-    private static void ungetNextChar() throws IOException {
-        fileReader.reset();
-    }
-
-    /**
-     * function sets reserved words attribute as hash map of tokens with
-     *  the key as their lexical name
-     *
-     * @return HashMap
-     */
-    private static HashMap<String, Token> setReservedWords() {
-        HashMap<String, Token> map = new HashMap<>();
-        map.put("else", new Token(Token.TokenType.ELSE));
-        map.put("if", new Token(Token.TokenType.IF));
-        map.put("int", new Token(Token.TokenType.INT));
-        map.put("return", new Token(Token.TokenType.RETURN));
-        map.put("void", new Token(Token.TokenType.VOID));
-        map.put("while", new Token(Token.TokenType.WHILE));
-        return map;
-    }
-
-    /**
-     * function checks if word is a reserved word
-     *
-     * @param word
-     * @return boolean
-     */
-    private static boolean isReservedWord(String word) {
-        return reservedWords.containsKey(word);
-    }
-
-    /**
-     * function returns token from the reserved words that matches a word
-     *
-     * @param word
-     * @return Token
-     */
-    private static Token getReservedWordToken(String word) {
-        return reservedWords.get(word);
-    }
-
-    /**
      * function uses filereader to scan the next token
-     *
-     * @return Token
      */
-    public static Token scanToken() throws IOException {
+    public Token scanToken() throws IOException {
         Token currentToken = new Token();
         // current state in DFA, begins at START
         FAState state = FAState.START;
@@ -302,34 +246,30 @@ public class CMinusScanner implements Scanner {
 
                 // we're working on a number, check for more digits
                 case INNUM:
-                    if (!Character.isDigit(c)) {
-                        if(c == ' ' || c == ';') {
-                            ungetNextChar();
-                            save = false;
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.NUM);
-                        } else {
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.ERROR);
-                        }
+                    if (Character.isAlphabetic(c)) {
+                        state = FAState.DONE;
+                        currentToken.setTokenType(Token.TokenType.ERROR);
+                    } else if (!Character.isDigit(c)) {
+                        ungetNextChar();
+                        save = false;
+                        state = FAState.DONE;
+                        currentToken.setTokenType(Token.TokenType.NUM);
                     }
                     break;
 
                 // we're working on an identifier, check for more letters
                 case INID:
-                    if (!Character.isAlphabetic(c)) {
-                        if(c == ' '|| c == ';') {
-                            ungetNextChar();
-                            save = false;
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.ID);
-                        } else {
-                            state = FAState.DONE;
-                            currentToken.setTokenType(Token.TokenType.ERROR);
-                        }
+                    if (Character.isDigit(c)) {
+                        state = FAState.DONE;
+                        currentToken.setTokenType(Token.TokenType.ERROR);
+                    } else if (!Character.isAlphabetic(c)) {
+                        ungetNextChar();
+                        save = false;
+                        state = FAState.DONE;
+                        currentToken.setTokenType(Token.TokenType.ID);
                     }
                     break;
-                    
+
                 case DONE:
                 default: //should never happen
                     System.out.println("** ERROR Scanner: state = " + state + " **");
@@ -352,12 +292,61 @@ public class CMinusScanner implements Scanner {
         }
 
         //TRACE FLAG p503
-        if (TraceScan) {
-            // TODO: Print lineno
-            //System.out.println(lineno);
-            utils.printToken(currentToken);
-        }
+//        if (TraceScan) {
+//            // TODO: Print lineno
+//            //System.out.println(lineno);
+//            Utils.printToken(currentToken);
+//        }
 
         return currentToken;
+    }
+
+    /**
+     * function gets the next non-blank char
+     */
+    private char getNextChar() throws IOException {
+        inFile.mark(0); // mark the file here before chomping, to be used in unget
+        int value;
+        if ((value = inFile.read()) != -1) {
+            return (char) value;
+        } else {
+            return EOF;
+        }
+    }
+
+    /**
+     * function backtracks one char in filereader
+     */
+    private void ungetNextChar() throws IOException {
+        inFile.reset();
+    }
+
+    /**
+     * function sets reserved words attribute as hash map of tokens with
+     * the key as their lexical name
+     */
+    private HashMap<String, Token> setReservedWords() {
+        HashMap<String, Token> map = new HashMap<>();
+        map.put("else", new Token(Token.TokenType.ELSE));
+        map.put("if", new Token(Token.TokenType.IF));
+        map.put("int", new Token(Token.TokenType.INT));
+        map.put("return", new Token(Token.TokenType.RETURN));
+        map.put("void", new Token(Token.TokenType.VOID));
+        map.put("while", new Token(Token.TokenType.WHILE));
+        return map;
+    }
+
+    /**
+     * function checks if word is a reserved word
+     */
+    private boolean isReservedWord(String word) {
+        return reservedWords.containsKey(word);
+    }
+
+    /**
+     * function returns token from the reserved words that matches a word
+     */
+    private Token getReservedWordToken(String word) {
+        return reservedWords.get(word);
     }
 }
