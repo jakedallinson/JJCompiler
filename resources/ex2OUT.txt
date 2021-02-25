@@ -1,0 +1,2 @@
+reserved word: INT
+*** ERROR: Unknown Symbol '222test' ***

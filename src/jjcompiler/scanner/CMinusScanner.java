@@ -29,15 +29,13 @@ public class CMinusScanner implements Scanner {
         DONE
     }
 
-    // Manuel Enable Trace till TODO: Menu is built
-    // public static boolean TraceScan = true;
-
     public static void main(String[] args) {
         String testCase = "ex2";
         try {
             BufferedReader br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
             PrintWriter pw = new PrintWriter(new FileWriter(new File("resources", testCase + "OUT.txt")));
-            CMinusScanner scanner = new CMinusScanner(br);
+            // CMinusScanner scanner = new CMinusScanner(br);
+            CMinusScannerB scanner = new CMinusScannerB(br);
 
             while (scanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
                 // print the token
@@ -291,13 +289,6 @@ public class CMinusScanner implements Scanner {
                 }
             }
         }
-
-        //TRACE FLAG p503
-//        if (TraceScan) {
-//            // TODO: Print lineno
-//            //System.out.println(lineno);
-//            Utils.printToken(currentToken);
-//        }
 
         return currentToken;
     }

@@ -10,26 +10,22 @@ import java.io.*;
 %class CMinusScannerB
 %type Token
 %function scanToken
+%implements Scanner
 
 %{
-public static void main(String[] args) {
-    String testCase = "ex2";
-    try {
-        BufferedReader br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
-        PrintWriter pw = new PrintWriter(new FileWriter(new File("resources", testCase + "OUT.txt")));
-        CMinusScannerB scanner = new CMinusScannerB(br);
-
-        Token nextToken = new Token();
-        while (nextToken.getType() != Token.TokenType.ENDFILE) {
-            // print the token
-            nextToken = scanner.scanToken();
-            System.out.println(nextToken.printToken());
-        }
-
-        pw.close();
-    } catch (IOException e) {
-        System.out.println("Error reading file.");
-    }
+private Token nextToken;
+public CMinusScannerB(BufferedReader file) throws IOException {
+    zzReader = file;
+    nextToken = scanToken();
+}
+public Token getNextToken() throws IOException {
+    Token returnToken = nextToken;
+    if (nextToken.getType() != Token.TokenType.ENDFILE)
+        nextToken = scanToken();
+    return returnToken;
+}
+public Token viewNextToken() {
+    return nextToken;
 }
 %}
 
@@ -37,43 +33,50 @@ public static void main(String[] args) {
 
 digit 		= [0-9]
 letter 		= [a-zA-Z]
-number 		= {digit}*
-identifier	= {letter}*
+number 		= {digit}
+identifier	= {letter}({letter})*
+whitespace  = [\n\r|\n|\r|\t|\ \t]
 comment     = "/*"[^*]~"*/"
 
 %%
 
 /* DEFINITIONS */
 
-{comment}       {return new Token(Token.TokenType.ERROR);}
+{comment}       { /* ignore */ }
 
-"else" 		    {return new Token(Token.TokenType.ELSE);}
-"if" 		    {return new Token(Token.TokenType.IF);}
-"int" 		    {return new Token(Token.TokenType.INT);}
-"return" 	    {return new Token(Token.TokenType.RETURN);}
-"void" 		    {return new Token(Token.TokenType.VOID);}
-"while" 		{return new Token(Token.TokenType.WHILE);}
+"else" 		    {return new Token(Token.TokenType.ELSE, yytext());}
+"if" 		    {return new Token(Token.TokenType.IF, yytext());}
+"int" 		    {return new Token(Token.TokenType.INT, yytext());}
+"return" 	    {return new Token(Token.TokenType.RETURN, yytext());}
+"void" 		    {return new Token(Token.TokenType.VOID, yytext());}
+"while" 		{return new Token(Token.TokenType.WHILE, yytext());}
 
-"+" 		    {return new Token(Token.TokenType.PLUS);}
-"-" 	    	{return new Token(Token.TokenType.MINUS);}
-"*" 	    	{return new Token(Token.TokenType.TIMES);}
-"/" 	    	{return new Token(Token.TokenType.DIVIDE);}
-"<" 	    	{return new Token(Token.TokenType.LT);}
-"<=" 	    	{return new Token(Token.TokenType.LTEQ);}
-">" 	    	{return new Token(Token.TokenType.GT);}
-">=" 	    	{return new Token(Token.TokenType.GTEQ);}
-"==" 	    	{return new Token(Token.TokenType.EQ);}
-"!=" 	    	{return new Token(Token.TokenType.NOTEQ);}
-"=" 	    	{return new Token(Token.TokenType.ASSIGN);}
-";" 	    	{return new Token(Token.TokenType.SEMI);}
-"," 	    	{return new Token(Token.TokenType.COMMA);}
-"(" 	    	{return new Token(Token.TokenType.LPAREN);}
-")" 	    	{return new Token(Token.TokenType.RPAREN);}
-"[" 	    	{return new Token(Token.TokenType.LBRACKET);}
-"]" 	    	{return new Token(Token.TokenType.RBRACKET);}
-"{" 	    	{return new Token(Token.TokenType.LCURLY);}
-"}" 		    {return new Token(Token.TokenType.RCURLY);}
-"<<EOF>>"	    {return new Token(Token.TokenType.ENDFILE);}
+"+" 		    {return new Token(Token.TokenType.PLUS, yytext());}
+"-" 	    	{return new Token(Token.TokenType.MINUS, yytext());}
+"*" 	    	{return new Token(Token.TokenType.TIMES, yytext());}
+"/" 	    	{return new Token(Token.TokenType.DIVIDE, yytext());}
+"<" 	    	{return new Token(Token.TokenType.LT, yytext());}
+"<=" 	    	{return new Token(Token.TokenType.LTEQ, yytext());}
+">" 	    	{return new Token(Token.TokenType.GT, yytext());}
+">=" 	    	{return new Token(Token.TokenType.GTEQ, yytext());}
+"==" 	    	{return new Token(Token.TokenType.EQ, yytext());}
+"!=" 	    	{return new Token(Token.TokenType.NOTEQ, yytext());}
+"=" 	    	{return new Token(Token.TokenType.ASSIGN, yytext());}
+";" 	    	{return new Token(Token.TokenType.SEMI, yytext());}
+"," 	    	{return new Token(Token.TokenType.COMMA, yytext());}
+"(" 	    	{return new Token(Token.TokenType.LPAREN, yytext());}
+")" 	    	{return new Token(Token.TokenType.RPAREN, yytext());}
+"[" 	    	{return new Token(Token.TokenType.LBRACKET, yytext());}
+"]" 	    	{return new Token(Token.TokenType.RBRACKET, yytext());}
+"{" 	    	{return new Token(Token.TokenType.LCURLY, yytext());}
+"}" 		    {return new Token(Token.TokenType.RCURLY, yytext());}
+<<EOF>> 	    {return new Token(Token.TokenType.ENDFILE);}
 
-{identifier}    {return new Token(Token.TokenType.ID);}
-{number}		{return new Token(Token.TokenType.NUM);}
+{whitespace}+   { /* ignore */ }
+{identifier}    {return new Token(Token.TokenType.ID, yytext());}
+{number}+		{return new Token(Token.TokenType.NUM, yytext());}
+
+/* error cases */
+{identifier}{digit}+	{return new Token(Token.TokenType.ERROR, yytext());}
+{number}+{letter}+  	{return new Token(Token.TokenType.ERROR, yytext());}
+.                       {return new Token(Token.TokenType.ERROR, yytext());}

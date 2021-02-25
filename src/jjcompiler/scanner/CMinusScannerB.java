@@ -12,7 +12,7 @@ import java.io.*;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-class CMinusScannerB {
+class CMinusScannerB implements Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
@@ -39,7 +39,7 @@ class CMinusScannerB {
   private static final int [] ZZ_CMAP_TOP = zzUnpackcmap_top();
 
   private static final String ZZ_CMAP_TOP_PACKED_0 =
-    "\1\0\u10ff\u0100";
+    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\u1020\u0100";
 
   private static int [] zzUnpackcmap_top() {
     int [] result = new int[4352];
@@ -67,16 +67,17 @@ class CMinusScannerB {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\41\0\1\1\6\0\1\2\1\3\1\4\1\5\1\6"+
-    "\1\7\1\0\1\10\12\11\1\0\1\12\1\13\1\14"+
-    "\1\15\2\0\4\16\1\17\1\20\10\16\1\21\13\16"+
-    "\1\22\1\0\1\23\3\0\3\16\1\24\1\25\1\26"+
-    "\1\16\1\27\1\30\2\16\1\31\1\16\1\32\1\33"+
-    "\2\16\1\34\1\35\1\36\1\37\1\40\1\41\3\16"+
-    "\1\42\1\0\1\43\u0182\0";
+    "\11\0\2\1\2\2\1\1\22\0\1\1\1\3\6\0"+
+    "\1\4\1\5\1\6\1\7\1\10\1\11\1\0\1\12"+
+    "\12\13\1\0\1\14\1\15\1\16\1\17\2\0\32\20"+
+    "\1\21\1\0\1\22\3\0\3\20\1\23\1\24\1\25"+
+    "\1\20\1\26\1\27\2\20\1\30\1\20\1\31\1\32"+
+    "\2\20\1\33\1\34\1\35\1\36\1\37\1\40\3\20"+
+    "\1\41\1\1\1\42\7\0\1\2\u01a2\0\2\2\326\0"+
+    "\u0100\2";
 
   private static int [] zzUnpackcmap_blocks() {
-    int [] result = new int[512];
+    int [] result = new int[1024];
     int offset = 0;
     offset = zzUnpackcmap_blocks(ZZ_CMAP_BLOCKS_PACKED_0, offset, result);
     return result;
@@ -100,15 +101,15 @@ class CMinusScannerB {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\1\1\0\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\1\13\1\14\1\15\1\1\1\16"+
-    "\1\17\5\1\1\20\1\21\1\22\2\0\1\23\1\24"+
-    "\1\25\1\1\1\26\4\1\2\0\1\1\1\27\3\1"+
-    "\2\0\1\30\1\1\1\31\1\1\1\32\1\0\1\1"+
-    "\1\33\1\0\1\34\1\35";
+    "\1\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\17\1\20\1\21\5\17\1\22\1\23\1\24\1\0"+
+    "\1\1\1\25\1\26\1\27\1\1\1\17\1\30\4\17"+
+    "\1\0\1\17\1\31\3\17\1\0\1\32\1\17\1\33"+
+    "\1\17\1\2\1\17\1\34\1\35";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[56];
+    int [] result = new int[54];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -133,16 +134,16 @@ class CMinusScannerB {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\44\0\110\0\110\0\110\0\110\0\110\0\110"+
-    "\0\154\0\220\0\110\0\264\0\330\0\374\0\u0120\0\110"+
-    "\0\110\0\u0144\0\u0168\0\u018c\0\u01b0\0\u01d4\0\110\0\110"+
-    "\0\110\0\u01f8\0\u021c\0\110\0\110\0\110\0\u0240\0\u0120"+
-    "\0\u0264\0\u0288\0\u02ac\0\u02d0\0\u02f4\0\u0318\0\u033c\0\u0120"+
-    "\0\u0360\0\u0384\0\u03a8\0\u03cc\0\u03f0\0\u0120\0\u0414\0\u0120"+
-    "\0\u0438\0\110\0\u045c\0\u0480\0\u0120\0\u04a4\0\u0120\0\110";
+    "\0\0\0\43\0\106\0\151\0\43\0\43\0\43\0\43"+
+    "\0\43\0\43\0\214\0\257\0\43\0\322\0\365\0\u0118"+
+    "\0\u013b\0\43\0\43\0\u015e\0\u0181\0\u01a4\0\u01c7\0\u01ea"+
+    "\0\43\0\43\0\43\0\u020d\0\u0230\0\43\0\43\0\43"+
+    "\0\u0253\0\u0276\0\u013b\0\u0299\0\u02bc\0\u02df\0\u0302\0\u0325"+
+    "\0\u0348\0\u013b\0\u036b\0\u038e\0\u03b1\0\u03d4\0\u013b\0\u03f7"+
+    "\0\u013b\0\u041a\0\43\0\u043d\0\u013b\0\u013b";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[56];
+    int [] result = new int[54];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -165,30 +166,36 @@ class CMinusScannerB {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\0\1\2\1\3\1\4\1\5\1\6\1\7\1\10"+
-    "\1\11\1\12\1\13\1\14\1\15\1\16\4\17\1\20"+
-    "\1\21\1\17\1\22\2\17\1\23\3\17\1\24\3\17"+
-    "\1\25\1\26\1\27\1\30\14\0\1\31\77\0\1\32"+
-    "\50\0\1\12\45\0\1\33\1\34\43\0\1\35\43\0"+
-    "\1\36\45\0\4\17\2\0\16\17\20\0\4\17\2\0"+
-    "\5\17\1\37\10\17\20\0\4\17\2\0\2\17\1\40"+
-    "\3\17\1\41\7\17\20\0\4\17\2\0\1\17\1\42"+
-    "\14\17\20\0\4\17\2\0\7\17\1\43\6\17\20\0"+
-    "\4\17\2\0\3\17\1\44\12\17\2\0\4\45\1\0"+
-    "\37\45\17\0\1\46\42\0\4\17\2\0\11\17\1\47"+
-    "\4\17\20\0\4\17\2\0\12\17\1\50\3\17\20\0"+
-    "\4\17\2\0\12\17\1\51\3\17\20\0\4\17\2\0"+
-    "\4\17\1\52\11\17\20\0\4\17\2\0\4\17\1\53"+
-    "\11\17\6\0\1\54\60\0\1\55\40\0\4\17\2\0"+
-    "\1\17\1\56\14\17\20\0\4\17\2\0\13\17\1\57"+
-    "\2\17\20\0\4\17\2\0\1\60\15\17\20\0\4\17"+
-    "\2\0\5\17\1\61\10\17\12\0\1\62\53\0\1\63"+
-    "\41\0\4\17\2\0\10\17\1\64\5\17\20\0\4\17"+
-    "\2\0\1\17\1\65\14\17\17\0\1\66\44\0\4\17"+
-    "\2\0\6\17\1\67\7\17\17\0\1\70\26\0";
+    "\1\2\1\3\1\0\1\4\1\5\1\6\1\7\1\10"+
+    "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
+    "\1\21\1\22\1\23\1\21\1\24\2\21\1\25\3\21"+
+    "\1\26\3\21\1\27\1\30\1\31\1\32\44\0\1\3"+
+    "\57\0\1\33\32\0\1\34\47\0\1\14\4\0\1\35"+
+    "\2\0\16\35\20\0\1\36\42\0\1\37\42\0\1\40"+
+    "\37\0\1\41\4\0\1\21\2\0\16\21\15\0\1\41"+
+    "\4\0\1\21\2\0\5\21\1\42\10\21\15\0\1\41"+
+    "\4\0\1\21\2\0\2\21\1\43\3\21\1\44\7\21"+
+    "\15\0\1\41\4\0\1\21\2\0\1\21\1\45\14\21"+
+    "\15\0\1\41\4\0\1\21\2\0\7\21\1\46\6\21"+
+    "\15\0\1\41\4\0\1\21\2\0\3\21\1\47\12\21"+
+    "\2\0\6\50\1\0\34\50\20\0\1\35\2\0\16\35"+
+    "\15\0\1\41\42\0\1\41\4\0\1\21\2\0\11\21"+
+    "\1\51\4\21\15\0\1\41\4\0\1\21\2\0\12\21"+
+    "\1\52\3\21\15\0\1\41\4\0\1\21\2\0\12\21"+
+    "\1\53\3\21\15\0\1\41\4\0\1\21\2\0\4\21"+
+    "\1\54\11\21\15\0\1\41\4\0\1\21\2\0\4\21"+
+    "\1\55\11\21\2\0\6\50\1\56\34\50\13\0\1\41"+
+    "\4\0\1\21\2\0\1\21\1\57\14\21\15\0\1\41"+
+    "\4\0\1\21\2\0\13\21\1\60\2\21\15\0\1\41"+
+    "\4\0\1\21\2\0\1\61\15\21\15\0\1\41\4\0"+
+    "\1\21\2\0\5\21\1\62\10\21\2\0\6\50\1\56"+
+    "\3\50\1\63\30\50\13\0\1\41\4\0\1\21\2\0"+
+    "\10\21\1\64\5\21\15\0\1\41\4\0\1\21\2\0"+
+    "\1\21\1\65\14\21\15\0\1\41\4\0\1\21\2\0"+
+    "\6\21\1\66\7\21\2\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1224];
+    int [] result = new int[1120];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -231,12 +238,12 @@ class CMinusScannerB {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\1\1\0\6\11\2\1\1\11\4\1\2\11\5\1"+
-    "\3\11\2\0\3\11\6\1\2\0\5\1\2\0\4\1"+
-    "\1\11\1\0\2\1\1\0\1\1\1\11";
+    "\1\0\1\11\2\1\6\11\2\1\1\11\4\1\2\11"+
+    "\5\1\3\11\1\0\1\1\3\11\7\1\1\0\5\1"+
+    "\1\0\4\1\1\11\3\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[56];
+    int [] result = new int[54];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -316,24 +323,19 @@ class CMinusScannerB {
   private boolean zzEOFDone;
 
   /* user code: */
-public static void main(String[] args) {
-    String testCase = "ex2";
-    try {
-        BufferedReader br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
-        PrintWriter pw = new PrintWriter(new FileWriter(new File("resources", testCase + "OUT.txt")));
-        CMinusScannerB scanner = new CMinusScannerB(br);
-
-        Token nextToken = new Token();
-        while (nextToken.getType() != Token.TokenType.ENDFILE) {
-            // print the token
-            nextToken = scanner.scanToken();
-            System.out.println(nextToken.printToken());
-        }
-
-        pw.close();
-    } catch (IOException e) {
-        System.out.println("Error reading file.");
-    }
+private Token nextToken;
+public CMinusScannerB(BufferedReader file) throws IOException {
+    zzReader = file;
+    nextToken = scanToken();
+}
+public Token getNextToken() throws IOException {
+    Token returnToken = nextToken;
+    if (nextToken.getType() != Token.TokenType.ENDFILE)
+        nextToken = scanToken();
+    return returnToken;
+}
+public Token viewNextToken() {
+    return nextToken;
 }
 
 
@@ -668,152 +670,154 @@ public static void main(String[] args) {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
-        return null;
+              {
+                return new Token(Token.TokenType.ENDFILE);
+              }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return new Token(Token.TokenType.ID);
+            { return new Token(Token.TokenType.ERROR, yytext());
             }
             // fall through
           case 30: break;
           case 2:
-            { return new Token(Token.TokenType.LPAREN);
+            { /* ignore */
             }
             // fall through
           case 31: break;
           case 3:
-            { return new Token(Token.TokenType.RPAREN);
+            { return new Token(Token.TokenType.LPAREN, yytext());
             }
             // fall through
           case 32: break;
           case 4:
-            { return new Token(Token.TokenType.TIMES);
+            { return new Token(Token.TokenType.RPAREN, yytext());
             }
             // fall through
           case 33: break;
           case 5:
-            { return new Token(Token.TokenType.PLUS);
+            { return new Token(Token.TokenType.TIMES, yytext());
             }
             // fall through
           case 34: break;
           case 6:
-            { return new Token(Token.TokenType.COMMA);
+            { return new Token(Token.TokenType.PLUS, yytext());
             }
             // fall through
           case 35: break;
           case 7:
-            { return new Token(Token.TokenType.MINUS);
+            { return new Token(Token.TokenType.COMMA, yytext());
             }
             // fall through
           case 36: break;
           case 8:
-            { return new Token(Token.TokenType.DIVIDE);
+            { return new Token(Token.TokenType.MINUS, yytext());
             }
             // fall through
           case 37: break;
           case 9:
-            { return new Token(Token.TokenType.NUM);
+            { return new Token(Token.TokenType.DIVIDE, yytext());
             }
             // fall through
           case 38: break;
           case 10:
-            { return new Token(Token.TokenType.SEMI);
+            { return new Token(Token.TokenType.NUM, yytext());
             }
             // fall through
           case 39: break;
           case 11:
-            { return new Token(Token.TokenType.LT);
+            { return new Token(Token.TokenType.SEMI, yytext());
             }
             // fall through
           case 40: break;
           case 12:
-            { return new Token(Token.TokenType.ASSIGN);
+            { return new Token(Token.TokenType.LT, yytext());
             }
             // fall through
           case 41: break;
           case 13:
-            { return new Token(Token.TokenType.GT);
+            { return new Token(Token.TokenType.ASSIGN, yytext());
             }
             // fall through
           case 42: break;
           case 14:
-            { return new Token(Token.TokenType.LBRACKET);
+            { return new Token(Token.TokenType.GT, yytext());
             }
             // fall through
           case 43: break;
           case 15:
-            { return new Token(Token.TokenType.RBRACKET);
+            { return new Token(Token.TokenType.ID, yytext());
             }
             // fall through
           case 44: break;
           case 16:
-            { return new Token(Token.TokenType.LCURLY);
+            { return new Token(Token.TokenType.LBRACKET, yytext());
             }
             // fall through
           case 45: break;
           case 17:
-            { return new Token(Token.TokenType.RCURLY);
+            { return new Token(Token.TokenType.RBRACKET, yytext());
             }
             // fall through
           case 46: break;
           case 18:
-            { return new Token(Token.TokenType.NOTEQ);
+            { return new Token(Token.TokenType.LCURLY, yytext());
             }
             // fall through
           case 47: break;
           case 19:
-            { return new Token(Token.TokenType.LTEQ);
+            { return new Token(Token.TokenType.RCURLY, yytext());
             }
             // fall through
           case 48: break;
           case 20:
-            { return new Token(Token.TokenType.EQ);
+            { return new Token(Token.TokenType.NOTEQ, yytext());
             }
             // fall through
           case 49: break;
           case 21:
-            { return new Token(Token.TokenType.GTEQ);
+            { return new Token(Token.TokenType.LTEQ, yytext());
             }
             // fall through
           case 50: break;
           case 22:
-            { return new Token(Token.TokenType.IF);
+            { return new Token(Token.TokenType.EQ, yytext());
             }
             // fall through
           case 51: break;
           case 23:
-            { return new Token(Token.TokenType.INT);
+            { return new Token(Token.TokenType.GTEQ, yytext());
             }
             // fall through
           case 52: break;
           case 24:
-            { return new Token(Token.TokenType.ELSE);
+            { return new Token(Token.TokenType.IF, yytext());
             }
             // fall through
           case 53: break;
           case 25:
-            { return new Token(Token.TokenType.VOID);
+            { return new Token(Token.TokenType.INT, yytext());
             }
             // fall through
           case 54: break;
           case 26:
-            { return new Token(Token.TokenType.ERROR);
+            { return new Token(Token.TokenType.ELSE, yytext());
             }
             // fall through
           case 55: break;
           case 27:
-            { return new Token(Token.TokenType.WHILE);
+            { return new Token(Token.TokenType.VOID, yytext());
             }
             // fall through
           case 56: break;
           case 28:
-            { return new Token(Token.TokenType.RETURN);
+            { return new Token(Token.TokenType.WHILE, yytext());
             }
             // fall through
           case 57: break;
           case 29:
-            { return new Token(Token.TokenType.ENDFILE);
+            { return new Token(Token.TokenType.RETURN, yytext());
             }
             // fall through
           case 58: break;
