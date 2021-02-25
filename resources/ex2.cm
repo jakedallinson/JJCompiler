@@ -1,3 +1,2 @@
-/* (ERROR) */
-
-int test2 = 1;
+/* error program */
+int 222test = 1;

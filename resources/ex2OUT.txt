@@ -1,2 +1,2 @@
 reserved word: INT
-*** ERROR: Unknown Symbol 'test2' ***
+*** ERROR: Unknown Symbol '222test' ***
