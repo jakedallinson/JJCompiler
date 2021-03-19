@@ -7,10 +7,12 @@ package jjcompiler.scanner;
 import java.io.*;
 import java.util.HashMap;
 import java.lang.Character;
+
 import static jjcompiler.scanner.Utils.*;
 
 public class CMinusScanner implements Scanner {
 
+    public static Console printWriter;
     private Token nextToken;
     private BufferedReader inFile;
     private HashMap<String, Token> reservedWords = setReservedWords();
@@ -29,31 +31,6 @@ public class CMinusScanner implements Scanner {
         DONE
     }
 
-    public static void main(String[] args) {
-        String testCase = "ex2";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
-            PrintWriter pw = new PrintWriter(new FileWriter(new File("resources", testCase + "OUT.txt")));
-            // CMinusScanner scanner = new CMinusScanner(br);
-            CMinusScannerB scanner = new CMinusScannerB(br);
-
-            while (scanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
-                // print the token
-                String output = scanner.viewNextToken().printToken();
-                System.out.println(output);
-                pw.printf(output + "\n");
-
-                // break if error token was found, else get next token
-                if (scanner.viewNextToken().getType() == Token.TokenType.ERROR) { break; }
-                scanner.getNextToken();
-            }
-
-            pw.close();
-        } catch (IOException e) {
-            System.out.println("Error reading file.");
-        }
-
-    }
 
     /**
      * constructor
@@ -288,6 +265,7 @@ public class CMinusScanner implements Scanner {
                     currentToken = getReservedWordToken((String) currentToken.getData());
                 }
             }
+
         }
 
         return currentToken;

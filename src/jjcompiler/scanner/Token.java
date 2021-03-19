@@ -54,10 +54,70 @@ public class Token {
     public String printToken() {
         String output;
         switch (tokenType) {
-            case ELSE, IF, INT, RETURN, VOID, WHILE:
+            case IF:
                 output = "reserved word: " + tokenType;
                 break;
-            case PLUS, MINUS, TIMES, DIVIDE, LT, GT, EQ, ASSIGN, SEMI, COMMA, LPAREN, RPAREN, LBRACKET, RBRACKET, LCURLY, RCURLY:
+            case RETURN:
+                output = "reserved word: " + tokenType;
+                break;
+            case VOID:
+                output = "reserved word: " + tokenType;
+                break;
+            case ELSE:
+                output = "reserved word: " + tokenType;
+                break;
+            case INT:
+                output = "reserved word: " + tokenType;
+                break;
+            case WHILE:
+                output = "reserved word: " + tokenType;
+                break;
+            case PLUS:
+                output = tokenData;
+                break;
+            case MINUS:
+                output = tokenData;
+                break;
+            case TIMES:
+                output = tokenData;
+                break;
+            case DIVIDE:
+                output = tokenData;
+                break;
+            case LT:
+                output = tokenData;
+                break;
+            case GT:
+                output = tokenData;
+                break;
+            case EQ:
+                output = tokenData;
+                break;
+            case ASSIGN:
+                output = tokenData;
+                break;
+            case SEMI:
+                output = tokenData;
+                break;
+            case COMMA:
+                output = tokenData;
+                break;
+            case LPAREN:
+                output = tokenData;
+                break;
+            case RPAREN:
+                output = tokenData;
+                break;
+            case LBRACKET:
+                output = tokenData;
+                break;
+            case RBRACKET:
+                output = tokenData;
+                break;
+            case LCURLY:
+                output = tokenData;
+                break;
+            case RCURLY:
                 output = tokenData;
                 break;
             case NUM:

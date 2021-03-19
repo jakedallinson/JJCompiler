@@ -11,8 +11,7 @@ import java.io.*;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
-@SuppressWarnings("FallThrough")
-class CMinusScannerB implements Scanner {
+public class CMinusScannerB implements Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
