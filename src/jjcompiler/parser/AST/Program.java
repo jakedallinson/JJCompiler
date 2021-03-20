@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Program {
@@ -10,6 +11,7 @@ public class Program {
         decls = new ArrayList<>();
     }
 
-    public void printTree() { }
+    public void printTree(PrintWriter pw) {
 
+    }
 }

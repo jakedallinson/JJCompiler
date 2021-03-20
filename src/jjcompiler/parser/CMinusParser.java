@@ -7,10 +7,20 @@ import java.io.IOException;
 
 public class CMinusParser implements Parser {
 
-    private CMinusScanner scanner;
+    private final CMinusScanner scanner;
 
     public CMinusParser (BufferedReader file) throws IOException {
         scanner = new CMinusScanner(file);
+    }
+
+    public void advanceToken() throws IOException {
+        scanner.getNextToken();
+    }
+
+    public void matchToken(Token token) throws CMinusParserException {
+        if (token.getType() != scanner.viewNextToken().getType()) {
+            throw new CMinusParserException("PARSE ERROR: Expected Token " + scanner.viewNextToken().getType() + ", got " + token.getType());
+        }
     }
 
     public Program parse() throws IOException {
@@ -23,13 +33,4 @@ public class CMinusParser implements Parser {
         return program;
     }
 
-    public void advanceToken() throws IOException {
-        scanner.getNextToken();
-    }
-
-    public void matchToken(Token token) throws CMinusParserException {
-        if (token.getType() != scanner.viewNextToken().getType()) {
-            throw new CMinusParserException("PARSE ERROR: Expected Token " + scanner.viewNextToken().getType() + ", got " + token.getType());
-        }
-    }
 }
