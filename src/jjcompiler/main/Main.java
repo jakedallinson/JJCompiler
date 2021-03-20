@@ -1,4 +1,5 @@
 package jjcompiler.main;
+import jjcompiler.parser.AST.Program;
 import jjcompiler.scanner.*;
 import jjcompiler.parser.*;
 import java.io.*;
