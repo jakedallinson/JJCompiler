@@ -43,7 +43,9 @@ public class CMinusParser implements Parser{
 
 
 
-    public void parse(){
+    public Program parse(){
+
+        Program myProgram = new Program();
 
         while (currentToken().getType() != TokenType.ENDFILE) {
 
@@ -51,11 +53,7 @@ public class CMinusParser implements Parser{
             nextToken();
         }
         System.out.println(currentToken().printToken());
-    }
 
-    public void printTree() {
-
-
-
+        return myProgram;
     }
 }
