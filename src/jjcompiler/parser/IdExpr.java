@@ -1,4 +1,4 @@
 package jjcompiler.parser;
 
-public class SimpleExpr {
+public class IdExpr {
 }

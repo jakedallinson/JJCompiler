@@ -1,4 +1,4 @@
 package jjcompiler.parser;
 
-public class RelExpr {
+public class Stmt {
 }
