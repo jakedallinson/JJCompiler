@@ -112,7 +112,7 @@ public class Main {
 
     private static void parser(List<Token> t) {
         CMinusParser parser = new CMinusParser(t);
-        parser.parse();
-        parser.printTree();
+        Program myProgram = parser.parse();
+        myProgram.printTree();
     }
 }
