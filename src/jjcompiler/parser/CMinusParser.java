@@ -1,59 +1,34 @@
 package jjcompiler.parser;
 
-import jjcompiler.scanner.CMinusScanner;
-import jjcompiler.scanner.Token;
-import jjcompiler.scanner.Token.TokenType;
+import jjcompiler.scanner.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 
+public class CMinusParser implements Parser {
 
+    private CMinusScanner scanner;
 
-import java.util.List;
-
-public class CMinusParser implements Parser{
-
-    private final List<Token> tokens;
-    private int current = 0;
-
-    /**
-     * constructor
-     */
-    public CMinusParser(List<Token> tList) {
-        tokens = tList;
+    public CMinusParser (BufferedReader file) throws IOException {
+        scanner = new CMinusScanner(file);
     }
 
-
-    /**
-     * Token Handlers
-     */
-    private Token currentToken () {
-        return tokens.get(current);
-    }
-
-    private Token nextToken() {
-
-        if (tokens.size() > current) {
-            current++;
-        }
-
-        return tokens.get(current);
-    }
-
-    private Token viewNextToken() {
-        return tokens.get(current++);
-    }
-
-
-
-    public Program parse(){
-
+    public Program parse() throws IOException {
         Program myProgram = new Program();
 
-        while (currentToken().getType() != TokenType.ENDFILE) {
-
-            System.out.println(currentToken().printToken());
-            nextToken();
+        while (scanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
+            // TODO
+            scanner.getNextToken();
         }
-        System.out.println(currentToken().printToken());
-
         return myProgram;
+    }
+
+    private void advanceToken() throws IOException {
+        scanner.getNextToken();
+    }
+
+    private void matchToken(Token token) throws CMinusParserException {
+        if (token.getType() != scanner.viewNextToken().getType()) {
+            throw new CMinusParserException("PARSE ERROR: Expected Token " + scanner.viewNextToken().getType() + ", got " + token.getType());
+        }
     }
 }
