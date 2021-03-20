@@ -14,8 +14,8 @@ public class CMinusScanner implements Scanner {
 
     public static Console printWriter;
     private Token nextToken;
-    private BufferedReader inFile;
-    private HashMap<String, Token> reservedWords = setReservedWords();
+    private final BufferedReader inFile;
+    private final HashMap<String, Token> reservedWords = setReservedWords();
 
     private enum FAState {
         START,

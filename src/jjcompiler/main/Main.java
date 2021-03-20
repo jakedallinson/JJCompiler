@@ -2,6 +2,8 @@ package jjcompiler.main;
 import jjcompiler.scanner.*;
 import jjcompiler.parser.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -57,7 +59,9 @@ public class Main {
         }
 
         createOutputFile();
-        scanner(br);
+        List<Token> tokens = scanner(br);
+        parser(tokens);
+
     }
 
     private static void createOutputFile() {
@@ -77,23 +81,38 @@ public class Main {
         }
     }
 
-    private static void scanner(BufferedReader br) throws IOException {
+    private static List<Token> scanner(BufferedReader br) throws IOException {
+
+            List<Token> tokenList = new ArrayList<>();
 
             CMinusScanner scanner = new CMinusScanner(br);
             //CMinusScannerB scanner = new CMinusScannerB(br);
 
             while (scanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
                 if (TraceScan) {
+                    // advance token
+                    Token nextToken = scanner.viewNextToken();
+                    // add to tokenList
+                    tokenList.add(nextToken);
                     // print the token
-                    String output = scanner.viewNextToken().printToken();
-                    System.out.println(output);
-                    pw.printf(output + "\n");
+
+                    // String output = nextToken.printToken();
+                    // System.out.println(output);
+                    // pw.printf(output + "\n");
                 }
 
                 // break if error token was found, else get next token
                 if (scanner.viewNextToken().getType() == Token.TokenType.ERROR) { break; }
                 scanner.getNextToken();
             }
+            tokenList.add(new Token(Token.TokenType.ENDFILE));
             pw.close();
+        return tokenList;
+    }
+
+    private static void parser(List<Token> t) {
+        CMinusParser parser = new CMinusParser(t);
+        parser.parse();
+        parser.printTree();
     }
 }
