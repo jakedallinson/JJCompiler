@@ -1,6 +1,7 @@
 package jjcompiler.main;
 import jjcompiler.parser.AST.Program;
 import jjcompiler.parser.CMinusParser;
+import jjcompiler.parser.CMinusParserException;
 import jjcompiler.scanner.CMinusScanner;
 import jjcompiler.scanner.Token;
 
@@ -85,7 +86,7 @@ public class Main {
             pw.close();
     }
 
-    private static void parser(BufferedReader br) throws IOException{
+    private static void parser(BufferedReader br) throws IOException, CMinusParserException {
         CMinusParser parser = new CMinusParser(br);
         Program myProgram = parser.parse();
 

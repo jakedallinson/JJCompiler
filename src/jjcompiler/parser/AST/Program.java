@@ -7,11 +7,15 @@ public class Program {
 
     private ArrayList<Decl> decls;
 
-    public Program() {
+    public Program () {
         decls = new ArrayList<>();
     }
 
-    public void printTree(PrintWriter pw) {
+    public void addDecl (Decl decl) {
+        decls.add(decl);
+    }
+
+    public void printTree (PrintWriter pw) {
 
     }
 }
