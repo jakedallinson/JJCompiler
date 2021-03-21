@@ -1,6 +1,4 @@
 package jjcompiler.parser.AST;
-
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Program {
@@ -15,7 +13,15 @@ public class Program {
         decls.add(decl);
     }
 
-    public void printTree (PrintWriter pw) {
+    public String printTree () {
 
+        StringBuilder print = new StringBuilder();
+        print = new StringBuilder("Program" + "\n");
+
+        for (Decl eachDecl: decls) {
+            print.append("     ").append(eachDecl.printTree());
+            print.append('\n');
+        }
+        return print.toString();
     }
 }

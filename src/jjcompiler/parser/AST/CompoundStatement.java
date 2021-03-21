@@ -20,4 +20,22 @@ public class CompoundStatement extends Statement {
         stmts.add(stmt);
     }
 
+    public String printTree () {
+
+        StringBuilder print = new StringBuilder();
+        print = new StringBuilder("Program" + "\n");
+
+        for (Decl eachDecl: decls) {
+            print.append("     ").append(eachDecl.printTree());
+            print.append('\n');
+        }
+
+        for (Statement eachStmt: stmts) {
+            print.append("     ").append(eachStmt.printTree());
+            print.append('\n');
+        }
+
+        return print.toString();
+    }
+
 }

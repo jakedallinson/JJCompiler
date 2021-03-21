@@ -7,4 +7,12 @@ public class ReturnStatement extends Statement {
     public ReturnStatement(Expression expr) {
         returnExpr = expr;
     }
+
+    public String printTree () {
+        StringBuilder print = new StringBuilder();
+
+        print.append(returnExpr.printTree());
+
+        return print.toString();
+    }
 }
