@@ -4,12 +4,14 @@ import jjcompiler.scanner.Token;
 import java.io.PrintWriter;
 
 public class VarDecl extends Decl {
-    private Token funTypeToken;
-    private Token funIDToken;
 
-    public VarDecl (Token type, Token ID) {
-        funTypeToken = type;
-        funIDToken = ID;
+    private Token IDToken;
+    private Token arrLengthToken;
+
+    public VarDecl(Token type, Token ID, Token arrLength) {
+        typeToken = type;
+        IDToken = ID;
+        arrLengthToken = arrLength;
     }
 
     public void printTree (PrintWriter pw) { }

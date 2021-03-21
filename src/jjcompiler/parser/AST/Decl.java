@@ -1,7 +1,7 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.scanner.Token;
+
 public class Decl {
-    public enum RETURN_TYPE {
-        INT, VOID
-    }
+    protected Token typeToken;
 }

@@ -5,16 +5,15 @@ import jjcompiler.scanner.*;
 
 public class FunDecl extends Decl {
 
-    private Token funTypeToken;
-    private Token funIDToken;
-    private Expression funExpression;
-    private Statement funStatement;
+    private Token IDToken;
+    private Expression paramsExpression;
+    private Statement compoundStatement;
 
     public FunDecl (Token type, Token ID, Expression expr, Statement stmt) {
-        funTypeToken = type;
-        funIDToken = ID;
-        funExpression = expr;
-        funStatement = stmt;
+        typeToken = type;
+        IDToken = ID;
+        paramsExpression = expr;
+        compoundStatement = stmt;
     }
 
     public void printTree (PrintWriter pw) { }

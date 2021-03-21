@@ -15,9 +15,9 @@ public class Main {
 
     public static PrintWriter pw;
 
-    private final static String testCase = "ex0";
+    private final static String testCase = "ex3";
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException, CMinusParserException {
 
         BufferedReader br = null;
 

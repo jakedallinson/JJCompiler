@@ -6,6 +6,7 @@ import jjcompiler.scanner.Token;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static jjcompiler.scanner.Token.TokenType;
 
@@ -16,17 +17,22 @@ public class CMinusParser implements Parser {
 
     public CMinusParser(BufferedReader file) throws IOException {
         scanner = new CMinusScanner(file);
+        currentToken = scanner.viewNextToken();
     }
 
     public Token advanceToken() throws IOException {
-        return scanner.getNextToken();
+        scanner.getNextToken();
+        currentToken = scanner.viewNextToken();
+        return currentToken;
     }
 
-    public void matchToken(TokenType expected) throws CMinusParserException, IOException {
-        if (currentToken.getType() == expected) {
+    public Token matchToken(TokenType expectedType) throws CMinusParserException, IOException {
+        if (currentToken.getType() == expectedType) {
+            Token oldToken = currentToken;
             advanceToken();
+            return oldToken;
         } else {
-            throw new CMinusParserException("PARSE ERROR: Expected Token " + expected + ", got " + currentToken.getType());
+            throw new CMinusParserException(expectedType, currentToken.getType());
         }
     }
 
@@ -47,43 +53,46 @@ public class CMinusParser implements Parser {
 
     private Decl parseDecl() throws CMinusParserException, IOException {
         if (currentToken.getType() == TokenType.VOID) {
-            Token typeToken = advanceToken();
-            Token IDToken = advanceToken();
-            Decl funDeclPrime = ParseFunDeclPrime(typeToken, IDToken);
-            return funDeclPrime;
+            Token typeToken = currentToken;
+            advanceToken();
+            Token IDToken = matchToken(TokenType.ID);
+            return ParseFunDeclPrime(typeToken, IDToken);
         } else if (currentToken.getType() == TokenType.INT) {
-            Token typeToken = advanceToken();
-            Token IDToken = advanceToken();
-            Decl declPrime = ParseDeclPrime(typeToken, IDToken);
-            return declPrime;
-        } else if (currentToken.getType() == TokenType.LPAREN) {
-            // fun-decl'
+            Token typeToken = currentToken;
+            advanceToken();
+            Token IDToken = matchToken(TokenType.ID);
+            return ParseDeclPrime(typeToken, IDToken);
         } else {
-            throw new CMinusParserException("PARSE ERROR");
+            throw new CMinusParserException(TokenType.VOID, currentToken.getType());
         }
     }
 
     private Decl ParseDeclPrime(Token typeToken, Token IDToken) throws CMinusParserException, IOException {
         if (currentToken.getType() == TokenType.SEMI) {
-            return new VarDecl(typeToken, IDToken);
+            advanceToken();
+            Token indexToken = null;
+            return new VarDecl(typeToken, IDToken, indexToken);
         } else if (currentToken.getType() == TokenType.LBRACKET) {
-
+            advanceToken();
+            Token indexToken = matchToken(TokenType.NUM);
+            matchToken(TokenType.RBRACKET);
+            matchToken(TokenType.SEMI);
+            return new VarDecl(typeToken, IDToken, indexToken);
         } else {
-            Decl funDeclPrime = ParseFunDeclPrime(typeToken, IDToken);
-            return funDeclPrime;
+            return ParseFunDeclPrime(typeToken, IDToken);
         }
     }
 
     private Decl ParseFunDeclPrime (Token typeToken, Token IDToken) throws CMinusParserException, IOException {
-//        matchToken(TokenType.LPAREN);
-//        Expression paramsExpr = parseExpression();
-//        matchToken(TokenType.LPAREN);
-//        Statement compoundStmt = parseStatement();
-        return null;
+        matchToken(TokenType.LPAREN);
+        Expression paramsExpr = parseExpression();
+        matchToken(TokenType.RPAREN);
+        Statement compoundStmt = parseStatement();
+        return new FunDecl(typeToken, IDToken, paramsExpr, compoundStmt);
     }
 
-
-//    private Expression parseExpression () throws IOException {
+    private Expression parseExpression () throws IOException {
+        return new Expression();
 //        Token oldToken;
 //        Expression lhs = parseTerm();
 //
@@ -93,8 +102,12 @@ public class CMinusParser implements Parser {
 //            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
 //        }
 //        return lhs;
-//    }
-//
+    }
+
+    private Statement parseStatement() {
+        return new Statement();
+    }
+
 //    private Expression parseFactor() throws IOException, CMinusParserException {
 //        Token oldToken;
 //
