@@ -15,10 +15,9 @@ public class Program {
 
     public String printTree () {
 
-        StringBuilder print = new StringBuilder();
-        print = new StringBuilder("Program" + "\n");
+        StringBuilder print = new StringBuilder("Program" + "\n");
 
-        for (Decl eachDecl: decls) {
+        for (Decl eachDecl: this.decls) {
             print.append("     ").append(eachDecl.printTree());
             print.append('\n');
         }
