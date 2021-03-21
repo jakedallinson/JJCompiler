@@ -130,18 +130,18 @@ public class CMinusParser implements Parser {
      * stmt
      */
     private Statement parseStatement () throws IOException, CMinusParserException {
-        // TODO: expr-stmt
-        if (currentToken.getType() == TokenType.LCURLY) {
-            advanceToken();
+        if (currentToken.getType() == TokenType.SEMI ||
+                currentToken.getType() == TokenType.NUM ||
+                currentToken.getType() == TokenType.LPAREN ||
+                currentToken.getType() == TokenType.ID) {
+            return parseExpressionStatement();
+        } else if (currentToken.getType() == TokenType.LCURLY) {
             return parseCompoundStatement();
         } else if (currentToken.getType() == TokenType.IF) {
-            advanceToken();
             return parseSelectionStatement();
         } else if (currentToken.getType() == TokenType.WHILE) {
-            advanceToken();
             return parseIterationStatement();
         } else if (currentToken.getType() == TokenType.RETURN) {
-            advanceToken();
             return parseReturnStatement();
         } else {
             throw new CMinusParserException(TokenType.IF, currentToken.getType());
@@ -149,24 +149,62 @@ public class CMinusParser implements Parser {
     }
 
     /**
+     * expr-stmt
+     */
+    private Statement parseExpressionStatement () throws IOException, CMinusParserException {
+        Expression expr = null;
+        if (currentToken.getType() == TokenType.NUM ||
+                currentToken.getType() == TokenType.LPAREN ||
+                currentToken.getType() == TokenType.ID) {
+            expr = parseExpression();
+        }
+        matchToken(TokenType.SEMI);
+        return new ExpressionStatement(expr);
+    }
+
+    /**
      * selection-stmt
      */
-    private Statement parseSelectionStatement() {
-        return null;
+    private Statement parseSelectionStatement () throws IOException, CMinusParserException {
+        matchToken(TokenType.IF);
+        matchToken(TokenType.LPAREN);
+        Expression ifExpr = parseExpression();
+        matchToken(TokenType.RPAREN);
+        Statement thenStmt = parseStatement();
+        Statement elseStmt = null;
+
+        if (currentToken.getType() == TokenType.ELSE) {
+            advanceToken();
+            elseStmt = parseStatement();
+        }
+        return new SelectionStatement(ifExpr, thenStmt, elseStmt);
     }
 
     /**
      * iteration-stmt
      */
-    private Statement parseIterationStatement() {
-        return null;
+    private Statement parseIterationStatement () throws IOException, CMinusParserException {
+        matchToken(TokenType.WHILE);
+        matchToken(TokenType.LPAREN);
+        Expression paramsExpr = parseExpression();
+        matchToken(TokenType.RPAREN);
+        Statement loopStmt = parseStatement();
+        return new IterationStatement(paramsExpr, loopStmt);
     }
 
     /**
      * return-stmt
      */
-    private Statement parseReturnStatement() {
-        return null;
+    private Statement parseReturnStatement () throws IOException, CMinusParserException {
+        matchToken(TokenType.RETURN);
+        Expression returnExpr = null;
+        if (currentToken.getType() == TokenType.NUM ||
+                currentToken.getType() == TokenType.LPAREN ||
+                currentToken.getType() == TokenType.ID) {
+            returnExpr = parseExpression();
+        }
+        matchToken(TokenType.SEMI);
+        return new ReturnStatement(returnExpr);
     }
 
 
