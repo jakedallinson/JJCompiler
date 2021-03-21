@@ -1,7 +1,6 @@
 package jjcompiler.parser.AST;
 
 import jjcompiler.scanner.Token;
-import java.io.PrintWriter;
 
 public class VarDecl extends Decl {
 
@@ -14,5 +13,14 @@ public class VarDecl extends Decl {
         arrLengthToken = arrLength;
     }
 
-    public void printTree (PrintWriter pw) { }
+    @Override
+    public String printTree () {
+
+        StringBuilder print = new StringBuilder();
+        print.append("     ").append(typeToken.printToken());
+        print.append("     ").append(IDToken.printToken()).append("\n");
+        print.append("     ").append(arrLengthToken.printToken()).append("\n");
+
+        return print.toString();
+    }
 }
