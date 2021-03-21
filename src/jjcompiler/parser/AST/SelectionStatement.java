@@ -3,16 +3,12 @@ package jjcompiler.parser.AST;
 
 public class SelectionStatement extends Statement {
 
-    Expression expr;
+    Expression ifExpr;
     Statement thenStmt;
     Statement elseStmt;
 
-    public SelectionStatement (Expression express, Statement stmt) {
-        this (express, stmt, null);
-    }
-
-    public SelectionStatement (Expression express, Statement stmt1, Statement stmt2) {
-        expr = express;
+    public SelectionStatement (Expression expr, Statement stmt1, Statement stmt2) {
+        ifExpr = expr;
         thenStmt = stmt1;
         elseStmt = stmt2;
     }
