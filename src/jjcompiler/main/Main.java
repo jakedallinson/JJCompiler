@@ -27,8 +27,6 @@ public class Main {
             System.out.println("Error reading file.");
         }
 
-
-
         for (String arg : args) {
             switch (arg) {
                 case "-s":
@@ -50,7 +48,6 @@ public class Main {
                     Error = true;
             }
         }
-
     }
 
     private static void createOutputFile() {

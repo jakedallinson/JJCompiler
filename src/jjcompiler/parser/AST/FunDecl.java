@@ -19,6 +19,7 @@ public class FunDecl extends Decl {
 
         StringBuilder print = new StringBuilder("Program" + "\n");
 
+        print.append("     ").append(typeToken.printToken());
         print.append("     ").append(IDToken.printToken()).append("\n");
         print.append("     ").append(paramsExpression.printTree()).append("\n");
         print.append("     ").append(compoundStatement.printTree()).append("\n");
