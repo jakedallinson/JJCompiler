@@ -9,7 +9,7 @@ int foo (int s[10], int t) {
     } else {
         int a;
     }
-    return
+    return;
 }
 
 int bar (void) {
