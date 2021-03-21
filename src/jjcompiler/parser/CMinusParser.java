@@ -47,6 +47,19 @@ public class CMinusParser implements Parser {
         return program;
     }
 
+
+    private Expression parseExpression () throws IOException {
+        return new Expression();
+//        Token oldToken;
+//        Expression lhs = parseTerm();
+//
+//        while(isAddop(currentToken.getType())) {
+//            oldToken = advanceToken();
+//            Expression rhs = parseTerm();
+//            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+//        }
+//        return lhs;
+    }
     //
     // PARSE FUNCTS
     //
@@ -91,17 +104,49 @@ public class CMinusParser implements Parser {
         return new FunDecl(typeToken, IDToken, paramsExpr, compoundStmt);
     }
 
-    private Expression parseExpression () throws IOException {
-        return new Expression();
-//        Token oldToken;
-//        Expression lhs = parseTerm();
-//
-//        while(isAddop(currentToken.getType())) {
-//            oldToken = advanceToken();
-//            Expression rhs = parseTerm();
-//            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
-//        }
-//        return lhs;
+    private Expression parseTerm () throws IOException, CMinusParserException {
+        Token oldToken;
+        Expression lhs = parseFactor();
+
+        while(isMulop(currentToken.getType())) {
+            oldToken = advanceToken();
+            Expression rhs = parseFactor();
+            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+        }
+        return lhs;
+    }
+
+
+    private Expression parseFactor() throws IOException, CMinusParserException {
+        Token oldToken;
+
+        switch (currentToken.getType()) {
+            case TokenType.LPAREN:
+                advanceToken();
+                Expression returnExpr = parseExpression();
+                matchToken(TokenType.RPAREN);
+                return returnExpr;
+            case TokenType.ID:
+                oldToken = advanceToken();
+                return createIdentExpr(oldToken);
+            break;
+            case TokenType.NUM:
+                oldToken = advanceToken();
+                return createNumExpr(oldToken);
+            break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + currentToken.getType());
+        }
+    }
+
+
+    private boolean isAddop(TokenType type) {
+        return type == TokenType.MINUS || type == TokenType.PLUS;
+    }
+
+
+    private boolean isMulop(TokenType type) {
+        return type == TokenType.TIMES || type == TokenType.DIVIDE;
     }
 
     private Statement parseStatement() {
