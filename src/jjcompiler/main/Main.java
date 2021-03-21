@@ -1,78 +1,60 @@
 package jjcompiler.main;
-import jjcompiler.scanner.*;
-import jjcompiler.parser.*;
+import jjcompiler.parser.AST.Program;
+import jjcompiler.parser.CMinusParser;
+import jjcompiler.parser.CMinusParserException;
+import jjcompiler.scanner.CMinusScanner;
+import jjcompiler.scanner.Token;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
-    public static boolean EchoSource   = false;
-    public static boolean TraceScan    = false;
-    public static boolean TraceParse   = false;
-    public static boolean TraceAnalyse = false;
-    public static boolean TraceCode    = false;
-    public static boolean Error        = false;
+    public static boolean TraceScan = false;
+    public static boolean TraceParse = false;
+    public static boolean Error = false;
 
     public static PrintWriter pw;
 
-    private final static String testCase = "ex0";
+    private final static String testCase = "ex3";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, CMinusParserException {
+
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
+        } catch (IOException e) {
+            System.out.println("Error reading file.");
+        }
 
         for (String arg : args) {
             switch (arg) {
                 case "-s":
-                    EchoSource = true;
-                    break;
-                case "-l":
+                    scanner(br);
                     TraceScan = true;
                     break;
-                case "-y":
+                case "-p":
+                    // Scan -> Parse
+                    parser(br);
                     TraceParse = true;
                     break;
-                case "-a":
-                    TraceAnalyse = true;
-                    break;
-                case "-c":
-                    TraceCode = true;
-                    break;
                 case "-f":
-                    try {
-                        BufferedReader br = new BufferedReader(new FileReader("resources/" + arg.toString()));
-                    } catch (IOException e) {
-                        System.out.println("Error reading file.");
-                    }
-
+                    // TODO File Options FROM ARGS
                     break;
                 default:
                     //errorFlag++;
                     Error = true;
             }
         }
-
-        BufferedReader br = null;
-        try {
-           br = new BufferedReader(new FileReader("resources/" + testCase + ".cm"));
-        } catch (IOException e) {
-            System.out.println("Error reading file.");
-        }
-
         createOutputFile();
-        List<Token> tokens = scanner(br);
-        parser(tokens);
-
     }
 
     private static void createOutputFile() {
 
         String outputName = "OUT.txt";
 
-        if (EchoSource) outputName   = "EchoSource_" + outputName;
         if (TraceScan) outputName    = "TraceScan_" + outputName;
         if (TraceParse) outputName   = "TraceParse_" + outputName;
-        if (TraceAnalyse) outputName = "TraceAnalyse_" + outputName;
-        if (TraceCode) outputName    = "TraceCode_" + outputName;
 
         try {
             pw = new PrintWriter(new FileWriter(new File("resources/" + testCase + "_" + outputName)));
@@ -81,38 +63,35 @@ public class Main {
         }
     }
 
-    private static List<Token> scanner(BufferedReader br) throws IOException {
+    private static void scanner(BufferedReader br) throws IOException{
 
-            List<Token> tokenList = new ArrayList<>();
+            CMinusScanner myScanner = new CMinusScanner(br);
+            //CMinusScannerB myScanner = new CMinusScannerB(br);
 
-            CMinusScanner scanner = new CMinusScanner(br);
-            //CMinusScannerB scanner = new CMinusScannerB(br);
-
-            while (scanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
+            while (myScanner.viewNextToken().getType() != Token.TokenType.ENDFILE) {
                 if (TraceScan) {
                     // advance token
-                    Token nextToken = scanner.viewNextToken();
-                    // add to tokenList
-                    tokenList.add(nextToken);
-                    // print the token
+                    Token nextToken = myScanner.viewNextToken();
 
-                    // String output = nextToken.printToken();
-                    // System.out.println(output);
-                    // pw.printf(output + "\n");
+                    // print the token
+                     String output = nextToken.printToken();
+                     System.out.println(output);
+                     pw.printf(output + "\n");
                 }
 
                 // break if error token was found, else get next token
-                if (scanner.viewNextToken().getType() == Token.TokenType.ERROR) { break; }
-                scanner.getNextToken();
+                if (myScanner.viewNextToken().getType() == Token.TokenType.ERROR) { break; }
+                myScanner.getNextToken();
             }
-            tokenList.add(new Token(Token.TokenType.ENDFILE));
             pw.close();
-        return tokenList;
     }
 
-    private static void parser(List<Token> t) {
-        CMinusParser parser = new CMinusParser(t);
+    private static void parser(BufferedReader br) throws IOException, CMinusParserException {
+        CMinusParser parser = new CMinusParser(br);
         Program myProgram = parser.parse();
-        myProgram.printTree();
+
+        if (TraceParse) {
+            myProgram.printTree(pw);
+        }
     }
 }

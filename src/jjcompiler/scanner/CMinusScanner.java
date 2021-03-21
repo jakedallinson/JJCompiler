@@ -12,7 +12,6 @@ import static jjcompiler.scanner.Utils.*;
 
 public class CMinusScanner implements Scanner {
 
-    public static Console printWriter;
     private Token nextToken;
     private final BufferedReader inFile;
     private final HashMap<String, Token> reservedWords = setReservedWords();
@@ -30,7 +29,6 @@ public class CMinusScanner implements Scanner {
         INGT,
         DONE
     }
-
 
     /**
      * constructor
@@ -265,7 +263,6 @@ public class CMinusScanner implements Scanner {
                     currentToken = getReservedWordToken((String) currentToken.getData());
                 }
             }
-
         }
 
         return currentToken;

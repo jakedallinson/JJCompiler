@@ -1,4 +1,4 @@
-package jjcompiler.parser.nodes;
+package jjcompiler.parser.AST;
 
 public class NumExpression extends Expression{
 }
