@@ -1,6 +1,5 @@
 package jjcompiler.parser.AST;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import jjcompiler.scanner.*;
 
@@ -17,5 +16,15 @@ public class FunDecl extends Decl {
         compoundStatement = stmt;
     }
 
-    public void printTree (PrintWriter pw) { }
+    public String printTree () {
+
+        StringBuilder print = new StringBuilder("Program" + "\n");
+
+        print.append("     ").append(typeToken.printToken());
+        print.append("     ").append(IDToken.printToken()).append("\n");
+        print.append("     ").append(paramsExpression.printTree()).append("\n");
+        print.append("     ").append(compoundStatement.printTree()).append("\n");
+
+        return print.toString();
+    }
 }

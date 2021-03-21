@@ -32,11 +32,13 @@ public class Main {
                 case "-s":
                     scanner(br);
                     TraceScan = true;
+                    createOutputFile();
                     break;
                 case "-p":
                     // Scan -> Parse
-                    parser(br);
                     TraceParse = true;
+                    createOutputFile();
+                    parser(br);
                     break;
                 case "-f":
                     // TODO File Options FROM ARGS
@@ -46,7 +48,6 @@ public class Main {
                     Error = true;
             }
         }
-        createOutputFile();
     }
 
     private static void createOutputFile() {
@@ -63,7 +64,7 @@ public class Main {
         }
     }
 
-    private static void scanner(BufferedReader br) throws IOException{
+    public static void scanner(BufferedReader br) throws IOException{
 
             CMinusScanner myScanner = new CMinusScanner(br);
             //CMinusScannerB myScanner = new CMinusScannerB(br);
@@ -74,24 +75,30 @@ public class Main {
                     Token nextToken = myScanner.viewNextToken();
 
                     // print the token
-                     String output = nextToken.printToken();
-                     System.out.println(output);
-                     pw.printf(output + "\n");
+                    String output = nextToken.printToken();
+                    System.out.println(output);
+                    pw.printf(output + "\n");
                 }
 
                 // break if error token was found, else get next token
-                if (myScanner.viewNextToken().getType() == Token.TokenType.ERROR) { break; }
+                if (myScanner.viewNextToken().getType() == Token.TokenType.ERROR) {
+                    break;
+                }
                 myScanner.getNextToken();
             }
-            pw.close();
+            if (!TraceParse) {
+                pw.close();
+            }
     }
 
-    private static void parser(BufferedReader br) throws IOException, CMinusParserException {
+    public static void parser(BufferedReader br) throws IOException, CMinusParserException {
         CMinusParser parser = new CMinusParser(br);
         Program myProgram = parser.parse();
 
         if (TraceParse) {
-            myProgram.printTree(pw);
+            String printTree = myProgram.printTree();
+            pw.printf(printTree);
+            pw.close();
         }
     }
 }
