@@ -3,7 +3,7 @@ package jjcompiler.parser;
 import jjcompiler.scanner.Token.*;
 
 public class CMinusParserException extends Exception {
-    public CMinusParserException (TokenType expectedTokenType, TokenType gotTokenType) {
-        super("PARSE ERROR: expected Token " + expectedTokenType + ", got Token: " + gotTokenType);
+    public CMinusParserException(String functLocation, TokenType expectedTokenType, TokenType gotTokenType) {
+        super("PARSE ERROR: " + functLocation + "() expected " + expectedTokenType + ", got " + gotTokenType);
     }
 }

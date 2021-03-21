@@ -6,6 +6,7 @@ import jjcompiler.scanner.Token;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static jjcompiler.scanner.Token.TokenType;
 
@@ -31,18 +32,17 @@ public class CMinusParser implements Parser {
             advanceToken();
             return oldToken;
         } else {
-            throw new CMinusParserException(expectedType, currentToken.getType());
+            throw new CMinusParserException("parseDecl", expectedType, currentToken.getType());
         }
     }
 
     public Program parse () throws IOException, CMinusParserException {
         Program program = new Program();
 
-        // parse decls into program until EOF is reached
-        while (scanner.viewNextToken().getType() != TokenType.ENDFILE) {
+        do {
             Decl decl = parseDecl();
             program.addDecl(decl);
-        }
+        } while (scanner.viewNextToken().getType() != TokenType.ENDFILE);
         return program;
     }
 
@@ -65,7 +65,7 @@ public class CMinusParser implements Parser {
             Token IDToken = matchToken(TokenType.ID);
             return parseDeclPrime(typeToken, IDToken);
         } else {
-            throw new CMinusParserException(TokenType.VOID, currentToken.getType());
+            throw new CMinusParserException("parseDecl", TokenType.VOID, currentToken.getType());
         }
     }
 
@@ -93,10 +93,49 @@ public class CMinusParser implements Parser {
      */
     private Decl parseFunDeclPrime (Token typeToken, Token IDToken) throws CMinusParserException, IOException {
         matchToken(TokenType.LPAREN);
-        Expression paramsExpr = parseExpression();
+        ArrayList<VarDecl> params = parseParams();
         matchToken(TokenType.RPAREN);
         Statement compoundStmt = parseCompoundStatement();
-        return new FunDecl(typeToken, IDToken, paramsExpr, compoundStmt);
+        return new FunDecl(typeToken, IDToken, params, compoundStmt);
+    }
+
+    /**
+     * params
+     */
+    private ArrayList<VarDecl> parseParams () throws IOException, CMinusParserException {
+        ArrayList<VarDecl> params = new ArrayList<>();
+        if (currentToken.getType() == TokenType.VOID) {
+            Token paramTypeToken = currentToken;
+            params.add(new VarDecl(paramTypeToken,null, null));
+            advanceToken();
+        } else if (currentToken.getType() == TokenType.INT) {
+            VarDecl param = parseParam();
+            params.add(param);
+            while (currentToken.getType() == TokenType.COMMA) {
+                advanceToken();
+                param = parseParam();
+                params.add(param);
+            }
+        } else {
+            throw new CMinusParserException("parseParams", TokenType.VOID, currentToken.getType());
+        }
+        return params;
+    }
+
+    /**
+     * param
+     */
+    private VarDecl parseParam () throws IOException, CMinusParserException {
+        Token paramTypeToken = currentToken;
+        advanceToken();
+        Token paramIDToken = matchToken(TokenType.ID);
+        Token paramIndexToken = null;
+        if (currentToken.getType() == TokenType.LBRACKET) {
+            advanceToken();
+            paramIndexToken = matchToken(TokenType.NUM);
+            matchToken(TokenType.RBRACKET);
+        }
+        return new VarDecl(paramTypeToken,paramIDToken, paramIndexToken);
     }
 
     /**
@@ -144,7 +183,7 @@ public class CMinusParser implements Parser {
         } else if (currentToken.getType() == TokenType.RETURN) {
             return parseReturnStatement();
         } else {
-            throw new CMinusParserException(TokenType.IF, currentToken.getType());
+            throw new CMinusParserException("parseStatement", TokenType.IF, currentToken.getType());
         }
     }
 

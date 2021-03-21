@@ -1,5 +1,17 @@
-int foo () {
-    int x;
+int foo (int s[10], int t) {
+    int x[10];
     int y;
+    while () {
+        int z;
+    }
+    if () {
+        int b;
+    } else {
+        int a;
+    }
+    return
+}
+
+int bar (void) {
     return;
 }
