@@ -9,20 +9,21 @@ import java.io.IOException;
 
 import static jjcompiler.scanner.Token.TokenType;
 
-
-
 public class CMinusParser implements Parser {
 
     private final CMinusScanner scanner;
     private Token currentToken;
 
+
     public CMinusParser(BufferedReader file) throws IOException {
         scanner = new CMinusScanner(file);
     }
 
+
     public Token advanceToken() throws IOException {
         return scanner.getNextToken();
     }
+
 
     public void matchToken(TokenType expected) throws CMinusParserException, IOException {
         if (currentToken.getType() == expected) {
@@ -31,6 +32,7 @@ public class CMinusParser implements Parser {
             throw new CMinusParserException("PARSE ERROR: Expected Token " + expected + ", got " + currentToken.getType());
         }
     }
+
 
     public Program parse() throws IOException {
         Program program = new Program();
@@ -42,7 +44,8 @@ public class CMinusParser implements Parser {
         return program;
     }
 
-    private Expression parseExpression () throws IOException {
+
+    private Expression parseExpression () throws IOException, CMinusParserException {
         Token oldToken;
         Expression lhs = parseTerm();
 
@@ -53,6 +56,20 @@ public class CMinusParser implements Parser {
         }
         return lhs;
     }
+
+
+    private Expression parseTerm () throws IOException, CMinusParserException {
+        Token oldToken;
+        Expression lhs = parseFactor();
+
+        while(isMulop(currentToken.getType())) {
+            oldToken = advanceToken();
+            Expression rhs = parseFactor();
+            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+        }
+        return lhs;
+    }
+
 
     private Expression parseFactor() throws IOException, CMinusParserException {
         Token oldToken;
@@ -77,6 +94,15 @@ public class CMinusParser implements Parser {
     }
 
 
+    private boolean isAddop(TokenType type) {
+        return type == TokenType.MINUS || type == TokenType.PLUS;
+    }
+
+
+    private boolean isMulop(TokenType type) {
+        return type == TokenType.TIMES || type == TokenType.DIVIDE;
+    }
+
 
     private Statement parseIfStmt () throws IOException, CMinusParserException {
         matchToken(TokenType.IF);
@@ -94,6 +120,8 @@ public class CMinusParser implements Parser {
         Statement returnStmt = new SelectionStatement(ifExpr, thenStmt, elseStmt);
         return returnStmt;
     }
+
+
     private Statement parseStatement() {
 
         switch (currentToken.getType()) {
@@ -103,8 +131,15 @@ public class CMinusParser implements Parser {
         Statement returnStmt = new Statement(stmt1, stmt2);
         return returnStmt;
     }
-//    private Expression createBinopExpr (TokenType type, Token lhs, Token rhs) {}
-//    private Expression createIdentExpr (Token token) {}
+    private Expression createBinopExpr (TokenType type, Token lhs, Token rhs) {
+
+
+    }
+
+    private Expression createIdentExpr (Token token) {
+
+
+    }
 //    private Expression createNumExpr (Token token) {}
 
 }
