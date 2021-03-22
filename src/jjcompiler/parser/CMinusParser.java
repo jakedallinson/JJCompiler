@@ -246,67 +246,48 @@ public class CMinusParser implements Parser {
         return new ReturnStatement(returnExpr);
     }
 
+    /**
+     * parse - expression
+     */
     private Expression parseExpression () throws IOException {
-        return new Expression();
-//        Token oldToken;
-//        Expression lhs = parseTerm();
-//
-//        while(isAddop(currentToken.getType())) {
-//            oldToken = advanceToken();
-//            Expression rhs = parseTerm();
-//            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
-//        }
-//        return lhs;
+        Token oldToken;
+        Expression lhs = parseTerm();
+
+        while(isAddop(currentToken.getType())) {
+            oldToken = advanceToken();
+            Expression rhs = parseTerm();
+            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+        }
+        return lhs;
     }
-//    private Expression parseFactor() throws IOException, CMinusParserException {
-//        Token oldToken;
-//
-//        switch (currentToken.getType()) {
-//            case TokenType.LPAREN:
-//                advanceToken();
-//                Expression returnExpr = parseExpression();
-//                matchToken(TokenType.RPAREN);
-//                return returnExpr;
-//            case TokenType.ID:
-//                oldToken = advanceToken();
-//                return createIdentExpr(oldToken);
-//                break;
-//            case TokenType.NUM:
-//                oldToken = advanceToken();
-//                return createNumExpr(oldToken);
-//                break;
-//            default:
-//                throw new IllegalStateException("Unexpected value: " + currentToken.getType());
-//        }
-//    }
-//
-//
-//
-//    private Statement parseIfStmt () throws IOException, CMinusParserException {
-//        matchToken(TokenType.IF);
-//        matchToken(TokenType.LPAREN);
-//        Expression ifExpr = parseExpression();
-//        matchToken(TokenType.RPAREN);
-//        Statement thenStmt = parseStatement();
-//        Statement elseStmt = null;
-//
-//        if (currentToken.getType() == TokenType.ELSE) {
-//            advanceToken();
-//            elseStmt = parseStatement();
-//        }
-//
-//        Statement returnStmt = new SelectionStatement(ifExpr, thenStmt, elseStmt);
-//        return returnStmt;
-//    }
-//    private Statement parseStatement() {
-//
-//        switch (currentToken.getType()) {
-//
-//        }
-//
-//        Statement returnStmt = new Statement(stmt1, stmt2);
-//        return returnStmt;
-//    }
+
+    /**
+     * parse - factor
+     */
+    private Expression parseFactor() throws IOException, CMinusParserException {
+        Token oldToken;
+
+        switch (currentToken.getType()) {
+            case TokenType.LPAREN:
+                advanceToken();
+                Expression returnExpr = parseExpression();
+                matchToken(TokenType.RPAREN);
+                return returnExpr;
+            case TokenType.ID:
+                oldToken = advanceToken();
+                return createIdentExpr(oldToken);
+                break;
+            case TokenType.NUM:
+                oldToken = advanceToken();
+                return createNumExpr(oldToken);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + currentToken.getType());
+        }
+    }
+
+
+
 //    private Expression createBinopExpr (TokenType type, Token lhs, Token rhs) {}
 //    private Expression createIdentExpr (Token token) {}
 //    private Expression createNumExpr (Token token) {}
