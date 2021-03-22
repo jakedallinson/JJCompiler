@@ -2,7 +2,7 @@ package jjcompiler.parser.AST;
 
 import jjcompiler.scanner.Token;
 
-public class Decl {
+public abstract class Decl {
 
     protected Token typeToken;
 
