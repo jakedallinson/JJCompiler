@@ -6,8 +6,8 @@ public class Decl {
 
     protected Token typeToken;
 
-    public String printTree() {
-        StringBuilder print = new StringBuilder(typeToken.printToken());
+    public String printTree(String indent) {
+        StringBuilder print = new StringBuilder(indent + typeToken.printTokenData()).append('\n');
         return print.toString();
     }
 }

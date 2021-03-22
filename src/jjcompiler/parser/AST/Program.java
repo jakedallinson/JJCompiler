@@ -13,13 +13,11 @@ public class Program {
         decls.add(decl);
     }
 
-    public String printTree () {
-
-        StringBuilder print = new StringBuilder("Program" + "\n");
-
+    public String printTree() {
+        String indent = "   ";
+        StringBuilder print = new StringBuilder("Program:" + "\n");
         for (Decl eachDecl: this.decls) {
-            print.append("     ").append(eachDecl.printTree());
-            print.append('\n');
+            print.append(eachDecl.printTree(indent)).append('\n');
         }
         return print.toString();
     }

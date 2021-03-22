@@ -12,4 +12,16 @@ public class SelectionStatement extends Statement {
         thenStmt = stmt1;
         elseStmt = stmt2;
     }
+
+    @Override
+    public String printTree(String indent) {
+        StringBuilder print = new StringBuilder();
+        print.append(ifExpr.printTree(indent));
+        print.append(thenStmt.printTree(indent)).append("\n");
+
+        if (elseStmt != null) {
+            print.append(elseStmt.printTree(indent)).append("\n");
+        }
+        return print.toString();
+    }
 }

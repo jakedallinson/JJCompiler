@@ -137,4 +137,31 @@ public class Token {
         }
         return output;
     }
+
+    public String printTokenData() {
+        String output;
+        switch (tokenType) {
+            case IF:
+                output = tokenType.toString();
+                break;
+            case RETURN:
+                output = tokenType.toString();
+                break;
+            case VOID:
+                output = tokenType.toString();
+                break;
+            case ELSE:
+                output = tokenType.toString();
+                break;
+            case INT:
+                output = tokenType.toString();
+                break;
+            case WHILE:
+                output = tokenType.toString();
+                break;
+            default:
+                output = tokenData;
+        }
+        return output;
+    }
 }

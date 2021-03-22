@@ -14,13 +14,16 @@ public class VarDecl extends Decl {
     }
 
     @Override
-    public String printTree () {
-
+    public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
-        print.append("     ").append(typeToken.printToken());
-        print.append("     ").append(IDToken.printToken()).append("\n");
-        print.append("     ").append(arrLengthToken.printToken()).append("\n");
-
+        print.append(indent).append(typeToken.printTokenData());
+        if (IDToken != null) {
+            print.append(" ").append(IDToken.printTokenData());
+        }
+        if (arrLengthToken != null) {
+            print.append(" ").append(arrLengthToken.printTokenData());
+        }
+        print.append('\n');
         return print.toString();
     }
 }

@@ -7,4 +7,13 @@ public class ExpressionStatement extends Statement {
     public ExpressionStatement(Expression expression) {
         expr = expression;
     }
+
+    @Override
+    public String printTree(String indent) {
+        indent += "   ";
+        StringBuilder print = new StringBuilder();
+        print.append(indent).append(expr.printTree(indent)).append('\n');
+
+        return print.toString();
+    }
 }

@@ -8,10 +8,15 @@ public class ReturnStatement extends Statement {
         returnExpr = expr;
     }
 
-    public String printTree () {
+    @Override
+    public String printTree (String indent) {
         StringBuilder print = new StringBuilder();
 
-        print.append(returnExpr.printTree());
+        if (returnExpr != null) {
+            print.append(returnExpr.printTree(indent));
+        } else {
+            print.append("RETURN");
+        }
 
         return print.toString();
     }

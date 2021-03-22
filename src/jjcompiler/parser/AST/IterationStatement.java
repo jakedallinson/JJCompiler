@@ -9,4 +9,14 @@ public class IterationStatement extends Statement {
         paramsExpr = expr;
         loopStmt = stmt;
     }
+
+    @Override
+    public String printTree(String indent) {
+        StringBuilder print = new StringBuilder();
+        print.append("WHILE: ");
+        print.append(paramsExpr.printTree(indent));
+        print.append(loopStmt.printTree(indent)).append("\n");
+
+        return print.toString();
+    }
 }

@@ -1,7 +1,8 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.scanner.Token;
+
 import java.util.ArrayList;
-import jjcompiler.scanner.*;
 
 public class FunDecl extends Decl {
 
@@ -16,14 +17,26 @@ public class FunDecl extends Decl {
         compoundStatement = stmt;
     }
 
-    public String printTree () {
+    @Override
+    public String printTree(String indent) {
+        indent += "   ";
+        StringBuilder print = new StringBuilder();
 
-        StringBuilder print = new StringBuilder("Program" + "\n");
+        print.append(indent).append("FUNCTION: ");
+        print.append(typeToken.printTokenData()).append(" ");
+        print.append(IDToken.printTokenData()).append("\n");
 
-        print.append("     ").append(typeToken.printToken());
-        print.append("     ").append(IDToken.printToken()).append("\n");
-        print.append("     ").append(paramsExpression.printTree()).append("\n");
-        print.append("     ").append(compoundStatement.printTree()).append("\n");
+        print.append(indent).append("PARAMS: ");
+        if (paramsList.isEmpty()) {
+            print.append("NONE");
+        } else {
+            print.append('\n');
+            for (VarDecl eachParam : this.paramsList) {
+                print.append(eachParam.printTree(indent));
+            }
+        }
+
+        print.append(compoundStatement.printTree(indent)).append("\n");
 
         return print.toString();
     }
