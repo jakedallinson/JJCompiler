@@ -22,8 +22,6 @@ public class CompoundStatement extends Statement {
 
     @Override
     public String printTree (String indent) {
-
-        indent += "   ";
         StringBuilder print = new StringBuilder();
 
         for (Decl eachDecl: decls) {

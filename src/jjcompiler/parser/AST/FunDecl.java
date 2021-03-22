@@ -1,7 +1,6 @@
 package jjcompiler.parser.AST;
 
 import jjcompiler.scanner.Token;
-
 import java.util.ArrayList;
 
 public class FunDecl extends Decl {
@@ -19,6 +18,7 @@ public class FunDecl extends Decl {
 
     @Override
     public String printTree(String indent) {
+
         StringBuilder print = new StringBuilder();
 
         print.append(indent).append("FUNCTION: ");
@@ -34,7 +34,7 @@ public class FunDecl extends Decl {
             }
         }
         print.append(") {\n");
-        print.append(compoundStatement.printTree(indent)).append("\n").append(indent).append("}");
+        print.append(compoundStatement.printTree(indent + "   ")).append(indent).append("}");
         return print.toString();
     }
 }

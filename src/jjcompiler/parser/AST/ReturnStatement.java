@@ -15,7 +15,7 @@ public class ReturnStatement extends Statement {
         if (returnExpr != null) {
             print.append(indent).append(returnExpr.printTree(indent));
         } else {
-            print.append(indent).append("RETURN");
+            print.append("RETURN");
         }
 
         return print.toString();

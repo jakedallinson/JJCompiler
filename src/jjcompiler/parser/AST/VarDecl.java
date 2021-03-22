@@ -21,8 +21,9 @@ public class VarDecl extends Decl {
             print.append(" ").append(IDToken.printTokenData());
         }
         if (arrLengthToken != null) {
-            print.append(" [").append(arrLengthToken.printTokenData()).append("]");
+            print.append("[").append(arrLengthToken.printTokenData()).append("] ");
         }
+
         return print.toString();
     }
 }

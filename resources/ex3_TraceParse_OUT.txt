@@ -1,22 +1,19 @@
 Program:
    FUNCTION: INT foo
-   PARAMS: (INT s [10]INT t) {
-      INT x [10]
+   PARAMS: (INT s[10] INT t) {
+      INT x[10] 
       INT y
-            WHILE: (EXPRESSION)
-      {         INT z
-}
-            IF (EXPRESSION) {
-               INT b
-
-               INT a
-
+      WHILE: (EXPRESSION) {
+         INT z
       }
-            RETURN
-
+      IF (EXPRESSION) {
+         INT b
+      } ELSE {
+         INT a
+      }
+      RETURN
    }
    FUNCTION: INT bar
    PARAMS: (VOID) {
-            RETURN
-
+      RETURN
    }

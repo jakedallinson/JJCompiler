@@ -10,6 +10,7 @@ public class ExpressionStatement extends Statement {
 
     @Override
     public String printTree(String indent) {
+
         StringBuilder print = new StringBuilder();
         print.append(indent).append(expr.printTree(indent));
 
