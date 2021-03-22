@@ -247,50 +247,138 @@ public class CMinusParser implements Parser {
     }
 
     /**
-     * parse - expression
+     * parse-expression
      */
-    private Expression parseExpression () throws IOException {
-        Token oldToken;
-        Expression lhs = parseTerm();
+    private Expression parseExpression() throws IOException {
 
-        while(isAddop(currentToken.getType())) {
-            oldToken = advanceToken();
-            Expression rhs = parseTerm();
-            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
-        }
-        return lhs;
+//        FIRST(expr) = { NUM ( ID }
+        return new Expression();
     }
-
-    /**
-     * parse - factor
-     */
-    private Expression parseFactor() throws IOException, CMinusParserException {
-        Token oldToken;
-
-        switch (currentToken.getType()) {
-            case TokenType.LPAREN:
-                advanceToken();
-                Expression returnExpr = parseExpression();
-                matchToken(TokenType.RPAREN);
-                return returnExpr;
-            case TokenType.ID:
-                oldToken = advanceToken();
-                return createIdentExpr(oldToken);
-                break;
-            case TokenType.NUM:
-                oldToken = advanceToken();
-                return createNumExpr(oldToken);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + currentToken.getType());
-        }
-    }
-
-
-
-//    private Expression createBinopExpr (TokenType type, Token lhs, Token rhs) {}
-//    private Expression createIdentExpr (Token token) {}
-//    private Expression createNumExpr (Token token) {}
+//
+//    /**
+//     * parse-expression-prime
+//     */
+//    private Expression parseExpressionPrime() throws IOException {
+////        FIRST(expr’) = { = [ ( * / 𝜀 }
+//
+//    }
+//
+//    /**
+//     * parse-expression-double-prime
+//     */
+//    private Expression parseExpressionDoublePrime() throws IOException {
+////        FIRST(expr’’) = { = * / 𝜀 }
+//
+//    }
+//
+//    /**
+//     * parse-simple-expression
+//     */
+//    private Expression parseSimpleExpression() throws IOException, CMinusParserException {
+//
+////        FIRST(simple-expr’) = { * / 𝜀 }
+//        Token oldToken;
+//        Expression lhs = parseAdditiveExpression();
+//
+//        while(isRelOp(currentToken.getType())) {
+//            oldToken = advanceToken();
+//            Expression rhs = parseAdditiveExpression();
+//            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+//        }
+//        return lhs;
+//    }
+//
+//    /**
+//     * parse-additive-expression
+//     */
+//    private Expression parseAdditiveExpression() throws IOException, CMinusParserException {
+//        Token oldToken;
+//        Expression lhs = parseTerm();
+//
+//        while(isAddOp(currentToken.getType())) {
+//            oldToken = advanceToken();
+//            Expression rhs = parseTerm();
+//            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+//        }
+//        return lhs;
+//    }
+//
+//    /**
+//     * parse-term
+//     */
+//    private Expression parseTerm() throws IOException, CMinusParserException {
+//        Token oldToken;
+//        Expression lhs = parseFactor();
+//
+//        while(isMulOp(currentToken.getType())) {
+//            oldToken = advanceToken();
+//            Expression rhs = parseFactor();
+//            lhs = createBinopExpr(oldToken.getType(), lhs, rhs);
+//        }
+//        return lhs;
+//    }
+//
+//    /**
+//     * parse-factor
+//     */
+//    private Expression parseFactor() throws IOException, CMinusParserException {
+//        Token oldToken;
+//
+//       if (currentToken.getType() == TokenType.LPAREN) {
+//           advanceToken();
+//           Expression returnExpr = parseExpression();
+//           matchToken(TokenType.RPAREN);
+//           return returnExpr;
+//
+//       } else if (currentToken.getType() == TokenType.ID) {
+//           oldToken = advanceToken();
+//           return createIdentExpr(oldToken);
+//
+//       } else if (currentToken.getType() ==TokenType.NUM) {
+//           oldToken = advanceToken();
+//           return createNumExpr(oldToken);
+//
+//       } else {
+//           throw new IllegalStateException("Unexpected value: " + currentToken.getType());
+//       }
+//    }
+//
+//    private boolean isAddOp(TokenType type){
+//        return type == TokenType.PLUS || type == TokenType.MINUS;
+//    }
+//
+//    private boolean isMulOp(TokenType type){
+//        return type == TokenType.TIMES || type == TokenType.DIVIDE;
+//    }
+//
+//    private boolean isRelOp(TokenType type){
+//        return type == TokenType.GT || type == TokenType.LT || type == TokenType.GTEQ || type == TokenType.LTEQ || type == TokenType.EQ;
+//    }
+//
+//    /**
+//     * create-binop-expression
+//     */
+//    private Expression createBinopExpr (TokenType type, Expression lhs, Expression rhs) {
+//
+//        Expression binop = new BinaryOpExpression(type, lhs, rhs);
+//        return binop;
+//    }
+//
+//    /**
+//     * create-indent-expression
+//     */
+//    private Expression createIdentExpr (Token token) {
+//
+//
+//    }
+//
+//    /**
+//     * create-num-expression
+//     */
+//    private Expression createNumExpr (Token token) {
+//
+//
+//    }
 
 }
 

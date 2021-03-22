@@ -7,7 +7,7 @@ public abstract class Decl {
     protected Token typeToken;
 
     public String printTree(String indent) {
-        StringBuilder print = new StringBuilder(indent + typeToken.printTokenData()).append('\n');
+        StringBuilder print = new StringBuilder(typeToken.printTokenData());
         return print.toString();
     }
 }

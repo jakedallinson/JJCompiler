@@ -19,25 +19,22 @@ public class FunDecl extends Decl {
 
     @Override
     public String printTree(String indent) {
-        indent += "   ";
         StringBuilder print = new StringBuilder();
 
         print.append(indent).append("FUNCTION: ");
         print.append(typeToken.printTokenData()).append(" ");
         print.append(IDToken.printTokenData()).append("\n");
 
-        print.append(indent).append("PARAMS: ");
+        print.append(indent).append("PARAMS: (");
         if (paramsList.isEmpty()) {
             print.append("NONE");
         } else {
-            print.append('\n');
             for (VarDecl eachParam : this.paramsList) {
                 print.append(eachParam.printTree(indent));
             }
         }
-
-        print.append(compoundStatement.printTree(indent)).append("\n");
-
+        print.append(") {\n");
+        print.append(compoundStatement.printTree(indent)).append("\n").append(indent).append("}");
         return print.toString();
     }
 }

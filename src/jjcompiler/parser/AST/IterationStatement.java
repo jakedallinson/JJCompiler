@@ -13,9 +13,10 @@ public class IterationStatement extends Statement {
     @Override
     public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
-        print.append("WHILE: ");
+        print.append(indent).append("WHILE: (");
         print.append(paramsExpr.printTree(indent));
-        print.append(loopStmt.printTree(indent)).append("\n");
+        print.append(")").append("\n");
+        print.append(indent).append("{").append(loopStmt.printTree(indent)).append("}");
 
         return print.toString();
     }

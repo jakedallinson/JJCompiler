@@ -16,12 +16,15 @@ public class SelectionStatement extends Statement {
     @Override
     public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
+        print.append(indent).append("IF (");
         print.append(ifExpr.printTree(indent));
-        print.append(thenStmt.printTree(indent)).append("\n");
+        print.append(") {").append("\n");
+        print.append(indent).append(thenStmt.printTree(indent)).append("\n");
 
         if (elseStmt != null) {
-            print.append(elseStmt.printTree(indent)).append("\n");
+            print.append(indent).append(elseStmt.printTree(indent)).append("\n");
         }
+        print.append(indent).append("}");
         return print.toString();
     }
 }
