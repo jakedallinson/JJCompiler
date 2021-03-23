@@ -255,12 +255,11 @@ public class CMinusParser implements Parser {
             advanceToken();
             Expression lhs = new NumExpression(oldToken);
             return parseSimpleExpressionPrime(lhs);
-//        } else if (currentToken.getType() == TokenType.LPAREN) {
-//            // TODO: not sure about this
-//            Expression lhs = parseExpression();
-//            Expression rhs = parseSimpleExpressionPrime();
-//            return new BinaryOpExpression(TokenType.TIMES, lhs, rhs);
-//            return null;
+        } else if (currentToken.getType() == TokenType.LPAREN) {
+            advanceToken();
+            Expression lhs = parseExpression();
+            matchToken(TokenType.RPAREN);
+            return parseSimpleExpressionPrime(lhs);
         } else if (currentToken.getType() == TokenType.ID) {
             Token oldToken = currentToken;
             advanceToken();
@@ -303,7 +302,9 @@ public class CMinusParser implements Parser {
                 currentToken.getType() == TokenType.GT ||
                 currentToken.getType() == TokenType.GTEQ ||
                 currentToken.getType() == TokenType.EQ ||
-                currentToken.getType() == TokenType.NOTEQ) {
+                currentToken.getType() == TokenType.NOTEQ ||
+                currentToken.getType() == TokenType.PLUS ||
+                currentToken.getType() == TokenType.MINUS) {
             // simple-expr' can go to relops!!
             Expression arrIndexExpression = null;
             Expression lhs = new IdExpression(IDToken, arrIndexExpression);
@@ -497,7 +498,8 @@ public class CMinusParser implements Parser {
                 type == TokenType.LT ||
                 type == TokenType.GTEQ ||
                 type == TokenType.LTEQ ||
-                type == TokenType.EQ;
+                type == TokenType.EQ ||
+                type == TokenType.NOTEQ;
     }
 
 }

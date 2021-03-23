@@ -1,0 +1,17 @@
+Program:
+   FUNCTION: INT foo
+   PARAMS: (VOID) {
+                 BINARYOPEXPRESSION
+
+   }
+   FUNCTION: INT bar
+   PARAMS: (VOID) {
+                 BINARYOPEXPRESSION
+
+                 BINARYOPEXPRESSION
+
+      IF (     BINARYOPEXPRESSION
+) {
+         RETURN
+      } 
+   }
