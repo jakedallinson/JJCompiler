@@ -1,7 +1,18 @@
 package jjcompiler.parser.AST;
 
-public class CallExpression extends Expression{
+import jjcompiler.scanner.Token;
 
+import java.util.ArrayList;
+
+public class CallExpression extends Expression {
+
+    private Token IDToken;
+    private ArrayList<Expression> argList;
+
+    public CallExpression(Token token, ArrayList<Expression> args) {
+        IDToken = token;
+        argList = args;
+    }
 
     @Override
     public String printTree(String indent) {

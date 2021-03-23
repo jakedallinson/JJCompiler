@@ -32,7 +32,7 @@ public class CMinusParser implements Parser {
             advanceToken();
             return oldToken;
         } else {
-            throw new CMinusParserException("parseDecl", expectedType, currentToken.getType());
+            throw new CMinusParserException("matchToken", expectedType, currentToken.getType());
         }
     }
 
@@ -256,16 +256,14 @@ public class CMinusParser implements Parser {
             Expression lhs = new NumExpression(oldToken);
             return parseSimpleExpressionPrime(lhs);
         } else if (currentToken.getType() == TokenType.LPAREN) {
-            // TODO: not sure about this
-//            Expression lhs = parseExpression();
-//            Expression rhs = parseSimpleExpressionPrime();
-//            return new BinaryOpExpression(TokenType.TIMES, lhs, rhs);
-            return new Expression();
+            advanceToken();
+            Expression lhs = parseExpression();
+            matchToken(TokenType.RPAREN);
+            return parseSimpleExpressionPrime(lhs);
         } else if (currentToken.getType() == TokenType.ID) {
             Token oldToken = currentToken;
             advanceToken();
-            Expression lhs = new IdExpression(oldToken);
-            return parseExpressionPrime(lhs);
+            return parseExpressionPrime(oldToken);
         } else {
             throw new CMinusParserException("parseExpression", TokenType.NUM, currentToken.getType());
         }
@@ -274,13 +272,56 @@ public class CMinusParser implements Parser {
     /**
      * expr'
      */
-    private Expression parseExpressionPrime (Expression lhs) throws IOException, CMinusParserException {
+    private Expression parseExpressionPrime (Token IDToken) throws IOException, CMinusParserException {
+        if (currentToken.getType() == TokenType.ASSIGN) {
+            advanceToken();
+            Expression arrIndexExpression = null;
+            Expression lhs = new IdExpression(IDToken, arrIndexExpression);
+            Expression rhs = parseExpression();
+            return new AssignExpression(lhs, rhs);
+        } else if (currentToken.getType() == TokenType.LBRACKET) {
+            advanceToken();
+            Expression arrIndexExpression = parseExpression();
+            matchToken(TokenType.RBRACKET);
+            Expression lhs = new IdExpression(IDToken, arrIndexExpression);
+            return parseExpressionPrimePrime(lhs);
+        } else if (currentToken.getType() == TokenType.LPAREN) {
+            advanceToken();
+            ArrayList<Expression> args = parseArgs();
+            matchToken(TokenType.RPAREN);
+            Expression lhs = new CallExpression(IDToken, args);
+            return parseSimpleExpressionPrime(lhs);
+        } else if (currentToken.getType() == TokenType.TIMES ||
+                currentToken.getType() == TokenType.DIVIDE ||
+                currentToken.getType() == TokenType.SEMI ||
+                currentToken.getType() == TokenType.RPAREN ||
+                currentToken.getType() == TokenType.RBRACKET ||
+                currentToken.getType() == TokenType.COMMA ||
+                currentToken.getType() == TokenType.LTEQ ||
+                currentToken.getType() == TokenType.LT ||
+                currentToken.getType() == TokenType.GT ||
+                currentToken.getType() == TokenType.GTEQ ||
+                currentToken.getType() == TokenType.EQ ||
+                currentToken.getType() == TokenType.NOTEQ ||
+                currentToken.getType() == TokenType.PLUS ||
+                currentToken.getType() == TokenType.MINUS) {
+            // simple-expr' can go to relops!!
+            Expression arrIndexExpression = null;
+            Expression lhs = new IdExpression(IDToken, arrIndexExpression);
+            return parseSimpleExpressionPrime(lhs);
+        } else {
+            throw new CMinusParserException("parseExpression", TokenType.NUM, currentToken.getType());
+        }
+    }
+
+    /**
+     * expr''
+     */
+    private Expression parseExpressionPrimePrime (Expression lhs) throws IOException, CMinusParserException {
         if (currentToken.getType() == TokenType.ASSIGN) {
             advanceToken();
             Expression rhs = parseExpression();
             return new AssignExpression(lhs, rhs);
-        //} else if (currentToken.getType() == TokenType.LBRACKET) {
-        //} else if (currentToken.getType() == TokenType.LPAREN) {
         } else if (currentToken.getType() == TokenType.TIMES ||
                 currentToken.getType() == TokenType.DIVIDE ||
                 currentToken.getType() == TokenType.SEMI ||
@@ -372,8 +413,9 @@ public class CMinusParser implements Parser {
             matchToken(TokenType.RPAREN);
             return expr;
         } else if (currentToken.getType() == TokenType.ID) {
-            // TODO
-            return new Expression();
+            Token oldToken = currentToken;
+            advanceToken();
+            return parseVarCall(oldToken);
         } else if (currentToken.getType() == TokenType.NUM) {
             Token oldToken = currentToken;
             advanceToken();
@@ -382,6 +424,62 @@ public class CMinusParser implements Parser {
             throw new CMinusParserException("parseFactor", TokenType.RPAREN, currentToken.getType());
         }
     }
+
+    /**
+     * varcall
+     */
+    private Expression parseVarCall (Token IDToken) throws IOException, CMinusParserException {
+        if (currentToken.getType() == TokenType.LBRACKET) {
+            advanceToken();
+            Expression arrIndexExpr = parseExpression();
+            matchToken(TokenType.RBRACKET);
+            return new IdExpression(IDToken, arrIndexExpr);
+        } else if (currentToken.getType() == TokenType.LPAREN) {
+            advanceToken();
+            ArrayList<Expression> args = parseArgs();
+            matchToken(TokenType.RPAREN);
+            return new CallExpression(IDToken, args);
+        } else if (currentToken.getType() == TokenType.PLUS ||
+                currentToken.getType() == TokenType.MINUS ||
+                currentToken.getType() == TokenType.SEMI ||
+                currentToken.getType() == TokenType.RPAREN ||
+                currentToken.getType() == TokenType.LTEQ ||
+                currentToken.getType() == TokenType.LT ||
+                currentToken.getType() == TokenType.GT ||
+                currentToken.getType() == TokenType.GTEQ ||
+                currentToken.getType() == TokenType.EQ ||
+                currentToken.getType() == TokenType.NOTEQ ||
+                currentToken.getType() == TokenType.TIMES ||
+                currentToken.getType() == TokenType.DIVIDE ||
+                currentToken.getType() == TokenType.RBRACKET ||
+                currentToken.getType() == TokenType.COMMA) {
+            Expression arrIndexExpr = null;
+            return new IdExpression(IDToken, arrIndexExpr);
+        } else {
+            throw new CMinusParserException("parseVarCall", TokenType.LBRACKET, currentToken.getType());
+        }
+    }
+
+    private ArrayList<Expression> parseArgs () throws IOException, CMinusParserException {
+        ArrayList<Expression> args = new ArrayList<>();
+        if (currentToken.getType() == TokenType.NUM ||
+                currentToken.getType() == TokenType.LPAREN ||
+                currentToken.getType() == TokenType.ID) {
+            Expression arg = parseExpression();
+            args.add(arg);
+            while (currentToken.getType() == TokenType.COMMA) {
+                advanceToken();
+                arg = parseExpression();
+                args.add(arg);
+            }
+        } else if (currentToken.getType() == TokenType.RPAREN) {
+            advanceToken();
+        } else {
+            throw new CMinusParserException("parseArgs", TokenType.NUM, currentToken.getType());
+        }
+        return args;
+    }
+
 
     // ***********************
     // OP FUNCTS
@@ -400,7 +498,8 @@ public class CMinusParser implements Parser {
                 type == TokenType.LT ||
                 type == TokenType.GTEQ ||
                 type == TokenType.LTEQ ||
-                type == TokenType.EQ;
+                type == TokenType.EQ ||
+                type == TokenType.NOTEQ;
     }
 }
 
