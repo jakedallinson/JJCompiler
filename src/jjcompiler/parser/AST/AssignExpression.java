@@ -12,11 +12,10 @@ public class AssignExpression extends Expression {
 
     @Override
     public String printTree(String indent) {
-
         StringBuilder print = new StringBuilder();
-        print.append("     ").append("ASSIGNEXPRESSION").append('\n');
-
+        print.append(lhs.printTree(indent));
+        print.append(" = ");
+        print.append(rhs.printTree(indent));
         return print.toString();
     }
-
 }

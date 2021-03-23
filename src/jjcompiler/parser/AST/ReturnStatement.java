@@ -12,10 +12,10 @@ public class ReturnStatement extends Statement {
     public String printTree (String indent) {
         StringBuilder print = new StringBuilder();
 
+        print.append(indent).append("RETURN ");
+
         if (returnExpr != null) {
-            print.append(indent).append(returnExpr.printTree(indent));
-        } else {
-            print.append("RETURN");
+            print.append(returnExpr.printTree(indent));
         }
 
         return print.toString();

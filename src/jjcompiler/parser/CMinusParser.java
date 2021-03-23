@@ -302,7 +302,7 @@ public class CMinusParser implements Parser {
             Token oldToken = currentToken;
             advanceToken();
             Expression rhs = parseAdditiveExpression ();
-            lhs = new BinaryOpExpression(oldToken.getType(), lhs, rhs);
+            lhs = new BinaryOpExpression(oldToken, lhs, rhs);
         }
         return lhs;
     }
@@ -316,7 +316,7 @@ public class CMinusParser implements Parser {
             Token oldToken = currentToken;
             advanceToken();
             Expression rhs = parseTerm();
-            lhs = new BinaryOpExpression(oldToken.getType(), lhs, rhs);
+            lhs = new BinaryOpExpression(oldToken, lhs, rhs);
         }
         return lhs;
     }
@@ -330,7 +330,7 @@ public class CMinusParser implements Parser {
             Token oldToken = currentToken;
             advanceToken();
             Expression rhs = parseTerm();
-            lhs = new BinaryOpExpression(oldToken.getType(), lhs, rhs);
+            lhs = new BinaryOpExpression(oldToken, lhs, rhs);
         }
         return lhs;
     }
@@ -344,7 +344,7 @@ public class CMinusParser implements Parser {
             Token oldToken = currentToken;
             advanceToken();
             Expression rhs = parseFactor();
-            lhs = new BinaryOpExpression(oldToken.getType(), lhs, rhs);
+            lhs = new BinaryOpExpression(oldToken, lhs, rhs);
         }
         return lhs;
     }
@@ -357,7 +357,7 @@ public class CMinusParser implements Parser {
             Token oldToken = currentToken;
             advanceToken();
             Expression rhs = parseFactor();
-            lhs = new BinaryOpExpression(oldToken.getType(), lhs, rhs);
+            lhs = new BinaryOpExpression(oldToken, lhs, rhs);
         }
         return lhs;
     }
@@ -402,6 +402,5 @@ public class CMinusParser implements Parser {
                 type == TokenType.LTEQ ||
                 type == TokenType.EQ;
     }
-
 }
 

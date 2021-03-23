@@ -10,12 +10,11 @@ public class IdExpression extends Expression{
         IDToken = token;
     }
 
+
     @Override
     public String printTree(String indent) {
-        indent += "   ";
         StringBuilder print = new StringBuilder();
-        print.append(indent).append("IDEXPRESSION").append('\n');
-
+        print.append(IDToken.printTokenData());
         return print.toString();
     }
 }

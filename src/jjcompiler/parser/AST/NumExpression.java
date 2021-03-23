@@ -12,10 +12,8 @@ public class NumExpression extends Expression {
 
     @Override
     public String printTree(String indent) {
-
         StringBuilder print = new StringBuilder();
-        print.append("     ").append("NUMEXPRESSION");
-
+        print.append(numToken.printTokenData());
         return print.toString();
     }
 }
