@@ -5,9 +5,11 @@ import jjcompiler.scanner.Token;
 public class IdExpression extends Expression{
 
     private Token IDToken;
+    private Expression arrIndexExpr;
 
-    public IdExpression(Token token) {
+    public IdExpression(Token token, Expression expr) {
         IDToken = token;
+        arrIndexExpr = expr;
     }
 
     @Override

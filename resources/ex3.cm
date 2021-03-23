@@ -1,8 +1,10 @@
 int foo (void) {
-    x = y = 1;
-    return 3 + 4 + 5 * 6 + 7;
+    if (x + x[3] != y + 4) {
+        return;
+    }
 }
 
 int bar (void) {
-    return;
+        return 3 + x[3 + y] * y[x[2]];
+        return 3 + x[y] * z;
 }
