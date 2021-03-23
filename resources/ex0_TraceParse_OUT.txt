@@ -1,0 +1,17 @@
+Program:
+   FUNCTION: INT god
+   PARAMS: (INT uINT v) {
+      IF (     BINARYOPEXPRESSION
+) {
+                     IDEXPRESSION
+      } ELSE {
+                     CALLEXPRESSION
+      }
+   }
+   FUNCTION: VOID main
+   PARAMS: (VOID) {
+      INT x
+      INT y
+                     CALLEXPRESSION
+
+   }

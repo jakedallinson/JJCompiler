@@ -473,7 +473,7 @@ public class CMinusParser implements Parser {
                 args.add(arg);
             }
         } else if (currentToken.getType() == TokenType.RPAREN) {
-            advanceToken();
+            // do nothing
         } else {
             throw new CMinusParserException("parseArgs", TokenType.NUM, currentToken.getType());
         }
