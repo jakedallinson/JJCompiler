@@ -1,6 +1,14 @@
 package jjcompiler.parser.AST;
 
-public class NumExpression extends Expression{
+import jjcompiler.scanner.Token;
+
+public class NumExpression extends Expression {
+
+    private Token numToken;
+
+    public NumExpression(Token token) {
+        numToken = token;
+    }
 
     @Override
     public String printTree(String indent) {

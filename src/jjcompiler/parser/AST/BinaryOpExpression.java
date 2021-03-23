@@ -8,9 +8,7 @@ public class BinaryOpExpression extends Expression{
     private Expression lhs;
     private Expression rhs;
 
-
     public BinaryOpExpression(Token.TokenType xtype, Expression xlhs, Expression xrhs) {
-
         this.type = xtype;
         this.lhs  = xlhs;
         this.rhs  = xrhs;
