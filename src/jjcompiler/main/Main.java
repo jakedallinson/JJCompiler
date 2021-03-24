@@ -15,7 +15,7 @@ public class Main {
 
     public static PrintWriter pw;
 
-    private final static String testCase = "ex3";
+    private final static String testCase = "ex0";
 
     public static void main(String[] args) throws IOException, CMinusParserException {
 
@@ -52,7 +52,12 @@ public class Main {
 
     private static void createOutputFile() {
 
-        String outputName = "OUT.txt";
+        String outputName;
+        if (TraceParse) {
+            outputName = "OUT.ast";
+        } else {
+            outputName = "OUT.txt";
+        }
 
         if (TraceScan) outputName    = "TraceScan_" + outputName;
         if (TraceParse) outputName   = "TraceParse_" + outputName;
