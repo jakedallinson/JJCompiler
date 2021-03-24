@@ -2,7 +2,5 @@ package jjcompiler.parser.AST;
 
 public abstract class Statement {
 
-    public String printTree (String indent) {
-        return "STATEMENT";
-    }
+    public abstract String printTree(String indent);
 }

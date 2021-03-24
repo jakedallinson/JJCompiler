@@ -1,5 +1,7 @@
 package jjcompiler.scanner;
 
+import java.util.Locale;
+
 public class Token {
 
     public enum TokenType {
@@ -142,22 +144,22 @@ public class Token {
         String output;
         switch (tokenType) {
             case IF:
-                output = tokenType.toString();
+                output = tokenType.toString().toLowerCase(Locale.ROOT);
                 break;
             case RETURN:
-                output = tokenType.toString();
+                output = tokenType.toString().toLowerCase(Locale.ROOT);
                 break;
             case VOID:
-                output = tokenType.toString();
+                output = tokenType.toString().toLowerCase(Locale.ROOT);
                 break;
             case ELSE:
-                output = tokenType.toString();
+                output = tokenType.toString().toLowerCase(Locale.ROOT);
                 break;
             case INT:
-                output = tokenType.toString();
+                output = tokenType.toString().toLowerCase(Locale.ROOT);
                 break;
             case WHILE:
-                output = tokenType.toString();
+                output = tokenType.toString().toLowerCase(Locale.ROOT);
                 break;
             default:
                 output = tokenData;

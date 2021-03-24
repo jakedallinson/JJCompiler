@@ -6,8 +6,5 @@ public abstract class Decl {
 
     protected Token typeToken;
 
-    public String printTree(String indent) {
-        StringBuilder print = new StringBuilder(typeToken.printTokenData());
-        return print.toString();
-    }
+    public abstract String printTree(String indent);
 }
