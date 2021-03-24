@@ -16,10 +16,18 @@ public class CallExpression extends Expression {
 
     @Override
     public String printTree(String indent) {
-        indent += "   ";
         StringBuilder print = new StringBuilder();
-        print.append(indent).append("CALLEXPRESSION").append('\n');
 
+        print.append("CALLEXPR: ").append(IDToken.printTokenData()).append(" PARMS: ");
+
+        if (argList.isEmpty()) {
+            print.append("NONE");
+        } else {
+            for (Expression eachArg : this.argList) {
+                print.append(eachArg.printTree(indent)).append(", ");
+            }
+            print.deleteCharAt(print.length()-2);
+        }
         return print.toString();
     }
 }

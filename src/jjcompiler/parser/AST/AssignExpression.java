@@ -13,6 +13,7 @@ public class AssignExpression extends Expression {
     @Override
     public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
+        print.append("ASSIGNEXPR: ");
         print.append(lhs.printTree(indent));
         print.append(" = ");
         print.append(rhs.printTree(indent));

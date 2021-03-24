@@ -17,8 +17,8 @@ public class BinaryOpExpression extends Expression{
     @Override
     public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
+        print.append("BINOPEXPR: ");
         print.append(lhs.printTree(indent)).append(" " + type.printTokenData() + " ").append(rhs.printTree(indent));
         return print.toString();
     }
-
 }

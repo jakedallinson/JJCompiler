@@ -16,7 +16,11 @@ public class IdExpression extends Expression{
     @Override
     public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
-        print.append(IDToken.printTokenData());
+        print.append("IDEXPR: ").append(IDToken.printTokenData());
+
+        if (arrIndexExpr != null) {
+            print.append("[").append(arrIndexExpr.printTree(indent)).append("]");
+        }
         return print.toString();
     }
 }

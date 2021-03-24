@@ -25,16 +25,19 @@ public class FunDecl extends Decl {
         print.append(typeToken.printTokenData()).append(" ");
         print.append(IDToken.printTokenData()).append("\n");
 
-        print.append(indent).append("PARAMS: (");
-        if (paramsList.isEmpty()) {
-            print.append("NONE");
+        print.append(indent).append("PARAMS: ");
+
+        if (paramsList.size() < 2) {
+            print.append(paramsList.get(0).printTree(indent));
         } else {
             for (VarDecl eachParam : this.paramsList) {
-                print.append(eachParam.printTree(indent));
+                print.append(eachParam.printTree(indent)).append(", ");
             }
+            print.deleteCharAt(print.length()-2);
         }
-        print.append(") {\n");
-        print.append(compoundStatement.printTree(indent + "   ")).append(indent).append("}");
+
+        print.append("\n");
+        print.append(compoundStatement.printTree(indent + "   "));
         return print.toString();
     }
 }

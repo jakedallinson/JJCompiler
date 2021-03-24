@@ -16,7 +16,7 @@ public class VarDecl extends Decl {
     @Override
     public String printTree(String indent) {
         StringBuilder print = new StringBuilder();
-        print.append(typeToken.printTokenData());
+        print.append(indent).append("VARDECL: ").append(typeToken.printTokenData());
         if (IDToken != null) {
             print.append(" ").append(IDToken.printTokenData());
         }

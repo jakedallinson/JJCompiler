@@ -12,7 +12,7 @@ public class ExpressionStatement extends Statement {
     public String printTree(String indent) {
 
         StringBuilder print = new StringBuilder();
-        print.append(indent).append(expr.printTree(indent));
+        print.append(indent).append("EXPRESSIONEXPR: ").append(expr.printTree(indent + "   "));
 
         return print.toString();
     }

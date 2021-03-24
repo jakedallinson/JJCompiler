@@ -25,11 +25,11 @@ public class CompoundStatement extends Statement {
         StringBuilder print = new StringBuilder();
 
         for (Decl eachDecl: decls) {
-            print.append(indent).append(eachDecl.printTree(indent)).append(";").append('\n');
+            print.append(eachDecl.printTree(indent)).append('\n');
         }
 
         for (Statement eachStmt: stmts) {
-            print.append(indent).append(eachStmt.printTree(indent)).append(";").append('\n');
+            print.append(eachStmt.printTree(indent)).append('\n');
         }
 
         return print.toString();
