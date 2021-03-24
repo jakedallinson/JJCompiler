@@ -1,0 +1,20 @@
+Program:
+   FUNCTION: int fact
+   PARAMS:    VARDECL: int x
+      IF: 
+      PARMS: BINOPEXPR: IDEXPR: x > NUMEXPR: 1
+            return BINOPEXPR: IDEXPR: x * CALLEXPR: fact PARMS: BINOPEXPR: IDEXPR: x - NUMEXPR: 1 
+      ELSE 
+         return NUMEXPR: 1
+
+
+
+   FUNCTION: void main
+   PARAMS:    VARDECL: void
+      VARDECL: int x
+      EXPRESSIONEXPR: ASSIGNEXPR: IDEXPR: x = CALLEXPR: input PARMS: NONE
+      IF: 
+      PARMS: BINOPEXPR: IDEXPR: x > NUMEXPR: 0
+            EXPRESSIONEXPR: CALLEXPR: output PARMS: CALLEXPR: fact PARMS: IDEXPR: x  
+
+

@@ -10,3 +10,19 @@ int bar (void) {
         return;
     }
 }
+
+int bigBoi (int a, int b, int c) {
+    while (c < 100) {
+        if (a == b) {
+            c = 100;
+        } else if (a > b) {
+            b = b + 1;
+        } else {
+            a = a + 1;
+            while (b < a) {
+                b = b + 1;
+            }
+        }
+        c = c + 1;
+    }
+}
