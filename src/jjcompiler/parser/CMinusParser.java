@@ -322,8 +322,6 @@ public class CMinusParser implements Parser {
             advanceToken();
             Expression rhs = parseExpression();
             return new AssignExpression(lhs, rhs);
-        //} else if (currentToken.getType() == TokenType.LBRACKET) {
-        //} else if (currentToken.getType() == TokenType.LPAREN) {
         } else if (currentToken.getType() == TokenType.TIMES ||
                 currentToken.getType() == TokenType.DIVIDE ||
                 currentToken.getType() == TokenType.SEMI ||
@@ -503,5 +501,5 @@ public class CMinusParser implements Parser {
                 type == TokenType.EQ ||
                 type == TokenType.NOTEQ;
     }
-}
 
+}
