@@ -1,4 +1,6 @@
 package jjcompiler.parser.AST;
+import jjcompiler.lowlevel.*;
+
 import java.util.ArrayList;
 
 public class Program {
@@ -11,6 +13,11 @@ public class Program {
 
     public void addDecl (Decl decl) {
         decls.add(decl);
+    }
+
+    public CodeItem genLLCode () {
+        // TEMP
+        return new Data();
     }
 
     public String printTree() {

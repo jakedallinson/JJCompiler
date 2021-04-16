@@ -5,6 +5,7 @@ import jjcompiler.scanner.CMinusScanner;
 import jjcompiler.scanner.Token;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,8 +16,9 @@ public class CMinusParser implements Parser {
     private final CMinusScanner scanner;
     private Token currentToken;
 
-    public CMinusParser (BufferedReader file) throws IOException {
-        scanner = new CMinusScanner(file);
+    public CMinusParser (String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("resources/" + fileName));
+        scanner = new CMinusScanner(br);
         currentToken = scanner.viewNextToken();
     }
 

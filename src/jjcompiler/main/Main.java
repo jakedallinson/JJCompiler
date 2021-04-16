@@ -92,7 +92,8 @@ public class Main {
     }
 
     public static void parser(BufferedReader br) throws IOException, CMinusParserException {
-        CMinusParser parser = new CMinusParser(br);
+        // TODO: notice hardcode test file
+        CMinusParser parser = new CMinusParser("ex0");
         Program myProgram = parser.parse();
 
         if (TraceParse) {
