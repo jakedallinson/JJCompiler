@@ -1,5 +1,7 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Data;
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
 public class VarDecl extends Decl {
@@ -11,6 +13,10 @@ public class VarDecl extends Decl {
         typeToken = type;
         IDToken = ID;
         arrLengthToken = arrLength;
+    }
+
+    public Data genLLCode () {
+        return new Data();
     }
 
     @Override

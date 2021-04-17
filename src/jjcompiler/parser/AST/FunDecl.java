@@ -1,5 +1,9 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.CodeItem;
+import jjcompiler.lowlevel.Data;
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 import java.util.ArrayList;
 
@@ -14,6 +18,19 @@ public class FunDecl extends Decl {
         IDToken = ID;
         paramsList = params;
         compoundStatement = stmt;
+    }
+
+    public Function genLLCode () throws CMinusCompilerException {
+        // get the return type and string name for the function
+        int dataType;
+        if (typeToken.getType() == Token.TokenType.INT) {
+            dataType = Data.TYPE_INT;
+        } else if (typeToken.getType() == Token.TokenType.VOID) {
+            dataType = Data.TYPE_VOID;
+        } else {
+            throw new CMinusCompilerException("genLLCode",Token.TokenType.INT,typeToken.getType());
+        }
+        return new Function(dataType, IDToken.getData().toString());
     }
 
     @Override

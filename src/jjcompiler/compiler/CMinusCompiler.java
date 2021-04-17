@@ -39,7 +39,7 @@ public class CMinusCompiler implements Compiler {
 
             fileName = filePrefix + ".ll";
             PrintWriter outFile =
-                    new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+                    new PrintWriter(new BufferedWriter(new FileWriter("output/" + fileName)));
             LLC.printLLCode(outFile);
             outFile.close();
 
@@ -50,7 +50,7 @@ public class CMinusCompiler implements Compiler {
 
             fileName = filePrefix + ".opti";
             outFile =
-                    new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+                    new PrintWriter(new BufferedWriter(new FileWriter("output/" + fileName)));
             LLC.printLLCode(outFile);
             outFile.close();
 
@@ -64,7 +64,7 @@ public class CMinusCompiler implements Compiler {
             }
             fileName = filePrefix + ".x86";
             outFile =
-                    new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+                    new PrintWriter(new BufferedWriter(new FileWriter("output/" + fileName)));
             LLC.printLLCode(outFile);
             outFile.close();
 
@@ -96,7 +96,7 @@ public class CMinusCompiler implements Compiler {
 
                 fileName = filePrefix + ".s";
                 outFile =
-                        new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+                        new PrintWriter(new BufferedWriter(new FileWriter("output/" + fileName)));
                 X64AssemblyGenerator assembler =
                         new X64AssemblyGenerator(LLC, outFile);
                 assembler.generateX64Assembly();
@@ -112,14 +112,14 @@ public class CMinusCompiler implements Compiler {
 
                 fileName = filePrefix + ".s";
                 outFile =
-                        new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+                        new PrintWriter(new BufferedWriter(new FileWriter("output/" + fileName)));
                 X86AssemblyGenerator assembler =
                         new X86AssemblyGenerator(LLC, outFile);
                 assembler.generateAssembly();
                 outFile.close();
             }
 
-        } catch (IOException | CMinusParserException ioe) {
+        } catch (IOException | CMinusParserException | CMinusCompilerException ioe) {
         }
 
     }
