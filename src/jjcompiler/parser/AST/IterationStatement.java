@@ -1,5 +1,7 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Function;
+
 public class IterationStatement extends Statement {
 
     private Expression paramsExpr;
@@ -9,6 +11,9 @@ public class IterationStatement extends Statement {
         paramsExpr = expr;
         loopStmt = stmt;
     }
+
+    @Override
+    public void genLLCode(Function funct) { }
 
     @Override
     public String printTree(String indent) {

@@ -1,6 +1,7 @@
 package jjcompiler.parser.AST;
 
 import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.BasicBlock;
 import jjcompiler.lowlevel.CodeItem;
 import jjcompiler.lowlevel.Data;
 import jjcompiler.lowlevel.Function;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 
 public class FunDecl extends Decl {
 
-    private Token IDToken;
     private ArrayList<VarDecl> paramsList;
     private Statement compoundStatement;
 
@@ -30,7 +30,17 @@ public class FunDecl extends Decl {
         } else {
             throw new CMinusCompilerException("genLLCode",Token.TokenType.INT,typeToken.getType());
         }
-        return new Function(dataType, IDToken.getData().toString());
+
+        Function funct = new Function(dataType, IDToken.getData().toString());
+        // TODO: make funcParams
+        funct.createBlock0();
+        BasicBlock newBlock = new BasicBlock(funct);
+        funct.setCurrBlock(newBlock);
+        compoundStatement.genLLCode(funct);
+
+        funct.appendBlock(funct.genReturnBlock());
+        funct.appendBlock(funct.getFirstUnconnectedBlock());
+        return funct;
     }
 
     @Override

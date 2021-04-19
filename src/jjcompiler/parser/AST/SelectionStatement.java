@@ -1,6 +1,8 @@
 package jjcompiler.parser.AST;
 
 
+import jjcompiler.lowlevel.Function;
+
 public class SelectionStatement extends Statement {
 
     Expression ifExpr;
@@ -12,6 +14,9 @@ public class SelectionStatement extends Statement {
         thenStmt = stmt1;
         elseStmt = stmt2;
     }
+
+    @Override
+    public void genLLCode(Function funct) { }
 
     @Override
     public String printTree(String indent) {

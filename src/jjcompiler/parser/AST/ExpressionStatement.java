@@ -1,5 +1,7 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Function;
+
 public class ExpressionStatement extends Statement {
 
     private Expression expr;
@@ -7,6 +9,9 @@ public class ExpressionStatement extends Statement {
     public ExpressionStatement(Expression expression) {
         expr = expression;
     }
+
+    @Override
+    public void genLLCode(Function funct) { }
 
     @Override
     public String printTree(String indent) {

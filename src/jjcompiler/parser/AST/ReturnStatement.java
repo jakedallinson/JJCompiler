@@ -1,5 +1,7 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Function;
+
 public class ReturnStatement extends Statement {
 
     private Expression returnExpr;
@@ -7,6 +9,9 @@ public class ReturnStatement extends Statement {
     public ReturnStatement(Expression expr) {
         returnExpr = expr;
     }
+
+    @Override
+    public void genLLCode(Function funct) { }
 
     @Override
     public String printTree (String indent) {

@@ -20,9 +20,11 @@ public class Program {
         // get the first code item from the decl list
         // connect rest as a linked list
         CodeItem firstCodeItem = decls.get(0).genLLCode();
+        CodeItem currCodeItem = firstCodeItem;
         for (int i = 1; i < decls.size(); ++i) {
             CodeItem nextCodeItem = decls.get(i).genLLCode();
-            firstCodeItem.setNextItem(nextCodeItem);
+            currCodeItem.setNextItem(nextCodeItem);
+            currCodeItem = nextCodeItem;
         }
         return firstCodeItem;
     }
