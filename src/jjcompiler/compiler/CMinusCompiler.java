@@ -33,7 +33,7 @@ public class CMinusCompiler implements Compiler {
             Parser myParser = new CMinusParser(fileName);
 
             Program myProgram = myParser.parse();
-            // myParser.printAST(parseTree);
+            //myParser.printAST(parseTree);
 
             CodeItem LLC = myProgram.genLLCode();
 
@@ -125,7 +125,7 @@ public class CMinusCompiler implements Compiler {
     }
 
     public static void main(String[] args) {
-        String filePrefix = "ex0";
+        String filePrefix = "ex2";
         CMinusCompiler myCompiler = new CMinusCompiler();
         myCompiler.setGenX64Code(true);
         myCompiler.compile(filePrefix);

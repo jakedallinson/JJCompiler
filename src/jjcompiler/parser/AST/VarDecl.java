@@ -1,7 +1,6 @@
 package jjcompiler.parser.AST;
 
 import jjcompiler.lowlevel.Data;
-import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
 public class VarDecl extends Decl {
@@ -16,7 +15,8 @@ public class VarDecl extends Decl {
     }
 
     public Data genLLCode () {
-        return new Data();
+        // INT Global Vars
+        return new Data(1, IDToken.getData());
     }
 
     @Override
