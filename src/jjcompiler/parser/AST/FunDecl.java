@@ -34,6 +34,7 @@ public class FunDecl extends Decl {
         Function funct = new Function(dataType, IDToken.getData().toString());
         // TODO: make funcParams
         funct.createBlock0();
+        // TODO: is this right with the new block?
         BasicBlock newBlock = new BasicBlock(funct);
         funct.setCurrBlock(newBlock);
         compoundStatement.genLLCode(funct);

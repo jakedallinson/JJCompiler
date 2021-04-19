@@ -28,10 +28,9 @@ public class CompoundStatement extends Statement {
 
     @Override
     public void genLLCode(Function funct) throws CMinusCompilerException {
+        // TODO: genLLCode for VarDecls return CodeItems...
         for (int i = 0; i < decls.size(); i++) {
             decls.get(i).genLLCode();
-
-
 
 //            Operation oper = new Operation(Operation.OperationType.STORE_I, funct.getCurrBlock());
 //            Operand operand = new Operand(Operand.OperandType.REGISTER);
