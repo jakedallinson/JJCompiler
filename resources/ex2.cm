@@ -1,6 +1,7 @@
 /* error program */
-int 222test = 1;
 
+int a;
 
-PRINT OUT ERROR FROM CONSOLE: which is supposed to happen on this error program.
-Exception in thread "main" jjcompiler.parser.CMinusParserException: PARSE ERROR: matchToken() expected ID, got ERROR
+int gcd () {
+    int b;
+}

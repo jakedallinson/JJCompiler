@@ -6,7 +6,9 @@ import jjcompiler.lowlevel.CodeItem;
 import jjcompiler.lowlevel.Data;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FunDecl extends Decl {
 
@@ -22,6 +24,22 @@ public class FunDecl extends Decl {
 
     public Function genLLCode () throws CMinusCompilerException {
         // get the return type and string name for the function
+
+        Function firstFunc = new Function (typeToken.complierType(), IDToken.getData(),  null);
+        firstFunc.setOptimize(false);
+        HashMap table = firstFunc.getTable();
+//
+//        FuncParam[] parmsList = new FuncParam[0];
+//
+//        Param currParam = param;
+//
+//        while (currParam != null) {
+//
+//        }
+
+        firstFunc.createBlock0();
+
+
         int dataType;
         if (typeToken.getType() == Token.TokenType.INT) {
             dataType = Data.TYPE_INT;

@@ -2,7 +2,6 @@ package jjcompiler.parser.AST;
 
 import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Data;
-import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
 public class VarDecl extends Decl {
@@ -28,7 +27,7 @@ public class VarDecl extends Decl {
         int arrLength = -1;
         if (arrLengthToken != null) {
             isArr = true;
-            arrLength = (int) arrLengthToken.getData();
+            // arrLength = (int) arrLengthToken.getData();
         }
 
         return new Data(dataType, IDToken.getData().toString(), isArr, arrLength);
