@@ -2,6 +2,7 @@ package jjcompiler.parser.AST;
 
 import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Data;
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
 public class VarDecl extends Decl {
@@ -23,14 +24,13 @@ public class VarDecl extends Decl {
         } else {
             throw new CMinusCompilerException("genLLCode",Token.TokenType.INT,typeToken.getType());
         }
-        boolean isArr = false;
-        int arrLength = -1;
-        if (arrLengthToken != null) {
-            isArr = true;
-            // arrLength = (int) arrLengthToken.getData();
-        }
+        return new Data(dataType, IDToken.getData());
+    }
 
-        return new Data(dataType, IDToken.getData().toString(), isArr, arrLength);
+    @Override
+    public void genLLCode (Function funct) {
+        // working on local var decl
+        funct.getTable().put(IDToken.getData(), funct.getNewRegNum());
     }
 
     @Override

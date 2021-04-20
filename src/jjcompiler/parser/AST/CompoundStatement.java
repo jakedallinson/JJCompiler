@@ -18,24 +18,27 @@ public class CompoundStatement extends Statement {
         stmts = new ArrayList<>();
     }
 
+    @Override
+    public void genLLCode(Function funct) throws CMinusCompilerException {
+        // gen decls
+        for (int i = 0; i < decls.size(); i++) {
+            decls.get(i).genLLCode(funct);
+        }
+        // gen stmts
+        for (int i = 0; i < stmts.size(); i++) {
+            stmts.get(i).genLLCode(funct);
+//            Operation oper = new Operation(Operation.OperationType.STORE_I, funct.getCurrBlock());
+//            Operand operand = new Operand(Operand.OperandType.REGISTER);
+//            funct.getNewRegNum();
+        }
+    }
+
     public void addDecl (Decl decl) {
         decls.add(decl);
     }
 
     public void addStmt (Statement stmt) {
         stmts.add(stmt);
-    }
-
-    @Override
-    public void genLLCode(Function funct) throws CMinusCompilerException {
-        // TODO: genLLCode for VarDecls return CodeItems...
-        for (int i = 0; i < decls.size(); i++) {
-            decls.get(i).genLLCode();
-
-//            Operation oper = new Operation(Operation.OperationType.STORE_I, funct.getCurrBlock());
-//            Operand operand = new Operand(Operand.OperandType.REGISTER);
-//            funct.getNewRegNum();
-        }
     }
 
     @Override

@@ -1,8 +1,9 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
-public class IdExpression extends Expression{
+public class IdExpression extends Expression {
 
     private Token IDToken;
     private Expression arrIndexExpr;
@@ -12,6 +13,10 @@ public class IdExpression extends Expression{
         arrIndexExpr = expr;
     }
 
+    @Override
+    public int genLLCode(Function funct) {
+        return (int) funct.getTable().get(IDToken.getData());
+    }
 
     @Override
     public String printTree(String indent) {

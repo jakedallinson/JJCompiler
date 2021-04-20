@@ -1,8 +1,6 @@
 package jjcompiler.parser.AST;
 
 import jjcompiler.compiler.CMinusCompilerException;
-import jjcompiler.lowlevel.BasicBlock;
-import jjcompiler.lowlevel.CodeItem;
 import jjcompiler.lowlevel.Data;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
@@ -22,24 +20,8 @@ public class FunDecl extends Decl {
         compoundStatement = stmt;
     }
 
+    @Override
     public Function genLLCode () throws CMinusCompilerException {
-        // get the return type and string name for the function
-
-        Function firstFunc = new Function (typeToken.complierType(), IDToken.getData(),  null);
-        firstFunc.setOptimize(false);
-        HashMap table = firstFunc.getTable();
-//
-//        FuncParam[] parmsList = new FuncParam[0];
-//
-//        Param currParam = param;
-//
-//        while (currParam != null) {
-//
-//        }
-
-        firstFunc.createBlock0();
-
-
         int dataType;
         if (typeToken.getType() == Token.TokenType.INT) {
             dataType = Data.TYPE_INT;
@@ -49,17 +31,25 @@ public class FunDecl extends Decl {
             throw new CMinusCompilerException("genLLCode",Token.TokenType.INT,typeToken.getType());
         }
 
-        Function funct = new Function(dataType, IDToken.getData().toString());
+        Function funct = new Function (dataType, IDToken.getData(),  null);
+        funct.setOptimize(false);
+
+        HashMap table = funct.getTable();
         // TODO: make funcParams
+
         funct.createBlock0();
-        // TODO: is this right with the new block?
-        BasicBlock newBlock = new BasicBlock(funct);
-        funct.setCurrBlock(newBlock);
+        funct.setCurrBlock(funct.getFirstBlock());
         compoundStatement.genLLCode(funct);
 
-        funct.appendBlock(funct.genReturnBlock());
-        funct.appendBlock(funct.getFirstUnconnectedBlock());
+        funct.appendBlock(funct.getReturnBlock());
+        if (funct.getFirstUnconnectedBlock() != null) {
+            funct.appendBlock(funct.getFirstUnconnectedBlock());
+        }
         return funct;
+    }
+
+    public void genLLCode(Function funct) {
+        /* SHOULDNT HAPPEN */
     }
 
     @Override

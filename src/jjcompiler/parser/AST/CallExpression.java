@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ public class CallExpression extends Expression {
     public CallExpression(Token token, ArrayList<Expression> args) {
         IDToken = token;
         argList = args;
+    }
+
+    @Override
+    public int genLLCode(Function funct) {
+        return 0;
     }
 
     @Override

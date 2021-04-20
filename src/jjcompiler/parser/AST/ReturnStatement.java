@@ -11,7 +11,9 @@ public class ReturnStatement extends Statement {
     }
 
     @Override
-    public void genLLCode(Function funct) { }
+    public void genLLCode(Function funct) {
+
+    }
 
     @Override
     public String printTree (String indent) {

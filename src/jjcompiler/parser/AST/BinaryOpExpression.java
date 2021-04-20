@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
 public class BinaryOpExpression extends Expression{
@@ -12,6 +13,11 @@ public class BinaryOpExpression extends Expression{
         this.type = xtype;
         this.lhs  = xlhs;
         this.rhs  = xrhs;
+    }
+
+    @Override
+    public int genLLCode(Function funct) {
+        return 0;
     }
 
     @Override

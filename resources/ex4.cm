@@ -1,5 +1,8 @@
 void main(void)
 {
     int x;
-    x = 0;
+    int y;
+    x = 3;
+    y = 4;
+    x = 5;
 }

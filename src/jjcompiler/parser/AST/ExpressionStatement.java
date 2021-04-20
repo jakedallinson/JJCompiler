@@ -11,7 +11,9 @@ public class ExpressionStatement extends Statement {
     }
 
     @Override
-    public void genLLCode(Function funct) { }
+    public void genLLCode(Function funct) {
+        expr.genLLCode(funct);
+    }
 
     @Override
     public String printTree(String indent) {
