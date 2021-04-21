@@ -21,13 +21,9 @@ public class CompoundStatement extends Statement {
         for (int i = 0; i < decls.size(); i++) {
             decls.get(i).genLLCode(funct);
         }
-
         // gen stmts
         for (int i = 0; i < stmts.size(); i++) {
             stmts.get(i).genLLCode(funct);
-//            Operation oper = new Operation(Operation.OperationType.STORE_I, funct.getCurrBlock());
-//            Operand operand = new Operand(Operand.OperandType.REGISTER);
-//            funct.getNewRegNum();
         }
     }
 
