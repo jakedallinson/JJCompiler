@@ -6,6 +6,6 @@ public class CMinusCompilerException extends Exception {
     }
 
     public CMinusCompilerException(String functLocation, String varName) {
-        super("COMPILE ERROR: " + functLocation + "() " + varName + "Var not Declared");
+        super("COMPILE ERROR: " + functLocation + "() " + varName + " Var not Declared");
     }
 }
