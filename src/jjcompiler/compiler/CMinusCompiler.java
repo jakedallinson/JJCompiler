@@ -120,6 +120,7 @@ public class CMinusCompiler implements Compiler {
             }
 
         } catch (IOException | CMinusParserException | CMinusCompilerException ioe) {
+            System.out.println(ioe);
         }
 
     }
