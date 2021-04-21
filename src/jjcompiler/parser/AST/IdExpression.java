@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
@@ -14,8 +15,15 @@ public class IdExpression extends Expression {
     }
 
     @Override
-    public int genLLCode(Function funct) {
-        return (int) funct.getTable().get(IDToken.getData());
+    public int genLLCode(Function funct) throws CMinusCompilerException {
+
+        if (funct.getTable().get(IDToken.getData()) == IDToken.getData()) {
+            return (int) funct.getTable().get(IDToken.getData());
+        } else {
+            throw new CMinusCompilerException("genLLCode", IDToken.getData());
+        }
+
+        // IF ELSE FOR GLOBAL
     }
 
     @Override

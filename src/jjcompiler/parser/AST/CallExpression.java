@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
 
@@ -16,7 +17,7 @@ public class CallExpression extends Expression {
     }
 
     @Override
-    public int genLLCode(Function funct) {
+    public int genLLCode(Function funct) throws CMinusCompilerException {
         return 0;
     }
 

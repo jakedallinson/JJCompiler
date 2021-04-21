@@ -11,6 +11,6 @@ public abstract class Decl {
     protected Token IDToken;
 
     public abstract CodeItem genLLCode() throws CMinusCompilerException;
-    public abstract void genLLCode(Function funct);
+    public abstract void genLLCode(Function funct) throws CMinusCompilerException;
     public abstract String printTree(String indent);
 }

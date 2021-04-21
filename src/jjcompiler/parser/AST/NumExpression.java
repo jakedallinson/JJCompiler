@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.lowlevel.Operand;
 import jjcompiler.lowlevel.Operation;
@@ -14,7 +15,7 @@ public class NumExpression extends Expression {
     }
 
     @Override
-    public int genLLCode(Function funct) {
+    public int genLLCode(Function funct)  throws CMinusCompilerException {
         int regNum = funct.getNewRegNum();
         Operation oper = new Operation(Operation.OperationType.ASSIGN, funct.getCurrBlock());
 

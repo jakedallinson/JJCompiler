@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
 
 public class ExpressionStatement extends Statement {
@@ -11,7 +12,7 @@ public class ExpressionStatement extends Statement {
     }
 
     @Override
-    public void genLLCode(Function funct) {
+    public void genLLCode(Function funct) throws CMinusCompilerException {
         expr.genLLCode(funct);
     }
 

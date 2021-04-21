@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
 
 public class IterationStatement extends Statement {
@@ -13,7 +14,7 @@ public class IterationStatement extends Statement {
     }
 
     @Override
-    public void genLLCode(Function funct) {
+    public void genLLCode(Function funct)  throws CMinusCompilerException {
 
     }
 

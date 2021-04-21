@@ -2,11 +2,8 @@ package jjcompiler.parser.AST;
 
 import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
-import jjcompiler.lowlevel.Operand;
-import jjcompiler.lowlevel.Operation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CompoundStatement extends Statement {
 
@@ -24,6 +21,7 @@ public class CompoundStatement extends Statement {
         for (int i = 0; i < decls.size(); i++) {
             decls.get(i).genLLCode(funct);
         }
+
         // gen stmts
         for (int i = 0; i < stmts.size(); i++) {
             stmts.get(i).genLLCode(funct);

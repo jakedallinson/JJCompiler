@@ -1,6 +1,6 @@
 package jjcompiler.parser.AST;
 import jjcompiler.compiler.CMinusCompilerException;
-import jjcompiler.lowlevel.*;
+import jjcompiler.lowlevel.CodeItem;
 
 import java.util.ArrayList;
 

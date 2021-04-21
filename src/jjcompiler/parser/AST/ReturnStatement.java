@@ -1,5 +1,6 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.lowlevel.Operand;
 import jjcompiler.lowlevel.Operation;
@@ -13,13 +14,14 @@ public class ReturnStatement extends Statement {
     }
 
     @Override
-    public void genLLCode(Function funct) {
+    public void genLLCode(Function funct) throws CMinusCompilerException {
         if (returnExpr != null) {
             int regNum = returnExpr.genLLCode(funct);
             Operation assignOper = new Operation(Operation.OperationType.ASSIGN, funct.getCurrBlock());
 
             Operand assignSrc0 = new Operand(Operand.OperandType.REGISTER, regNum);
             assignOper.setSrcOperand(0, assignSrc0);
+
             Operand assignDest0 = new Operand(Operand.OperandType.MACRO, "RetReg");
             assignOper.setDestOperand(0, assignDest0);
 
@@ -27,6 +29,7 @@ public class ReturnStatement extends Statement {
 
             // add jump operation to exit block
             Operation jumpOper = new Operation(Operation.OperationType.JMP, funct.getCurrBlock());
+
             Operand jumpSrc0 = new Operand(Operand.OperandType.BLOCK, funct.getReturnBlock().getBlockNum());
             jumpOper.setSrcOperand(0, jumpSrc0);
 

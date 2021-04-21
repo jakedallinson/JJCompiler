@@ -1,6 +1,7 @@
 package jjcompiler.parser.AST;
 
 import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.BasicBlock;
 import jjcompiler.lowlevel.Data;
 import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
@@ -34,17 +35,25 @@ public class FunDecl extends Decl {
         Function funct = new Function (dataType, IDToken.getData(),  null);
         funct.setOptimize(false);
 
+
         HashMap table = funct.getTable();
+
         // TODO: make funcParams
 
         funct.createBlock0();
-        funct.setCurrBlock(funct.getFirstBlock());
+
+        BasicBlock blockOne = new BasicBlock(funct);
+        funct.appendBlock(blockOne);
+        funct.setCurrBlock(blockOne);
+
         compoundStatement.genLLCode(funct);
 
         funct.appendBlock(funct.getReturnBlock());
+
         if (funct.getFirstUnconnectedBlock() != null) {
             funct.appendBlock(funct.getFirstUnconnectedBlock());
         }
+
         return funct;
     }
 
