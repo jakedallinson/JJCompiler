@@ -16,21 +16,19 @@ public class VarDecl extends Decl {
     }
 
     public Data genLLCode () throws CMinusCompilerException {
-        int dataType;
-        if (typeToken.getType() == Token.TokenType.INT) {
-            dataType = Data.TYPE_INT;
-        } else if (typeToken.getType() == Token.TokenType.VOID) {
-            dataType = Data.TYPE_VOID;
-        } else {
-            throw new CMinusCompilerException("genLLCode",Token.TokenType.INT,typeToken.getType());
-        }
-        return new Data(dataType, IDToken.getData());
+
+        return new Data(typeToken.complierType(), IDToken.getData());
     }
 
     @Override
     public void genLLCode (Function funct)  throws CMinusCompilerException{
+
         // working on local var decl
-        funct.getTable().put(IDToken.getData(), funct.getNewRegNum());
+        if (funct.getTable().containsValue(IDToken.getData())) {
+            funct.getTable().put(IDToken.getData(), funct.getNewRegNum());
+        } else {
+            throw new CMinusCompilerException("genLLCode", IDToken.getData());
+        }
     }
 
     @Override

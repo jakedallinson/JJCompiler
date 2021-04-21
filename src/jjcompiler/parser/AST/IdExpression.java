@@ -17,7 +17,7 @@ public class IdExpression extends Expression {
     @Override
     public int genLLCode(Function funct) throws CMinusCompilerException {
 
-        if (funct.getTable().get(IDToken.getData()) == IDToken.getData()) {
+        if (funct.getTable().containsValue(IDToken.getData())) {
             return (int) funct.getTable().get(IDToken.getData());
         } else {
             throw new CMinusCompilerException("genLLCode", IDToken.getData());

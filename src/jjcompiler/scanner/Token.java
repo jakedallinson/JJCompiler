@@ -1,6 +1,7 @@
 package jjcompiler.scanner;
 
 import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.Data;
 
 import java.util.Locale;
 
@@ -179,9 +180,9 @@ public class Token {
 
         switch (tokenType) {
             case VOID:
-                return 0;
+                return Data.TYPE_VOID;
             case INT:
-                return 1;
+                return Data.TYPE_INT;
             default:
                 throw new CMinusCompilerException("genLLCode: Type", INT, tokenType);
         }
