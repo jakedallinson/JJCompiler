@@ -2,7 +2,7 @@
   (BB 2
   )
   (BB 3
-    (OPER 4 Mov [(r 2)]  [(i 3)])
+    (OPER 4 Mov [(r 2)]  [(i 5)])
     (OPER 5 Mov [(r 1)]  [(r 2)])
     (OPER 6 Mov [(m EAX)]  [(r 1)])
   )

@@ -24,11 +24,7 @@ public class VarDecl extends Decl {
     public void genLLCode (Function funct)  throws CMinusCompilerException{
 
         // working on local var decl
-        if (funct.getTable().containsValue(IDToken.getData())) {
             funct.getTable().put(IDToken.getData(), funct.getNewRegNum());
-        } else {
-            throw new CMinusCompilerException("genLLCode", IDToken.getData());
-        }
     }
 
     @Override
