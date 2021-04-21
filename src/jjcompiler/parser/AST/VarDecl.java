@@ -28,7 +28,7 @@ public class VarDecl extends Decl {
     }
 
     @Override
-    public void genLLCode (Function funct) {
+    public void genLLCode (Function funct)  throws CMinusCompilerException{
         // working on local var decl
         funct.getTable().put(IDToken.getData(), funct.getNewRegNum());
     }
