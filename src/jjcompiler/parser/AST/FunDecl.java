@@ -40,26 +40,28 @@ public class FunDecl extends Decl {
 
         FuncParam listParams[] = new FuncParam[0];
 
-        FuncParam firstParam = null;
+        FuncParam firstParam = new FuncParam();
         FuncParam prevParam  = null;
         FuncParam newParam   = null;
 
+        if (Data.TYPE_VOID != paramsList.get(0).typeToken.complierType()) {
 
-        for (VarDecl param : paramsList) {
-            if (table.containsKey(param.IDToken.getData())) {
-                throw new CMinusCompilerException("FuncDecl: duplicate name found", param.IDToken.getData());
-            }
+            for (VarDecl param : paramsList) {
+                if (table.containsKey(param.IDToken.getData())) {
+                    throw new CMinusCompilerException("FuncDecl: duplicate name found", param.IDToken.getData());
+                }
 
-            table.put(param.IDToken.getData(), funct.getNewRegNum());
+                table.put(param.IDToken.getData(), funct.getNewRegNum());
 
-            prevParam = newParam;
-            newParam = new FuncParam(param.typeToken.complierType(), param.IDToken.getData(), false);
+                prevParam = newParam;
+                newParam = new FuncParam(param.typeToken.complierType(), param.IDToken.getData(), false);
 
-            if (firstParam == null) {
-                firstParam = newParam;
-            }
-            if (prevParam != null) {
-                prevParam.setNextParam(newParam);
+                if (firstParam == null) {
+                    firstParam = newParam;
+                }
+                if (prevParam != null) {
+                    prevParam.setNextParam(newParam);
+                }
             }
         }
 

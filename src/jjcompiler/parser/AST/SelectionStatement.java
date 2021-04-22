@@ -27,30 +27,59 @@ public class SelectionStatement extends Statement {
         BasicBlock thenBlock = new BasicBlock(funct);
         BasicBlock postBlock = new BasicBlock(funct);
 
+        funct.appendToCurrentBlock(ifBlock);
+        funct.setCurrBlock(ifBlock);
+
         // 2. genLLCode if expr
         int regNumIfExpr = ifExpr.genLLCode(funct);
 
         // 3. make branch to post or else
-        Operation oper = new Operation(Operation.OperationType.BEQ, ifBlock);
+        Operation operBEQ = new Operation(Operation.OperationType.BEQ, ifBlock);
         Operand src0 = new Operand(Operand.OperandType.REGISTER, regNumIfExpr);
         Operand src1 = new Operand(Operand.OperandType.INTEGER, 0);
-        Operand src2 = new Operand(Operand.OperandType.BLOCK, thenBlock.getBlockNum());
+        Operand src2 = new Operand(Operand.OperandType.BLOCK, postBlock.getBlockNum());
+
+        operBEQ.setSrcOperand(0, src0);
+        operBEQ.setSrcOperand(1, src1);
+        operBEQ.setSrcOperand(2, src2);
+
+        funct.getCurrBlock().appendOper(operBEQ);
 
         // 4. append then to curr block
+        funct.appendToCurrentBlock(thenBlock);
         // 5. CB moves to then block
+        funct.setCurrBlock(thenBlock);
         // 6. genLLCode then stmt
         thenStmt.genLLCode(funct);
 
+        // add jump operation to post block
+//        Operation jumpOper = new Operation(Operation.OperationType.JMP, funct.getCurrBlock());
+//        Operand jumpSrc0 = new Operand(Operand.OperandType.BLOCK, postBlock.getBlockNum());
+//        jumpOper.setSrcOperand(0, jumpSrc0);
+//        funct.getCurrBlock().appendOper(jumpOper);
+
         // 7. append post to CB
-        // 8. CB moves to else block
-        // 9. genLLCode else stmt
-        // 10. add jump to else
-        // 11. append else to unconn chain
-        // 12. CB moves to post
+        funct.appendToCurrentBlock(postBlock);
+
+        // IF ELSE BLOCK EXIST
 
 //        if (elseStmt != null) {
 //            elseBlock = new BasicBlock(funct);
-            // Operation oper = new Operation(Operation.OperationType.BEQ, elseBlock);
+        // Operation oper = new Operation(Operation.OperationType.BEQ, elseBlock);
+
+            // 8. CB moves to else block
+
+            // 9. genLLCode else stmt
+
+            // 10. add jump to else
+
+            // 11. append else to unconn chain
+
+        // ----
+
+        // 12. CB moves to post
+        funct.setCurrBlock(postBlock);
+
     }
 
     @Override
