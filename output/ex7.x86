@@ -1,0 +1,15 @@
+(FUNCTION  main  []
+  (BB 2
+  )
+  (BB 3
+    (OPER 4 Mov [(r 3)]  [(i 0)])
+    (OPER 5 Mov [(r 2)]  [(r 3)])
+    (OPER 10 Mov [(m EDI)]  [(r 2)])
+    (OPER 7 JSR []  [(s expo)(m EDI)] [(numParams 1)])
+    (OPER 8 Mov [(r 5)]  [(m EAX)])
+    (OPER 9 Mov [(r 1)]  [(r 5)])
+  )
+  (BB 1
+    (OPER 2 Return []  [(m EAX)])
+  )
+)
