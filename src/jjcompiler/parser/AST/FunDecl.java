@@ -40,7 +40,7 @@ public class FunDecl extends Decl {
 
         FuncParam listParams[] = new FuncParam[0];
 
-        FuncParam firstParam = new FuncParam();
+        FuncParam firstParam = null;
         FuncParam prevParam  = null;
         FuncParam newParam   = null;
 
@@ -65,7 +65,10 @@ public class FunDecl extends Decl {
             }
         }
 
-        funct.setFirstParam(firstParam);
+        if (firstParam == null) {
+            funct.setFirstParam(firstParam);
+        }
+
 
         funct.createBlock0();
 
