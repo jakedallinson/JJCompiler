@@ -22,23 +22,35 @@ public class SelectionStatement extends Statement {
     @Override
     public void genLLCode (Function funct)  throws CMinusCompilerException {
 
+        // 1. make 2-3 blocks
         BasicBlock ifBlock = new BasicBlock(funct);
         BasicBlock thenBlock = new BasicBlock(funct);
         BasicBlock postBlock = new BasicBlock(funct);
-//        BasicBlock elseBlock = null;
 
-        int regNumExpr = ifExpr.genLLCode(funct);
+        // 2. genLLCode if expr
+        int regNumIfExpr = ifExpr.genLLCode(funct);
+
+        // 3. make branch to post or else
+        Operation oper = new Operation(Operation.OperationType.BEQ, ifBlock);
+        Operand src0 = new Operand(Operand.OperandType.REGISTER, regNumIfExpr);
+        Operand src1 = new Operand(Operand.OperandType.INTEGER, 0);
+        Operand src2 = new Operand(Operand.OperandType.BLOCK, thenBlock.getBlockNum());
+
+        // 4. append then to curr block
+        // 5. CB moves to then block
+        // 6. genLLCode then stmt
+        thenStmt.genLLCode(funct);
+
+        // 7. append post to CB
+        // 8. CB moves to else block
+        // 9. genLLCode else stmt
+        // 10. add jump to else
+        // 11. append else to unconn chain
+        // 12. CB moves to post
 
 //        if (elseStmt != null) {
 //            elseBlock = new BasicBlock(funct);
             // Operation oper = new Operation(Operation.OperationType.BEQ, elseBlock);
-
-        Operation oper = new Operation(Operation.OperationType.BEQ, ifBlock);
-        Operand src0 = new Operand(Operand.OperandType.REGISTER, regNumExpr);
-        Operand src1 = new Operand(Operand.OperandType.INTEGER, 0);
-        Operand src2 = new Operand(Operand.OperandType.BLOCK, thenBlock.getBlockNum());
-
-        funct.getCurrBlock().appendOper(oper);
     }
 
     @Override
