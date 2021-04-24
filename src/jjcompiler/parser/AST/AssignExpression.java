@@ -23,8 +23,7 @@ public class AssignExpression extends Expression {
         int regNumRHS = rhs.genLLCode(funct);
         int regNumLHS = lhs.genLLCode(funct);
 
-        int assignRegNum = funct.getNewRegNum();
-        Operation oper = null;
+        Operation oper;
 
         if (funct.getTable().containsKey(lhs.getData())) {
             oper = new Operation(Operation.OperationType.ASSIGN, funct.getCurrBlock());

@@ -3,9 +3,9 @@
   (BB 2
   )
   (BB 3
-    (OPER 4 Load [(r 1)]  [(s x)])
-    (OPER 5 Mov [(r 2)]  [(i 3)])
-    (OPER 6 Store []  [(r 2)(s x)(i 0)])
+    (OPER 4 Mov [(r 1)]  [(i 3)])
+    (OPER 5 Load [(r 2)]  [(s x)])
+    (OPER 6 Store []  [(r 1)(s x)(i 0)])
   )
   (BB 1
     (OPER 2 Return []  [(m EAX)])

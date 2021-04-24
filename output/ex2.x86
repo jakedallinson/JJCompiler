@@ -1,2 +1,8 @@
 (DATA  a)
-(DATA  b)
+(FUNCTION  gcd  []
+  (BB 2
+  )
+  (BB 1
+    (OPER 2 Return []  [(m EAX)])
+  )
+)
