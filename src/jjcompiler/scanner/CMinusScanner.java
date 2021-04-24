@@ -87,7 +87,7 @@ public class CMinusScanner implements Scanner {
                         state = FAState.INGT;
                     else if (c == '=')
                         state = FAState.INASSIGN;
-                    else if ((c == '\n') || (c == '\t') || (c == ' '))
+                    else if ((c == '\n') || (c == '\t') || (c == ' ') || (c == '\r'))
                         save = false;
                     else {
                         // these cases are all single char special symbols

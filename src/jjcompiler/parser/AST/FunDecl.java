@@ -1,11 +1,17 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.BasicBlock;
+import jjcompiler.lowlevel.Data;
+import jjcompiler.lowlevel.FuncParam;
+import jjcompiler.lowlevel.Function;
 import jjcompiler.scanner.Token;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FunDecl extends Decl {
 
-    private Token IDToken;
     private ArrayList<VarDecl> paramsList;
     private Statement compoundStatement;
 
@@ -14,6 +20,65 @@ public class FunDecl extends Decl {
         IDToken = ID;
         paramsList = params;
         compoundStatement = stmt;
+    }
+
+    @Override
+    public Function genLLCode () throws CMinusCompilerException {
+
+        Function funct = new Function (typeToken.complierType(), IDToken.getData(),  null);
+        funct.setOptimize(false);
+
+        HashMap table = funct.getTable();
+
+        FuncParam listParams[] = new FuncParam[0];
+
+        FuncParam firstParam = null;
+        FuncParam prevParam  = null;
+        FuncParam newParam   = null;
+
+        if (Data.TYPE_VOID != paramsList.get(0).typeToken.complierType()) {
+
+            for (VarDecl param : paramsList) {
+                if (table.containsKey(param.IDToken.getData())) {
+                    throw new CMinusCompilerException("FuncDecl: duplicate name found", param.IDToken.getData());
+                }
+
+                table.put(param.IDToken.getData(), funct.getNewRegNum());
+
+                prevParam = newParam;
+                newParam = new FuncParam(param.typeToken.complierType(), param.IDToken.getData(), false);
+
+                if (firstParam == null) {
+                    firstParam = newParam;
+                }
+                if (prevParam != null) {
+                    prevParam.setNextParam(newParam);
+                }
+            }
+        }
+
+
+        funct.setFirstParam(firstParam);
+
+        funct.createBlock0();
+
+        BasicBlock blockOne = new BasicBlock(funct);
+        funct.appendBlock(blockOne);
+        funct.setCurrBlock(blockOne);
+
+        compoundStatement.genLLCode(funct);
+
+        funct.appendBlock(funct.getReturnBlock());
+
+        if (funct.getFirstUnconnectedBlock() != null) {
+            funct.appendBlock(funct.getFirstUnconnectedBlock());
+        }
+
+        return funct;
+    }
+
+    public void genLLCode(Function funct) {
+        /* SHOULDNT HAPPEN */
     }
 
     @Override

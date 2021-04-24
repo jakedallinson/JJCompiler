@@ -1,5 +1,8 @@
 package jjcompiler.parser.AST;
 
+import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.Function;
+
 import java.util.ArrayList;
 
 public class CompoundStatement extends Statement {
@@ -10,6 +13,18 @@ public class CompoundStatement extends Statement {
     public CompoundStatement () {
         decls = new ArrayList<>();
         stmts = new ArrayList<>();
+    }
+
+    @Override
+    public void genLLCode(Function funct) throws CMinusCompilerException {
+        // gen decls
+        for (int i = 0; i < decls.size(); i++) {
+            decls.get(i).genLLCode(funct);
+        }
+        // gen stmts
+        for (int i = 0; i < stmts.size(); i++) {
+            stmts.get(i).genLLCode(funct);
+        }
     }
 
     public void addDecl (Decl decl) {

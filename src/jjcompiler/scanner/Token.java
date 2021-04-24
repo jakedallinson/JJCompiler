@@ -1,6 +1,11 @@
 package jjcompiler.scanner;
 
+import jjcompiler.compiler.CMinusCompilerException;
+import jjcompiler.lowlevel.Data;
+
 import java.util.Locale;
+
+import static jjcompiler.scanner.Token.TokenType.*;
 
 public class Token {
 
@@ -20,36 +25,40 @@ public class Token {
 
     // Constructors
 
-    public Token () {this (null, "");}
-    public Token (TokenType type) {
-        this (type, "");
+    public Token() {
+        this(null, "");
     }
-    public Token (TokenType type, String data) {
+
+    public Token(TokenType type) {
+        this(type, "");
+    }
+
+    public Token(TokenType type, String data) {
         tokenType = type;
         tokenData = data;
     }
 
     // Getters and Setters
 
-    public TokenType getType () {
+    public TokenType getType() {
         return tokenType;
     }
 
-    public Object getData () {
+    public String getData() {
         return tokenData;
     }
 
-    public void setTokenType (TokenType type) {
+    public void setTokenType(TokenType type) {
         tokenType = type;
     }
 
-    public void munchTokenData () {
+    public void munchTokenData() {
         if ((tokenData != null) && (tokenData.length() > 0)) {
             tokenData = tokenData.substring(0, tokenData.length() - 1);
         }
     }
 
-    public void appendTokenData (char data) {
+    public void appendTokenData(char data) {
         tokenData += Character.toString(data);
     }
 
@@ -165,5 +174,17 @@ public class Token {
                 output = tokenData;
         }
         return output;
+    }
+
+    public int complierType() throws CMinusCompilerException {
+
+        switch (tokenType) {
+            case VOID:
+                return Data.TYPE_VOID;
+            case INT:
+                return Data.TYPE_INT;
+            default:
+                throw new CMinusCompilerException("genLLCode: Type", INT, tokenType);
+        }
     }
 }

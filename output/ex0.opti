@@ -1,0 +1,4 @@
+(FUNCTION  god  []
+)
+(FUNCTION  main  []
+)
