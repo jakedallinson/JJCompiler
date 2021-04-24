@@ -20,8 +20,8 @@ public class AssignExpression extends Expression {
     @Override
     public int genLLCode(Function funct) throws CMinusCompilerException {
 
-        int regNumLHS = lhs.genLLCode(funct);
         int regNumRHS = rhs.genLLCode(funct);
+        int regNumLHS = lhs.genLLCode(funct);
 
         int assignRegNum = funct.getNewRegNum();
         Operation oper = null;
@@ -52,7 +52,7 @@ public class AssignExpression extends Expression {
         }
 
         funct.getCurrBlock().appendOper(oper);
-        return assignRegNum;
+        return regNumLHS;
     }
 
     @Override

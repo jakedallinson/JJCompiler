@@ -137,8 +137,9 @@ main_bb2:
 	pushq	%R14
 	pushq	%R15
 main_bb3:
-	movl	$5, %EDI
-	movl	%EAX, %ESI
+	movl	$5, %EAX
+	movl	%EAX, %R14D
+	movl	%R14D, %ESI
 main_bb4:
 	movl	$5, %EAX
 	cmpl	%EAX, %ESI
