@@ -29,10 +29,10 @@ public class IdExpression extends Expression {
 
             Operation oper = new Operation(Operation.OperationType.LOAD_I, funct.getCurrBlock());
 
-            Operand src0 = new Operand(Operand.OperandType.STRING, globalHash.get(IDToken.getData()));
+            Operand src0 = new Operand(Operand.OperandType.STRING, IDToken.getData());
             oper.setSrcOperand(0, src0);
 
-            Operand dest0 = new Operand(Operand.OperandType.INTEGER, 0);
+            Operand dest0 = new Operand(Operand.OperandType.REGISTER, assignRegNum);
             oper.setDestOperand(0, dest0);
 
             funct.getCurrBlock().appendOper(oper);
@@ -42,6 +42,11 @@ public class IdExpression extends Expression {
         } else {
             throw new CMinusCompilerException("genLLCode", IDToken.getData());
         }
+    }
+
+    @Override
+    public String getData () {
+        return IDToken.getData();
     }
 
     @Override

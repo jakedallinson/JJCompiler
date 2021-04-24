@@ -24,16 +24,8 @@ public class FunDecl extends Decl {
 
     @Override
     public Function genLLCode () throws CMinusCompilerException {
-        int dataType;
-        if (typeToken.getType() == Token.TokenType.INT) {
-            dataType = Data.TYPE_INT;
-        } else if (typeToken.getType() == Token.TokenType.VOID) {
-            dataType = Data.TYPE_VOID;
-        } else {
-            throw new CMinusCompilerException("genLLCode",Token.TokenType.INT,typeToken.getType());
-        }
 
-        Function funct = new Function (dataType, IDToken.getData(),  null);
+        Function funct = new Function (typeToken.complierType(), IDToken.getData(),  null);
         funct.setOptimize(false);
 
         HashMap table = funct.getTable();
@@ -65,10 +57,8 @@ public class FunDecl extends Decl {
             }
         }
 
-        if (firstParam == null) {
-            funct.setFirstParam(firstParam);
-        }
 
+        funct.setFirstParam(firstParam);
 
         funct.createBlock0();
 

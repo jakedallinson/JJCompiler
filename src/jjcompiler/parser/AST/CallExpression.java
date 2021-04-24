@@ -72,4 +72,9 @@ public class CallExpression extends Expression {
         }
         return print.toString();
     }
+
+    @Override
+    public String getData() {
+        return IDToken.getData();
+    }
 }

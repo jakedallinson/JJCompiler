@@ -94,7 +94,7 @@ int main (void) {
   }
   putchar(10);
   putchar(67);
-  putchar(83);
+  putchar(83); 
   printInt(3510);
   putchar(10);
 
@@ -126,8 +126,8 @@ int main (void) {
   if (i == 10) {
     putchar(99);
     putDigit(0);
-    putDigit(0);
-    putchar(108);
+    putDigit(0); 
+    putchar(108);  
   }
   else {
     putchar(98);
@@ -140,3 +140,4 @@ int main (void) {
 
   return 0;
 }
+

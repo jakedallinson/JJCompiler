@@ -46,6 +46,11 @@ public class BinaryOpExpression extends Expression{
         return print.toString();
     }
 
+    @Override
+    public String getData() {
+        return null;
+    }
+
     private Operation.OperationType createOperType() throws CMinusCompilerException {
         switch (type.getType()) {
             // arithmetic

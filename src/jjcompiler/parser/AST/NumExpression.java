@@ -35,4 +35,9 @@ public class NumExpression extends Expression {
         print.append("NUMEXPR: ").append(numToken.printTokenData());
         return print.toString();
     }
+
+    @Override
+    public String getData() {
+        return numToken.getData();
+    }
 }
