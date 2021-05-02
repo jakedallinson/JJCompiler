@@ -2,12 +2,36 @@
   (BB 2
   )
   (BB 3
-    (OPER 4 Mov [(r 3)]  [(i 0)])
-    (OPER 5 Mov [(r 2)]  [(r 3)])
-    (OPER 10 Mov [(m EDI)]  [(r 2)])
-    (OPER 7 JSR []  [(s expo)(m EDI)] [(numParams 1)])
-    (OPER 8 Mov [(r 4)]  [(m EAX)])
-    (OPER 9 Mov [(r 1)]  [(r 4)])
+    (OPER 4 Mov [(r 5)]  [(i 0)])
+    (OPER 5 Mov [(r 1)]  [(r 5)])
+    (OPER 6 Mov [(r 6)]  [(i 0)])
+    (OPER 7 Mov [(r 2)]  [(r 6)])
+    (OPER 8 Mov [(r 7)]  [(i 0)])
+    (OPER 9 Mov [(r 3)]  [(r 7)])
+    (OPER 10 Mov [(r 8)]  [(i 0)])
+    (OPER 11 Mov [(r 4)]  [(r 8)])
+  )
+  (BB 4
+    (OPER 25 Cmp [(m Flags)]  [(r 1)(r 2)])
+    (OPER 26 BGE []  [(bb 1)(m Flags)])
+  )
+  (BB 7
+    (OPER 14 Mov [(r 10)]  [(i 0)])
+    (OPER 27 Cmp [(m Flags)]  [(r 3)(r 10)])
+    (OPER 28 BLT []  [(bb 9)(m Flags)])
+  )
+  (BB 8
+    (OPER 17 Mov [(r 12)]  [(i 3)])
+    (OPER 18 Mov [(r 4)]  [(r 12)])
+  )
+  (BB 9
+    (OPER 19 Mov [(r 13)]  [(i 4)])
+    (OPER 20 Mov [(r 4)]  [(r 13)])
+    (OPER 21 Mov [(r 14)]  [(i 1)])
+    (OPER 29 Mov [(r 15)]  [(r 1)])
+    (OPER 22 Add_I [(r 15)]  [(r 15)(r 14)])
+    (OPER 23 Mov [(r 1)]  [(r 15)])
+    (OPER 24 Jmp []  [(bb 4)])
   )
   (BB 1
     (OPER 2 Return []  [(m EAX)])
